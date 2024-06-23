@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="portfolio-photos/logo.png" alt="My Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Photos</a></li>
+                <li><a href="stories.html">Stories</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="photo-portfolio">
+            <!-- Photo cards will be inserted here by JavaScript -->
+        </section>
+        <div id="modal" class="modal" onclick="closeModalOutside(event)">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div class="modal-content">
+                <img id="modal-img" src="" alt="">
+                <p id="modal-caption"></p>
+                <div class="modal-nav">
+                    <span class="prev" onclick="prevSlide(event)">&#10094;</span>
+                    <span class="next" onclick="nextSlide(event)">&#10095;</span>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        const photos = [
+            { src: 'portfolio-photos/kingfisher.jpg', alt: 'Belted kingfisher (Megaceryle alcyon) | Chicago, IL' },
+            { src: 'portfolio-photos/scarlet-tanager.jpg', alt: 'Scarlet tanager (Piranga olivacea) | Oak Brook, IL' },
+            { src: 'portfolio-photos/northern-flicker.jpeg', alt: 'Northern flicker (Colaptes auratus) | Chicago, IL' },
+            { src: 'portfolio-photos/motmot.jpeg', alt: 'Turquoise-browed motmot (Eumomota superciliosa) | Guanacaste, Costa Rica' },
+            { src: 'portfolio-photos/blue-heron.jpeg', alt: 'Great blue heron (Ardea herodias) | Atlanta, GA' },
+            { src: 'portfolio-photos/waxwing1.jpg', alt: 'Cedar waxwing (Bombycilla cedrorum) | Chicago, IL' },
+            { src: 'portfolio-photos/downy-woodpecker.jpeg', alt: 'Downy woodpecker (Picoides pubescens) | Chicago, IL' },
+            { src: 'portfolio-photos/wood-duck.jpg', alt: 'Wood duck (Aix sponsa) | Chicago, IL' },
+            { src: 'portfolio-photos/blackbird1.jpg', alt: 'Red-winged blackbird (Agelaius phoeniceus) | Chicago, IL' },
+            { src: 'portfolio-photos/common-yellowthroat.jpeg', alt: 'Common yellowthroat (Geothlypis trichas) | Chicago, IL' },
+            { src: 'portfolio-photos/blackbilled-magpie.jpeg', alt: 'Black-billed magpie (Pica hudsonia) | Denver, CO' },
+            { src: 'portfolio-photos/pine-grosbeak.jpeg', alt: 'Pine grosbeak (Pinicola enucleator) | Boulder, CO' },
+            { src: 'portfolio-photos/american-goldfinch.jpeg', alt: 'American goldfinch (Spinus tristis) | Chicago, IL' },
+            { src: 'portfolio-photos/caspian-tern.jpeg', alt: 'Caspian tern (Hydroprogne caspia) | Chicago, IL' },
+            { src: 'portfolio-photos/annas-hummingbird.jpg', alt: "Anna's hummingbird (Calypte anna) | Los Angeles, CA" },
+            { src: 'portfolio-photos/warbler%202.jpeg', alt: 'Yellow-rumped warbler (Setophaga coronata) | Los Angeles, CA' },
+            { src: 'portfolio-photos/baltimore-oriole.jpeg', alt: 'Baltimore oriole (Icterus galbula) | Chicago, IL' },
+            { src: 'portfolio-photos/cardinal%20copy.JPG', alt: 'Northern cardinal (Cardinalis cardinalis) | Atlanta, GA' },
+            { src: 'portfolio-photos/barn-swallow.jpeg', alt: 'Barn swallow (Hirundo rustica) | Chicago, IL' },
+            { src: 'portfolio-photos/great-crested-flycatcher.jpeg', alt: 'Great-crested flycatcher (Myiarchus crinitus) | Chicago, IL' },
+            { src: 'portfolio-photos/kingfisher-costarica-topaz.jpeg', alt: 'Ringed kingfisher (Megaceryle torquata) | Guanacaste, Costa Rica' },
+            { src: 'portfolio-photos/kestrel-1-topaz.jpeg', alt: 'American kestrel (Falco sparverius) | Junction, TX' },
+            { src: 'portfolio-photos/red-bellied-woodpecker.jpg', alt: 'Red-bellied woodpecker (Melanerpes carolinus) | Oak Brook, IL' },
+            { src: 'portfolio-photos/juvenile-bluebird.jpeg', alt: 'Eastern bluebird (Sialia sialis) | Glenview, IL' }
+        ];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const photoPortfolio = document.querySelector('.photo-portfolio');
+            photos.forEach((photo, index) => {
+                const photoCard = document.createElement('div');
+                photoCard.className = 'photo-card';
+                photoCard.innerHTML = `
+                    <img src="${photo.src}" alt="${photo.alt}">
+                    <div class="photo-info">
+                        <p>${photo.alt}</p>
+                    </div>
+                `;
+                photoCard.onclick = () => openModal(index);
+                photoPortfolio.appendChild(photoCard);
+            });
+        });
+
+        let currentIndex = 0;
+
+        function openModal(index) {
+            currentIndex = index;
+            document.getElementById('modal').style.display = 'flex';
+            showSlide(currentIndex);
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        function closeModalOutside(event) {
+            if (event.target === document.getElementById('modal')) {
+                closeModal();
+            }
+        }
+
+        function showSlide(index) {
+            const photo = photos[index];
+            const modalImg = document.getElementById('modal-img');
+            const modalCaption = document.getElementById('modal-caption');
+            modalImg.src = photo.src;
+            modalImg.alt = photo.alt;
+            modalCaption.innerText = photo.alt;
+        }
+
+        function nextSlide(event) {
+            event.stopPropagation();
+            currentIndex = (currentIndex + 1) % photos.length;
+            showSlide(currentIndex);
+        }
+
+        function prevSlide(event) {
+            event.stopPropagation();
+            currentIndex = (currentIndex - 1 + photos.length) % photos.length;
+            showSlide(currentIndex);
+        }
+    </script>
+</body>
+</html>
