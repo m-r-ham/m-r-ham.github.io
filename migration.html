@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go south, young bird</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="portfolio-photos/logo.png" alt="My Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Photos</a></li>
+                <li><a href="stories.html">Stories</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="story-header">
+            <h1>Migration</h1>
+        </section>
+        <section class="story-photos">
+            <img src="portfolio-photos/american-goldfinch.jpeg" alt="Bright yellow American goldfinch on a plant stalk">
+            <img src="portfolio-photos/indigo-bunting.jpeg" alt="Bright blue Indigo bunting on a small branch">
+            <img src="portfolio-photos/scarlet-tanager.jpg" alt="Bright red Scarlet tanager in the woods">
+        </section>
+        <section class="story-content">
+            <p>Around 40% of all bird species migrate regularly. Many travel only a short distance, from one habitat to another in the same general vicinity. Others travel across continents to seek out favorable weather and stable food sources. No bird species travels farther than the Arctic Tern, which annually migrates over 55,000 <i>miles</i> from the Arctic to the Antartic.</p>
+            <p>Migration is exciting for humans because we get to see feathered friends we haven't seen in a while, but the excitement is fleeting. Migrating birds always move on. In Chicago, for example, American goldfinches are a popular sight from early summer through mid-fall. They can be seen year-round in most of the US, but they typically breed in Canada and over-winter farther south. Other fan favorites like the Rose-breasted grosbeak spend very little time in Chicago. People (like me) flock to Montrose Point to see them when they stop through.</p>
+            <p>Birds migrate for different reasons. Some to return to ancestral nursing grounds, others to follow food and escape bad weather. Scientists are just now finding out where many birds go, and why, but climate change and habitat destruction are re-shaping migration patterns in real-time. The hardest part about understanding migration is tracking birds and then understanding why they went where they did. Tracking programs and field surveys are important, but they can only tell us so much. Citizen science programs like the Cornell Lab's "Big Backyard Bird Count" are important for understanding bird habits and changes over time. Anyone can participate by downloading the eBird app and spending a little time recording bird sightings.</p>
+            <p>And in the meantime, check out the Audubon Society's <a href="https://explorer.audubon.org/explore/species/1235/american-goldfinch/migration?_gl=1*lruwji*_gcl_au*OTkxMzcxOTE1LjE3MjAwODgyMzk.*_ga*NzIzMTc1NTU2LjE3MjAwODgyNDA.*_ga_X2XNL2MWTT*MTcyMDA4ODIzOS4xLjAuMTcyMDA4ODIzOS42MC4wLjA.&sidebar=collapse&layersPanel=expand&legend=collapse&zoom=3&x=-258536.0519220702&y=2274369.3631977895&range=0.6572%2C0.6772">Migration Explorer</a> tool to see where your favorite bird spends a year. Happy birding!</p>
+        </section>
+        <div id="back-to-top" onclick="scrollToTop()">
+            <span>&uarr; Back to Top</span>
+        </div>
+    </main>
+
+    <script>
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.addEventListener('scroll', function() {
+            var button = document.getElementById('back-to-top');
+            if (window.scrollY > 200) {
+                button.style.display = 'block';
+            } else {
+                button.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
