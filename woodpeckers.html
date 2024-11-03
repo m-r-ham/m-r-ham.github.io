@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Woodpeckers</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="portfolio-photos/logo.png" alt="My Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Photos</a></li>
+                <li><a href="stories.html">Stories</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="story-header">
+            <h1>Woodpeckers</h1>
+        </section>
+        <section class="story-photos">
+            <img src="portfolio-photos/yellow-bellied-sapsucker.jpg" alt="Yellow-bellied sapsucker in Atlanta, GA">
+            <img src="portfolio-photos/240927 Ladder-backed woodpecker-topaz.jpeg" alt="Ladder-backed woodpecker in the Texas Hill Country">
+            <img src="portfolio-photos/northern-flicker.jpeg" alt="Northern flicker in Chicago's Montrose Park">
+        </section>
+        <section class="story-content">
+            <p>Woodpeckers are some of my favorite fall/winter birds. In general, woodpeckers spend a lot of time in wooded areas. They're widespread throughout much of the US but their habitat preference means that they're not always easy to spot. Once the leaves have fallen, however, it becomes much easier to pinpoint where the characteristic pecking of a woodpecker beak is coming from.</p>
+            <p>There are over 20 species native to the US. Many of them - like the Northern flicker (pictured above) and Red-bellied woodpecker - have wide ranges. Few woodpeckers migrate, so you might see the same woodpecker in the woods near your house for years.</p>
+            <p>These birds are uniquely adapted to a life of pecking. Most birds would struggle to stay on a tree for so long while pecking, but woodpeckers have a unique toe arrangement that allows them to hold on tight even while pecking. Their necks & heads have special tendons and bones that allow them to peck with enough force to poke holes in trees. Their tongues are long and supported by bone, so they can dig deep inside a tree to pick out insects and larvae.</p>
+            <p>Woodpeckers disperse seeds, build homes for other birds like nuthatches and bluebirds (inadvertently, probably), and eat pests. They can make a racket, but they're an important part of any wooded ecology. </p>
+        </section>
+        <div id="back-to-top" onclick="scrollToTop()">
+            <span>&uarr; Back to Top</span>
+        </div>
+    </main>
+
+    <script>
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.addEventListener('scroll', function() {
+            var button = document.getElementById('back-to-top');
+            if (window.scrollY > 200) {
+                button.style.display = 'block';
+            } else {
+                button.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
