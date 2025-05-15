@@ -414,6 +414,14 @@ main {
     margin-bottom: 1rem;
 }
 
+.inline-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
 .stories {
     max-width: 900px;
     margin: auto;
