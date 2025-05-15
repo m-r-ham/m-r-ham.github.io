@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bird Photography Map</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Mapbox GL JS CSS -->
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
+    <!-- Mapbox GL JS -->
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+    <!-- Mapbox Clustering -->
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
+    <!-- Configuration file with API key -->
+    <script src="config.js"></script>
+    <style>
+        .map-container {
+            display: flex;
+            height: calc(100vh - 83px); /* Adjust based on header height */
+        }
+        
+        #map {
+            flex: 2;
+            height: 100%;
+        }
+        
+        .photo-sidebar {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background-color: #f8f8f8;
+            border-left: 1px solid #eaeaea;
+            display: none; /* Hidden by default */
+        }
+        
+        .location-header {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .location-header h2 {
+            margin: 0 0 5px;
+            font-size: 22px;
+        }
+        
+        .location-header p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .location-photos {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .map-photo-item {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .map-photo-item img {
+            width: 100%;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            cursor: pointer;
+        }
+        
+        .map-photo-caption {
+            padding: 10px 15px;
+        }
+        
+        .map-photo-caption h3 {
+            margin: 0 0 5px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .map-photo-caption p {
+            margin: 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .mapboxgl-popup {
+            max-width: 200px;
+        }
+        
+        .mapboxgl-popup-content {
+            text-align: center;
+            padding: 15px;
+        }
+        
+        .mapboxgl-popup h3 {
+            margin: 0 0 5px;
+            font-size: 16px;
+        }
+        
+        .mapboxgl-popup p {
+            margin: 0;
+            font-size: 12px;
+        }
+
+        /* Map Marker Cluster Styles */
+        .marker-cluster {
+            background-color: rgba(241, 211, 87, 0.6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            border: 2px solid rgba(241, 211, 87, 1);
+        }
+        
+        .marker {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #e74c3c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            border: 2px solid white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .marker:hover {
+            transform: scale(1.2);
+        }
+        
+        .marker i {
+            font-size: 14px;
+        }
+        
+        /* Empty state message */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #666;
+            text-align: center;
+            padding: 0 20px;
+        }
+        
+        .empty-state i {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: #ccc;
+        }
+        
+        .empty-state h3 {
+            margin: 0 0 10px;
+            font-size: 18px;
+        }
+        
+        .empty-state p {
+            margin: 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="assets/logo.png" alt="My Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Photos</a></li>
+                <li><a href="stories.html">Stories</a></li>
+                <li><a href="map.html" class="active">Map</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="map-container">
+        <div id="map"></div>
+        
+        <div class="photo-sidebar" id="photo-sidebar">
+            <!-- Location details will be inserted here by JavaScript -->
+            <div class="empty-state">
+                <i class="fas fa-map-marker-alt"></i>
+                <h3>Select a Location</h3>
+                <p>Click on a map marker to view photos from that location.</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Initialize the map
+            mapboxgl.accessToken = config.mapboxAccessToken;
+            
+            const map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/mapbox/outdoors-v12',
+                center: [0, 20], // Default center (will be adjusted based on data)
+                zoom: 2
+            });
+            
+            // Load location data
+            let locationData;
+            try {
+                const response = await fetch('data/locations.json');
+                locationData = await response.json();
+            } catch (error) {
+                console.error('Error loading location data:', error);
+                locationData = { locations: [] };
+            }
+            
+            // Add markers to the map
+            const bounds = new mapboxgl.LngLatBounds();
+            
+            locationData.locations.forEach(location => {
+                // Extend bounds to include this location
+                bounds.extend([location.longitude, location.latitude]);
+                
+                // Create a marker element
+                const markerEl = document.createElement('div');
+                markerEl.className = 'marker';
+                markerEl.innerHTML = '<i class="fas fa-camera"></i>';
+                
+                // Create the marker
+                const marker = new mapboxgl.Marker(markerEl)
+                    .setLngLat([location.longitude, location.latitude])
+                    .setPopup(new mapboxgl.Popup({ offset: 25 })
+                        .setHTML(`
+                            <h3>${location.name}</h3>
+                            <p>${location.city}, ${location.state ? location.state + ', ' : ''}${location.country}</p>
+                            <p>${location.photos.length} photo${location.photos.length !== 1 ? 's' : ''}</p>
+                        `))
+                    .addTo(map);
+                
+                // Add click event to show photos in sidebar
+                markerEl.addEventListener('click', () => showLocationPhotos(location));
+            });
+            
+            // Fit map to markers if we have any
+            if (locationData.locations.length > 0) {
+                map.fitBounds(bounds, {
+                    padding: 50,
+                    maxZoom: 10
+                });
+            }
+            
+            // Function to show photos for a location in the sidebar
+            function showLocationPhotos(location) {
+                const sidebar = document.getElementById('photo-sidebar');
+                
+                // Generate location header and photo list
+                let html = `
+                    <div class="location-header">
+                        <h2>${location.name}</h2>
+                        <p>${location.city}, ${location.state ? location.state + ', ' : ''}${location.country}</p>
+                    </div>
+                    <div class="location-photos">
+                `;
+                
+                // Add each photo
+                location.photos.forEach(photo => {
+                    // Extract bird name from alt text
+                    const altParts = photo.alt.split('|');
+                    const birdInfo = altParts[0].trim();
+                    const birdName = extractBirdName(birdInfo);
+                    
+                    html += `
+                        <div class="map-photo-item">
+                            <img src="${photo.src}" alt="${photo.alt}" onclick="openPhotoModalFromMap('${photo.src}')">
+                            <div class="map-photo-caption">
+                                <h3>${birdName}</h3>
+                                <p>${photo.description}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += `</div>`;
+                sidebar.innerHTML = html;
+                sidebar.style.display = 'block';
+            }
+            
+            // Helper function to extract bird name from alt text
+            function extractBirdName(birdInfo) {
+                const parts = birdInfo.split('(');
+                return parts[0].trim();
+            }
+        });
+        
+        // Function to open photo modal when clicking on a photo in the map view
+        function openPhotoModalFromMap(photoSrc) {
+            // Find the index of the photo in the main photos array
+            let photoIndex = -1;
+            
+            // This assumes we have access to the photos array from index.html
+            // We'll need to check if it's available and handle appropriately
+            if (typeof photos !== 'undefined') {
+                photoIndex = photos.findIndex(p => p.src === photoSrc);
+                
+                if (photoIndex !== -1) {
+                    // Use the existing openPhotoModal function if available
+                    openPhotoModal(photoIndex);
+                } else {
+                    // Fallback: open the image in a new tab
+                    window.open(photoSrc, '_blank');
+                }
+            } else {
+                // Fallback: open the image in a new tab
+                window.open(photoSrc, '_blank');
+            }
+        }
+    </script>
+</body>
+</html>

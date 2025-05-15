@@ -1,0 +1,66 @@
+{
+  "locations": [
+    {
+      "id": "guanacaste-costa-rica",
+      "name": "Guanacaste",
+      "city": "Guanacaste",
+      "state": "",
+      "country": "Costa Rica",
+      "latitude": 10.4237,
+      "longitude": -85.0854,
+      "photos": [
+        {
+          "src": "portfolio-photos/motmot.jpeg", 
+          "alt": "Turquoise-browed motmot (Eumomota superciliosa) | Guanacaste, Costa Rica",
+          "description": "The Turquoise-browed Motmot is known for its stunning colors and distinctive racket-shaped tail."
+        },
+        {
+          "src": "portfolio-photos/rufous-naped-wren.jpg", 
+          "alt": "Rufous-naped wren (Campylorhynchus rufinucha) | Guanacaste, Costa Rica",
+          "description": "Rufous-naped Wrens are large, social wrens found in Central America."
+        }
+      ]
+    },
+    {
+      "id": "chicago-il",
+      "name": "Chicago Area",
+      "city": "Chicago",
+      "state": "IL",
+      "country": "USA",
+      "latitude": 41.8781,
+      "longitude": -87.6298,
+      "photos": [
+        {
+          "src": "portfolio-photos/northern-flicker.jpeg", 
+          "alt": "Northern flicker (Colaptes auratus) | Chicago, IL",
+          "description": "Northern Flickers are woodpeckers with distinctive spotted plumage and bright yellow shaft feathers."
+        },
+        {
+          "src": "portfolio-photos/downy-woodpecker.jpeg", 
+          "alt": "Downy woodpecker (Picoides pubescens) | Chicago, IL",
+          "description": "Downy Woodpeckers are the smallest woodpeckers in North America."
+        },
+        {
+          "src": "portfolio-photos/kingfisher3.jpeg", 
+          "alt": "Belted kingfisher (Megaceryle alcyon) | Chicago, IL",
+          "description": "Belted Kingfishers are striking birds with their slate blue coloration and impressive crest."
+        },
+        {
+          "src": "portfolio-photos/wood-duck.jpg", 
+          "alt": "Wood duck (Aix sponsa) | Chicago, IL",
+          "description": "Wood Ducks are often considered the most beautiful waterfowl in North America."
+        },
+        {
+          "src": "portfolio-photos/240817-american-goldfinch-topaz.jpeg", 
+          "alt": "American goldfinch (Spinus tristis) | Chicago, IL",
+          "description": "American Goldfinches are bright spots of color in summer."
+        },
+        {
+          "src": "portfolio-photos/rose-breasted-grosbeak.jpeg", 
+          "alt": "Rose-breasted grosbeak (Pheucticus ludovicianus) | Chicago, IL",
+          "description": "The Rose-breasted Grosbeak is a stunning bird with its black and white plumage."
+        }
+      ]
+    }
+  ]
+}
