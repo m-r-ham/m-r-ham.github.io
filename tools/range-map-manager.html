@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Range Map Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .manager-layout {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .species-panel {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .range-map-editor {
+            flex: 2;
+            min-width: 500px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .button-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        button {
+            padding: 8px 16px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        button.secondary {
+            background-color: #ccc;
+            color: #333;
+        }
+        
+        button:hover {
+            opacity: 0.9;
+        }
+        
+        .species-list {
+            max-height: 500px;
+            overflow-y: auto;
+            border: 1px solid #eaeaea;
+            border-radius: 4px;
+        }
+        
+        .species-item {
+            padding: 10px 15px;
+            border-bottom: 1px solid #eaeaea;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .species-item:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .species-item.active {
+            background-color: #f0f0f0;
+            font-weight: 500;
+        }
+        
+        .species-item:last-child {
+            border-bottom: none;
+        }
+        
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .status-missing {
+            background-color: #dc3545;
+        }
+        
+        .status-present {
+            background-color: #28a745;
+        }
+        
+        .species-name-wrapper {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+        
+        .species-details {
+            flex: 1;
+        }
+        
+        .common-name {
+            font-weight: 500;
+        }
+        
+        .scientific-name {
+            font-style: italic;
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .range-map-preview {
+            margin-top: 20px;
+            border: 1px solid #eaeaea;
+            border-radius: 4px;
+            padding: 15px;
+            background-color: #f9f9f9;
+        }
+        
+        .preview-image {
+            max-width: 100%;
+            margin-top: 10px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            display: none;
+        }
+        
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            display: none;
+        }
+        
+        .species-filter {
+            margin-bottom: 15px;
+        }
+        
+        .filter-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .filter-row label {
+            margin-bottom: 0;
+            display: flex;
+            align-items: center;
+            font-weight: normal;
+            cursor: pointer;
+        }
+        
+        .filter-row input[type="checkbox"] {
+            width: auto;
+            margin-right: 5px;
+        }
+        
+        .filter-search {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 100%;
+        }
+        
+        .drag-drop-area {
+            border: 2px dashed #ccc;
+            border-radius: 4px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .drag-drop-area:hover, .drag-drop-area.dragover {
+            border-color: #333;
+            background-color: #f9f9f9;
+        }
+        
+        .drag-drop-area i {
+            font-size: 24px;
+            color: #777;
+            margin-bottom: 10px;
+        }
+        
+        .drag-drop-area p {
+            margin: 0;
+            color: #777;
+        }
+        
+        .instructions {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .instructions h3 {
+            margin-top: 0;
+        }
+        
+        .instructions ul {
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Range Map Manager</h1>
+        
+        <div class="instructions">
+            <h3>How to Use This Tool</h3>
+            <ul>
+                <li>The left panel shows all bird species from your bird photo collection</li>
+                <li>A <span style="color: #28a745;">●</span> green dot means a range map file exists for this species</li>
+                <li>A <span style="color: #dc3545;">●</span> red dot means no range map file exists yet</li>
+                <li>To add a range map, select a species and either:
+                    <ul>
+                        <li>Drag and drop an image file onto the drop area</li>
+                        <li>Click "Browse" to select a file from your computer</li>
+                        <li>Enter a URL to download an image</li>
+                    </ul>
+                </li>
+                <li>All range maps will be saved to the <code>data/range-maps/</code> directory with filenames based on the scientific name</li>
+                <li>Click "Save Changes" when you're done to update the mapping file</li>
+            </ul>
+        </div>
+        
+        <div class="success-message" id="success-message"></div>
+        <div class="error-message" id="error-message"></div>
+        
+        <div class="manager-layout">
+            <div class="species-panel">
+                <h2>Bird Species</h2>
+                
+                <div class="species-filter">
+                    <input type="text" class="filter-search" id="species-search" placeholder="Search species...">
+                    
+                    <div class="filter-row">
+                        <label>
+                            <input type="checkbox" id="filter-missing" checked>
+                            Show Missing Maps
+                        </label>
+                        <label>
+                            <input type="checkbox" id="filter-present" checked>
+                            Show Mapped Species
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="species-list" id="species-list">
+                    <!-- Species will be populated here by JavaScript -->
+                    <div class="species-item">Loading species...</div>
+                </div>
+            </div>
+            
+            <div class="range-map-editor">
+                <h2>Range Map Details</h2>
+                
+                <div id="selected-species-info">
+                    <p>Select a species from the list to manage its range map.</p>
+                </div>
+                
+                <div id="range-map-form" style="display: none;">
+                    <div class="form-group">
+                        <label for="scientific-name">Scientific Name:</label>
+                        <input type="text" id="scientific-name" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="common-name">Common Name:</label>
+                        <input type="text" id="common-name" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="range-map-file">Range Map File:</label>
+                        <input type="text" id="range-map-file" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Upload New Range Map:</label>
+                        <div class="drag-drop-area" id="drop-area">
+                            <i class="fas fa-upload"></i>
+                            <p>Drag & drop a range map image here, or click to browse</p>
+                            <input type="file" id="file-input" style="display: none;" accept="image/*">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="image-url">Or Enter Image URL:</label>
+                        <input type="text" id="image-url" placeholder="https://example.com/image.jpg">
+                    </div>
+                    
+                    <div class="button-row">
+                        <button id="fetch-url-btn">Fetch from URL</button>
+                        <button id="remove-map-btn" class="secondary">Remove Map</button>
+                    </div>
+                    
+                    <div class="range-map-preview" id="range-map-preview">
+                        <h3>Preview:</h3>
+                        <div id="preview-container">
+                            <p id="no-preview-message">No range map available for preview.</p>
+                            <img id="preview-image" class="preview-image" style="display: none;">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="button-row">
+                    <button id="save-changes-btn">Save All Changes</button>
+                    <button id="download-mapping-btn" class="secondary">Download Mapping File</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Global variables
+        let speciesData = [];
+        let currentSpeciesIndex = -1;
+        let mappingFileModified = false;
+        
+        // DOM elements
+        const speciesList = document.getElementById('species-list');
+        const selectedSpeciesInfo = document.getElementById('selected-species-info');
+        const rangeMapForm = document.getElementById('range-map-form');
+        const scientificNameInput = document.getElementById('scientific-name');
+        const commonNameInput = document.getElementById('common-name');
+        const rangeMapFileInput = document.getElementById('range-map-file');
+        const imageUrlInput = document.getElementById('image-url');
+        const dropArea = document.getElementById('drop-area');
+        const fileInput = document.getElementById('file-input');
+        const previewImage = document.getElementById('preview-image');
+        const noPreviewMessage = document.getElementById('no-preview-message');
+        const successMessage = document.getElementById('success-message');
+        const errorMessage = document.getElementById('error-message');
+        
+        // Filter elements
+        const speciesSearch = document.getElementById('species-search');
+        const filterMissing = document.getElementById('filter-missing');
+        const filterPresent = document.getElementById('filter-present');
+        
+        // Load the range map mapping data
+        async function loadMappingData() {
+            try {
+                const response = await fetch('../data/range-map-mapping.json');
+                const data = await response.json();
+                
+                if (data && data.species) {
+                    speciesData = data.species;
+                    updateSpeciesList();
+                    showMessage('success', 'Mapping data loaded successfully.');
+                } else {
+                    showMessage('error', 'Invalid mapping data format.');
+                }
+            } catch (error) {
+                showMessage('error', 'Error loading mapping data: ' + error.message);
+                speciesData = [];
+            }
+        }
+        
+        // Update the species list in the UI
+        function updateSpeciesList() {
+            // Clear the current list
+            speciesList.innerHTML = '';
+            
+            // Filter the species based on search and filter settings
+            const searchTerm = speciesSearch.value.toLowerCase();
+            const showMissing = filterMissing.checked;
+            const showPresent = filterPresent.checked;
+            
+            // Filter and sort: missing maps first, then alphabetically by common name
+            const filteredSpecies = speciesData.filter(species => {
+                const hasRangeMap = species.rangeMapFile && !species.rangeMapFile.includes('placeholder');
+                const matchesSearch = 
+                    species.commonName.toLowerCase().includes(searchTerm) || 
+                    species.scientificName.toLowerCase().includes(searchTerm);
+                
+                return matchesSearch && 
+                       ((hasRangeMap && showPresent) || (!hasRangeMap && showMissing));
+            }).sort((a, b) => {
+                // Sort by status first (missing maps first)
+                const aHasMap = a.rangeMapFile && !a.rangeMapFile.includes('placeholder');
+                const bHasMap = b.rangeMapFile && !b.rangeMapFile.includes('placeholder');
+                
+                if (aHasMap !== bHasMap) {
+                    return aHasMap ? 1 : -1;  // Missing maps first
+                }
+                
+                // Then sort by common name
+                return a.commonName.localeCompare(b.commonName);
+            });
+            
+            if (filteredSpecies.length === 0) {
+                speciesList.innerHTML = '<div class="species-item">No species match the current filters</div>';
+                return;
+            }
+            
+            // Create list items for each species
+            filteredSpecies.forEach((species, index) => {
+                const hasRangeMap = species.rangeMapFile && !species.rangeMapFile.includes('placeholder');
+                
+                const item = document.createElement('div');
+                item.className = 'species-item';
+                if (index === currentSpeciesIndex) {
+                    item.classList.add('active');
+                }
+                
+                item.innerHTML = `
+                    <div class="species-name-wrapper">
+                        <div class="status-indicator ${hasRangeMap ? 'status-present' : 'status-missing'}"></div>
+                        <div class="species-details">
+                            <div class="common-name">${species.commonName}</div>
+                            <div class="scientific-name">${species.scientificName}</div>
+                        </div>
+                    </div>
+                    <div>
+                        ${hasRangeMap ? '<i class="fas fa-check"></i>' : '<i class="fas fa-exclamation-circle"></i>'}
+                    </div>
+                `;
+                
+                item.addEventListener('click', () => {
+                    currentSpeciesIndex = speciesData.indexOf(species);
+                    loadSpeciesToForm(species);
+                    updateSpeciesList();
+                });
+                
+                speciesList.appendChild(item);
+            });
+        }
+        
+        // Load a species into the form
+        function loadSpeciesToForm(species) {
+            selectedSpeciesInfo.style.display = 'none';
+            rangeMapForm.style.display = 'block';
+            
+            scientificNameInput.value = species.scientificName;
+            commonNameInput.value = species.commonName;
+            rangeMapFileInput.value = species.rangeMapFile || '';
+            imageUrlInput.value = '';
+            
+            // Update the preview
+            updatePreview(species.rangeMapFile);
+        }
+        
+        // Update the range map preview
+        function updatePreview(filePath) {
+            if (filePath && !filePath.includes('placeholder')) {
+                previewImage.src = '../' + filePath;
+                previewImage.style.display = 'block';
+                noPreviewMessage.style.display = 'none';
+                
+                // Handle image load error
+                previewImage.onerror = function() {
+                    previewImage.style.display = 'none';
+                    noPreviewMessage.style.display = 'block';
+                    noPreviewMessage.textContent = 'Error loading image. The file may not exist yet.';
+                };
+            } else {
+                previewImage.style.display = 'none';
+                noPreviewMessage.style.display = 'block';
+                noPreviewMessage.textContent = 'No range map available for preview.';
+            }
+        }
+        
+        // Save all changes to the mapping file
+        async function saveChanges() {
+            const mappingData = { species: speciesData };
+            
+            try {
+                // In a real environment, this would make an AJAX request to save the file
+                // For this demo, we'll just show a success message
+                console.log('Would save data:', mappingData);
+                const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(mappingData, null, 2));
+                
+                // Create a download link
+                const downloadLink = document.createElement('a');
+                downloadLink.setAttribute('href', dataStr);
+                downloadLink.setAttribute('download', 'range-map-mapping.json');
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                downloadLink.remove();
+                
+                showMessage('success', 'Mapping data has been prepared for download. Please save this file to your data directory.');
+                mappingFileModified = false;
+            } catch (error) {
+                showMessage('error', 'Error saving mapping data: ' + error.message);
+            }
+        }
+        
+        // Utility function to show messages
+        function showMessage(type, message) {
+            const messageEl = type === 'success' ? successMessage : errorMessage;
+            const otherEl = type === 'success' ? errorMessage : successMessage;
+            
+            messageEl.textContent = message;
+            messageEl.style.display = 'block';
+            otherEl.style.display = 'none';
+            
+            setTimeout(() => {
+                messageEl.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Event Listeners
+        
+        // Save changes button
+        document.getElementById('save-changes-btn').addEventListener('click', saveChanges);
+        
+        // Download mapping button
+        document.getElementById('download-mapping-btn').addEventListener('click', saveChanges);
+        
+        // Fetch from URL button
+        document.getElementById('fetch-url-btn').addEventListener('click', async () => {
+            const url = imageUrlInput.value.trim();
+            if (!url) {
+                showMessage('error', 'Please enter a valid URL');
+                return;
+            }
+            
+            // In a real environment, this would fetch the image and save it
+            // For this demo, we'll just update the path
+            if (currentSpeciesIndex >= 0) {
+                const species = speciesData[currentSpeciesIndex];
+                const fileName = species.scientificName.replace(/\s+/g, '-') + '.jpg';
+                const filePath = 'data/range-maps/' + fileName;
+                
+                species.rangeMapFile = filePath;
+                rangeMapFileInput.value = filePath;
+                
+                // Show a message about what would happen in a real environment
+                showMessage('success', `In a real environment, the image would be downloaded from ${url} and saved as ${filePath}. For now, just the path has been updated.`);
+                
+                updatePreview(filePath);
+                updateSpeciesList();
+                mappingFileModified = true;
+            }
+        });
+        
+        // Remove map button
+        document.getElementById('remove-map-btn').addEventListener('click', () => {
+            if (currentSpeciesIndex >= 0) {
+                if (confirm('Are you sure you want to remove this range map?')) {
+                    const species = speciesData[currentSpeciesIndex];
+                    species.rangeMapFile = null;
+                    rangeMapFileInput.value = '';
+                    
+                    updatePreview(null);
+                    updateSpeciesList();
+                    showMessage('success', 'Range map removed successfully.');
+                    mappingFileModified = true;
+                }
+            }
+        });
+        
+        // Filter and search event listeners
+        speciesSearch.addEventListener('input', updateSpeciesList);
+        filterMissing.addEventListener('change', updateSpeciesList);
+        filterPresent.addEventListener('change', updateSpeciesList);
+        
+        // File drop area
+        dropArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+        
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+            }, false);
+        });
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, () => {
+                dropArea.classList.add('dragover');
+            }, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, () => {
+                dropArea.classList.remove('dragover');
+            }, false);
+        });
+        
+        dropArea.addEventListener('drop', (e) => {
+            const files = e.dataTransfer.files;
+            handleFiles(files);
+        }, false);
+        
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+        
+        function handleFiles(files) {
+            if (files.length === 0 || currentSpeciesIndex < 0) return;
+            
+            const file = files[0];
+            if (!file.type.startsWith('image/')) {
+                showMessage('error', 'Please select an image file.');
+                return;
+            }
+            
+            const species = speciesData[currentSpeciesIndex];
+            const fileName = species.scientificName.replace(/\s+/g, '-') + '.jpg';
+            const filePath = 'data/range-maps/' + fileName;
+            
+            // In a real environment, this would upload the file to the server
+            // For this demo, we'll just update the path
+            species.rangeMapFile = filePath;
+            rangeMapFileInput.value = filePath;
+            
+            // Create a preview from the local file
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImage.src = e.target.result;
+                previewImage.style.display = 'block';
+                noPreviewMessage.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+            
+            showMessage('success', `In a real environment, the file would be uploaded and saved as ${filePath}. For now, just the path has been updated.`);
+            updateSpeciesList();
+            mappingFileModified = true;
+        }
+        
+        // Before leaving the page
+        window.addEventListener('beforeunload', (e) => {
+            if (mappingFileModified) {
+                const message = 'You have unsaved changes. Are you sure you want to leave?';
+                e.returnValue = message;
+                return message;
+            }
+        });
+        
+        // Initialize the page
+        loadMappingData();
+    </script>
+</body>
+</html>

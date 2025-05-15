@@ -183,6 +183,9 @@
             
             // Create placeholder range map in assets directory if it doesn't exist
             createPlaceholderRangeMap();
+            
+            // Load range map mapping data
+            loadRangeMapMapping();
         });
         
         function setupViewToggle() {
@@ -311,10 +314,9 @@
                 <p>${photo.description || 'No description available.'}</p>
             `;
             
-            // Set range map placeholder
-            // We'll use the same placeholder for all birds for now
-            document.getElementById('range-map').src = 'assets/range-map-placeholder.jpg';
-            document.getElementById('range-map').alt = `Range map for ${extractBirdName(birdInfo)}`;
+            // Set range map - use the mapping file to find the correct range map
+            const scientificName = extractScientificName(birdInfo);
+            setRangeMap(scientificName, extractBirdName(birdInfo));
         }
         
         function nextModalPhoto(event) {
@@ -356,6 +358,47 @@
             // This function would normally create or check for the placeholder image
             // For this implementation, we'll assume the image exists or will be added manually
             console.log('Make sure to create assets/range-map-placeholder.jpg');
+        }
+        
+        // Range map mapping data
+        let rangeMapMapping = null;
+        
+        // Load the range map mapping file
+        async function loadRangeMapMapping() {
+            try {
+                const response = await fetch('data/range-map-mapping.json');
+                rangeMapMapping = await response.json();
+                console.log('Range map mapping loaded successfully');
+            } catch (error) {
+                console.error('Error loading range map mapping:', error);
+            }
+        }
+        
+        // We'll call loadRangeMapMapping from DOMContentLoaded event handler
+        
+        // Function to set the range map based on scientific name
+        function setRangeMap(scientificName, commonName) {
+            const rangeMapImg = document.getElementById('range-map');
+            
+            // Default to placeholder if mapping isn't loaded yet
+            if (!rangeMapMapping) {
+                rangeMapImg.src = 'assets/range-map-placeholder.jpg';
+                rangeMapImg.alt = `Range map for ${commonName}`;
+                return;
+            }
+            
+            // Find the corresponding range map
+            const species = rangeMapMapping.species.find(s => s.scientificName === scientificName);
+            
+            if (species && species.rangeMapFile) {
+                rangeMapImg.src = species.rangeMapFile;
+                rangeMapImg.alt = `Range map for ${commonName} (${scientificName})`;
+            } else {
+                // Use placeholder if no matching range map found
+                rangeMapImg.src = 'assets/range-map-placeholder.jpg';
+                rangeMapImg.alt = `Range map for ${commonName}`;
+                console.log(`No range map found for ${scientificName}`);
+            }
         }
     </script>
 </body>
