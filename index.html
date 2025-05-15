@@ -10,7 +10,7 @@
 <body>
     <header>
         <div class="logo">
-            <img src="portfolio-photos/logo.png" alt="My Logo">
+            <img src="assets/logo.png" alt="My Logo">
         </div>
         <nav>
             <ul>
@@ -20,9 +20,29 @@
         </nav>
     </header>
     <main>
-        <section class="photo-portfolio">
+        <div class="view-controls">
+            <button id="grid-view-btn" class="view-btn active">Grid View</button>
+            <button id="carousel-view-btn" class="view-btn">Carousel View</button>
+        </div>
+        
+        <section id="grid-view" class="photo-portfolio">
             <!-- Photo cards will be inserted here by JavaScript -->
         </section>
+        
+        <section id="carousel-view" class="carousel-container" style="display: none;">
+            <div class="feature-image-container">
+                <img id="feature-image" src="" alt="">
+                <p id="feature-caption"></p>
+                <div class="carousel-nav">
+                    <span class="prev" onclick="prevCarouselSlide()">&#10094;</span>
+                    <span class="next" onclick="nextCarouselSlide()">&#10095;</span>
+                </div>
+            </div>
+            <div class="thumbnails-container">
+                <!-- Thumbnails will be inserted here by JavaScript -->
+            </div>
+        </section>
+        
         <div id="modal" class="modal" onclick="closeModalOutside(event)">
             <span class="close" onclick="closeModal()">&times;</span>
             <div class="modal-content">
@@ -43,10 +63,10 @@
             { src: 'portfolio-photos/downy-woodpecker.jpeg', alt: 'Downy woodpecker (Picoides pubescens) | Chicago, IL' },
             { src: 'portfolio-photos/kingfisher3.jpeg', alt: 'Belted kingfisher (Megaceryle alcyon) | Chicago, IL' },
             { src: 'portfolio-photos/20250203_YellowBelliedSapsucker1-topaz.jpg', alt: 'Yellow-bellied sapsucker (Sphyrapicus varius) | Atlanta, GA' },
-            { src: '20250315_9739_bananaquit.jpg', alt: 'Bananaquit (Coereba flaveola) | Grand Cayman, Cayman Islands' },
+            { src: 'portfolio-photos/20250315_9739_bananaquit.jpg', alt: 'Bananaquit (Coereba flaveola) | Grand Cayman, Cayman Islands' },
             { src: 'portfolio-photos/20250308_Hermit_thrush_TrinityAudubonCenter-topaz.jpg', alt: 'Hermit thrush (Catharus guttatus) | Dallas, TX' },
             { src: 'portfolio-photos/240921 Bald eagle 3-topaz.jpeg', alt: 'Bald eagle (Haliaeetus leucocephalus) | Watersmeet, MI' },
-            { src: '20250315_9923_parrot.jpg', alt: 'Cayman parrot (Amazona leucocephala caymanensis) | Grand Cayman, Cayman Islands' },
+            { src: 'portfolio-photos/20250315_9923_parrot.jpg', alt: 'Cayman parrot (Amazona leucocephala caymanensis) | Grand Cayman, Cayman Islands' },
             { src: 'portfolio-photos/wood-duck.jpg', alt: 'Wood duck (Aix sponsa) | Chicago, IL' },
             { src: 'portfolio-photos/240817-american-goldfinch-topaz.jpeg', alt: 'American goldfinch (Spinus tristis) | Chicago, IL' },
             { src: 'portfolio-photos/20250308_Eastern_phoebe_TrinityAudubonCenter-topaz.jpg', alt: 'Eastern phoebe (Sayornis phoebe) | Dallas, TX' },
@@ -58,8 +78,44 @@
             { src: 'portfolio-photos/java-sparrow-1.jpg', alt: 'Java sparrow (Lonchura oryzivora) | Maui, HI' },
         ];
 
+        let currentIndex = 0;
+
         document.addEventListener('DOMContentLoaded', function() {
-            const photoPortfolio = document.querySelector('.photo-portfolio');
+            // Initialize Grid View
+            initGridView();
+            
+            // Initialize Carousel View
+            initCarouselView();
+            
+            // Set up view toggle buttons
+            setupViewToggle();
+        });
+        
+        function setupViewToggle() {
+            const gridViewBtn = document.getElementById('grid-view-btn');
+            const carouselViewBtn = document.getElementById('carousel-view-btn');
+            const gridView = document.getElementById('grid-view');
+            const carouselView = document.getElementById('carousel-view');
+            
+            gridViewBtn.addEventListener('click', function() {
+                gridView.style.display = 'grid';
+                carouselView.style.display = 'none';
+                gridViewBtn.classList.add('active');
+                carouselViewBtn.classList.remove('active');
+            });
+            
+            carouselViewBtn.addEventListener('click', function() {
+                gridView.style.display = 'none';
+                carouselView.style.display = 'block';
+                gridViewBtn.classList.remove('active');
+                carouselViewBtn.classList.add('active');
+                // Make sure the carousel shows the current image
+                showCarouselSlide(currentIndex);
+            });
+        }
+        
+        function initGridView() {
+            const photoPortfolio = document.getElementById('grid-view');
             photos.forEach((photo, index) => {
                 const photoCard = document.createElement('div');
                 photoCard.className = 'photo-card';
@@ -72,9 +128,55 @@
                 photoCard.onclick = () => openModal(index);
                 photoPortfolio.appendChild(photoCard);
             });
-        });
-
-        let currentIndex = 0;
+        }
+        
+        function initCarouselView() {
+            const thumbnailsContainer = document.querySelector('.thumbnails-container');
+            
+            // Set initial feature image
+            showCarouselSlide(0);
+            
+            // Create thumbnails
+            photos.forEach((photo, index) => {
+                const thumbnail = document.createElement('div');
+                thumbnail.className = 'thumbnail';
+                thumbnail.innerHTML = `<img src="${photo.src}" alt="${photo.alt}">`;
+                thumbnail.onclick = () => {
+                    currentIndex = index;
+                    showCarouselSlide(index);
+                };
+                thumbnailsContainer.appendChild(thumbnail);
+            });
+        }
+        
+        function showCarouselSlide(index) {
+            const photo = photos[index];
+            const featureImage = document.getElementById('feature-image');
+            const featureCaption = document.getElementById('feature-caption');
+            
+            featureImage.src = photo.src;
+            featureImage.alt = photo.alt;
+            featureCaption.innerText = photo.alt;
+            
+            // Update thumbnail active state
+            document.querySelectorAll('.thumbnail').forEach((thumb, idx) => {
+                if (idx === index) {
+                    thumb.classList.add('active');
+                } else {
+                    thumb.classList.remove('active');
+                }
+            });
+        }
+        
+        function nextCarouselSlide() {
+            currentIndex = (currentIndex + 1) % photos.length;
+            showCarouselSlide(currentIndex);
+        }
+        
+        function prevCarouselSlide() {
+            currentIndex = (currentIndex - 1 + photos.length) % photos.length;
+            showCarouselSlide(currentIndex);
+        }
 
         function openModal(index) {
             currentIndex = index;
