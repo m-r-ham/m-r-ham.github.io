@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sex and color in the bird world</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .comparison-container {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            margin: 30px 0;
+        }
+        
+        .bird-comparison {
+            display: flex;
+            flex-direction: column;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .bird-title {
+            padding: 15px 20px;
+            background-color: #333;
+            color: white;
+        }
+        
+        .bird-title h3 {
+            margin: 0;
+            font-size: 20px;
+        }
+        
+        .bird-title p {
+            margin: 5px 0 0;
+            font-size: 14px;
+            font-style: italic;
+            opacity: 0.8;
+        }
+        
+        .comparison-photos {
+            display: flex;
+            flex-direction: row;
+        }
+        
+        .comparison-photo {
+            flex: 1;
+            position: relative;
+        }
+        
+        .comparison-photo img {
+            width: 100%;
+            display: block;
+        }
+        
+        .comparison-label {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: rgba(0,0,0,0.6);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .comparison-text {
+            padding: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .comparison-photos {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="assets/logo.png" alt="My Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Photos</a></li>
+                <li><a href="stories.html" class="active">Stories</a></li>
+                <li><a href="map.html">Map</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="story-header">
+            <h1>Sex and color in the bird world</h1>
+            <p>Sexual dimorphism is common in the bird world. Female birds typically get the short end of the genetic straw.</p>
+        </section>
+        <section class="story-photos">
+            <img src="portfolio-photos/summertanager7.jpeg" alt="Male Summer Tanager in bright red plumage">
+            <img src="portfolio-photos/paintedbuntingF.jpeg" alt="Female Painted Bunting in olive green plumage">
+            <img src="portfolio-photos/vermillionflycatcherF.jpeg" alt="Female Vermillion Flycatcher in subdued coloration">
+        </section>
+        <section class="story-content">
+            <p>If you're new to birdwatching, you might have experienced the confusion of seeing what appears to be two completely different species, only to learn they're actually males and females of the same species. This dramatic difference in appearance between sexes is called sexual dimorphism, and it's particularly pronounced in the bird world.</p>
+            
+            <p>Approximately 45% of all bird species exhibit some form of sexual dimorphism. In most cases, males sport the vibrant, eye-catching colors while females wear more subdued, camouflaged plumage. This isn't a random quirk of evolution but a strategy shaped by millions of years of natural selection.</p>
+            
+            <p>The science behind this phenomenon is fascinating. Charles Darwin was among the first to recognize that these striking differences between male and female birds were the result of sexual selection – a type of natural selection driven by competition for mates rather than environmental factors. In birds, this typically manifests in two ways: males competing directly with each other (think of dramatic territorial battles) or females choosing males based on their appearance.</p>
+            
+            <p>But why are males the showstoppers while females blend into the background? The answer lies in the different reproductive roles and pressures faced by each sex. Females, as the primary nest-sitters and caretakers in many species, benefit from camouflage that helps them avoid predators during the vulnerable nesting period. Meanwhile, males can afford to be flashy – in fact, their bright colors advertise their genetic fitness and health to potential mates.</p>
+            
+            <h3>Not Just About Looks</h3>
+            
+            <p>While color differences are the most obvious form of sexual dimorphism, they're not the only way bird sexes differ. Many species also show differences in size, voice, behavior, and even the presence of specialized feathers or crests. Some species, like raptors, flip the script entirely – with females being larger and more dominant than males.</p>
+            
+            <p>Let's look at three spectacular examples of sexual dimorphism from my own photography expeditions:</p>
+            
+            <div class="comparison-container">
+                <div class="bird-comparison">
+                    <div class="bird-title">
+                        <h3>Painted Bunting</h3>
+                        <p><i>Passerina ciris</i></p>
+                    </div>
+                    <div class="comparison-photos">
+                        <div class="comparison-photo">
+                            <img src="portfolio-photos/paintedbunting3.jpeg" alt="Male Painted Bunting with vibrant multi-colored plumage">
+                            <div class="comparison-label">Male</div>
+                        </div>
+                        <div class="comparison-photo">
+                            <img src="portfolio-photos/paintedbuntingF.jpeg" alt="Female Painted Bunting with olive-green plumage">
+                            <div class="comparison-label">Female</div>
+                        </div>
+                    </div>
+                    <div class="comparison-text">
+                        <p>Perhaps the most extreme example of sexual dimorphism in North American songbirds, the Painted Bunting male looks like it was colored with a child's crayon set – brilliant blue head, red underparts, and green back. The female, by contrast, is a uniform yellow-green, perfectly camouflaged among foliage. Despite their radical differences in appearance, both sexes share the same chunky, seed-eating bill and similar behaviors.</p>
+                    </div>
+                </div>
+                
+                <div class="bird-comparison">
+                    <div class="bird-title">
+                        <h3>Summer Tanager</h3>
+                        <p><i>Piranga rubra</i></p>
+                    </div>
+                    <div class="comparison-photos">
+                        <div class="comparison-photo">
+                            <img src="portfolio-photos/summertanager5.jpeg" alt="Male Summer Tanager with completely red plumage">
+                            <div class="comparison-label">Male</div>
+                        </div>
+                        <div class="comparison-photo">
+                            <img src="portfolio-photos/summertanagerF.jpeg" alt="Female Summer Tanager with yellow-olive plumage">
+                            <div class="comparison-label">Female</div>
+                        </div>
+                    </div>
+                    <div class="comparison-text">
+                        <p>Summer Tanagers show another classic dimorphic pattern. Males are a brilliant, uniform red – the only completely red bird in North America. Females, however, are a warm olive-yellow color that helps them remain inconspicuous when nesting. Interestingly, young males start out looking like females and gradually molt into their adult red plumage, sometimes resulting in patchy "in-between" birds that can confuse even experienced birders.</p>
+                    </div>
+                </div>
+                
+                <div class="bird-comparison">
+                    <div class="bird-title">
+                        <h3>Vermillion Flycatcher</h3>
+                        <p><i>Pyrocephalus rubinus</i></p>
+                    </div>
+                    <div class="comparison-photos">
+                        <div class="comparison-photo">
+                            <img src="portfolio-photos/vermillionflycatcher4.jpeg" alt="Male Vermillion Flycatcher with bright red crown and underparts">
+                            <div class="comparison-label">Male</div>
+                        </div>
+                        <div class="comparison-photo">
+                            <img src="portfolio-photos/vermillionflycatcherF.jpeg" alt="Female Vermillion Flycatcher with pale underparts and brown upperparts">
+                            <div class="comparison-label">Female</div>
+                        </div>
+                    </div>
+                    <div class="comparison-text">
+                        <p>The Vermillion Flycatcher provides another striking example of dimorphism. Males sport a brilliant vermillion (as the name suggests) crown and underparts with a contrasting dark brown mask and upperparts. Females, meanwhile, have a pale breast with subtle streaking, brownish-gray upperparts, and just a hint of salmon color on the lower belly. Despite these differences, both sexes share the same hunting behaviors, perching conspicuously before darting out to catch flying insects.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Evolution in Action</h3>
+            
+            <p>Sexual dimorphism in birds offers us a window into evolutionary processes. The balance between sexual selection (driving males to be more conspicuous) and natural selection (favoring camouflage for survival) creates the diversity of patterns we see today. Some species show extreme differences between sexes, while others are nearly identical.</p>
+            
+            <p>Next time you're out birdwatching and spot a drab, olive-colored bird, remember – you might be looking at the female counterpart of one of the most colorful birds in North America. And that subdued coloration isn't a deficiency or an afterthought, but rather an expertly crafted evolutionary adaptation that's just as specialized and "fit for purpose" as the male's flashy outfit.</p>
+            
+            <p>The bird world teaches us that sometimes, standing out isn't always the best strategy – and that the quiet, camouflaged players often have just as important a role to play in nature's grand design.</p>
+        </section>
+        <div id="back-to-top" onclick="scrollToTop()">
+            <span>&uarr; Back to Top</span>
+        </div>
+    </main>
+
+    <script>
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.addEventListener('scroll', function() {
+            var button = document.getElementById('back-to-top');
+            if (window.scrollY > 200) {
+                button.style.display = 'block';
+            } else {
+                button.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
