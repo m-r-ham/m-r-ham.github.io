@@ -2,7 +2,7 @@ body {
     font-family: 'Inter', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #fafafa;
+    background-color: #f8f8f8;
     color: #333;
 }
 
@@ -12,7 +12,7 @@ header {
     justify-content: space-between;
     align-items: center;
     background-color: #fff;
-    border-bottom: 1px solid #dbdbdb;
+    border-bottom: 1px solid #eaeaea;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -42,9 +42,9 @@ header nav ul li a {
 }
 
 main {
-    max-width: 935px;
+    max-width: 1400px; /* Increased width for grid view */
     margin: 0 auto;
-    padding: 20px 0;
+    padding: 20px 15px;
 }
 
 /* View Controls */
@@ -52,7 +52,7 @@ main {
     display: flex;
     justify-content: center;
     margin-bottom: 2rem;
-    border-bottom: 1px solid #dbdbdb;
+    border-bottom: 1px solid #eaeaea;
     padding-bottom: 0.5rem;
 }
 
@@ -64,7 +64,7 @@ main {
     cursor: pointer;
     font-size: 1.2rem;
     transition: all 0.3s ease;
-    color: #8e8e8e;
+    color: #888;
 }
 
 .view-btn:hover {
@@ -76,11 +76,11 @@ main {
     border-bottom: 2px solid #333;
 }
 
-/* Instagram Grid View */
-.instagram-grid {
+/* Grid View */
+.photo-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 4px;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns instead of 3 */
+    gap: 10px; /* Slightly larger gap */
     margin-bottom: 2rem;
 }
 
@@ -89,6 +89,8 @@ main {
     aspect-ratio: 1 / 1;
     overflow: hidden;
     cursor: pointer;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .grid-item img {
@@ -102,54 +104,39 @@ main {
     transform: scale(1.05);
 }
 
-/* Instagram Scroll View */
-.instagram-scroll {
+/* Scroll View */
+.photo-scroll {
     display: flex;
     flex-direction: column;
-    gap: 60px;
+    gap: 40px;
     margin-bottom: 2rem;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.instagram-post {
+.photo-post {
     background-color: #fff;
-    border: 1px solid #dbdbdb;
-    border-radius: 3px;
-    max-width: 614px;
-    margin: 0 auto;
-    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .post-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px 16px;
-    border-bottom: 1px solid #f5f5f5;
+    padding: 16px;
+    border-bottom: 1px solid #f1f1f1;
 }
 
-.post-profile {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.profile-pic {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.profile-info h3 {
-    margin: 0;
-    font-size: 14px;
+.post-location h3 {
+    margin: 0 0 5px;
+    font-size: 18px;
     font-weight: 600;
 }
 
-.profile-info p {
+.post-location p {
     margin: 0;
-    font-size: 12px;
-    color: #8e8e8e;
+    font-size: 14px;
+    color: #666;
 }
 
 .post-image {
@@ -159,61 +146,21 @@ main {
 .post-image img {
     width: 100%;
     display: block;
-}
-
-.post-actions {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 16px;
-}
-
-.actions-left, .actions-right {
-    display: flex;
-    gap: 16px;
-}
-
-.action-btn {
-    background: none;
-    border: none;
-    padding: 0;
-    font-size: 24px;
-    color: #333;
     cursor: pointer;
 }
 
-.post-likes {
-    padding: 0 16px;
-    margin-bottom: 8px;
-}
-
-.post-likes p {
-    margin: 0;
-    font-size: 14px;
-}
-
 .post-caption {
-    padding: 0 16px;
-    margin-bottom: 8px;
+    padding: 16px;
 }
 
 .post-caption p {
     margin: 0;
     font-size: 14px;
+    line-height: 1.4;
 }
 
-.post-time {
-    padding: 0 16px 16px;
-}
-
-.post-time p {
-    margin: 0;
-    font-size: 10px;
-    color: #8e8e8e;
-    text-transform: uppercase;
-}
-
-/* Instagram Modal */
-.instagram-modal {
+/* Photo Modal */
+.photo-modal {
     display: none;
     position: fixed;
     z-index: 1000;
@@ -238,12 +185,13 @@ main {
 
 .modal-content {
     display: flex;
-    max-width: 935px;
+    max-width: 1200px;
     height: 80vh;
     margin: 10vh auto;
     background-color: white;
-    border-radius: 4px;
+    border-radius: 8px;
     overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .modal-photo {
@@ -263,35 +211,49 @@ main {
 }
 
 .modal-info {
-    flex: 2;
+    flex: 1; /* Reduced from 2 to 1 to give more space to the photo */
     display: flex;
     flex-direction: column;
-    border-left: 1px solid #dbdbdb;
+    border-left: 1px solid #eaeaea;
+    background-color: #fff;
 }
 
 .modal-header {
-    padding: 16px;
-    border-bottom: 1px solid #efefef;
-    display: flex;
-    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #eaeaea;
 }
 
 .modal-header h3 {
     margin: 0;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
 }
 
 .modal-caption-container {
-    padding: 16px;
+    padding: 20px;
     flex-grow: 1;
     overflow-y: auto;
 }
 
-.modal-caption {
+#modal-caption {
     margin: 0;
-    font-size: 14px;
-    line-height: 1.4;
+    line-height: 1.5;
+}
+
+.bird-name {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 5px;
+}
+
+.bird-scientific {
+    font-style: italic;
+    color: #666;
+    margin: 0 0 15px;
+}
+
+.bird-location {
+    margin: 0;
 }
 
 .modal-nav {
@@ -308,17 +270,22 @@ main {
 .modal-nav .prev, .modal-nav .next {
     background-color: white;
     border-radius: 50%;
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #333;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
     cursor: pointer;
     user-select: none;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease;
+}
+
+.modal-nav .prev:hover, .modal-nav .next:hover {
+    transform: scale(1.1);
 }
 
 /* Story Page Styles */
@@ -477,11 +444,13 @@ main {
 }
 
 /* Responsive Styles */
-@media screen and (max-width: 935px) {
-    .instagram-grid {
+@media screen and (max-width: 1200px) {
+    .photo-grid {
         grid-template-columns: repeat(3, 1fr);
     }
-    
+}
+
+@media screen and (max-width: 900px) {
     .modal-content {
         flex-direction: column;
         height: auto;
@@ -497,17 +466,13 @@ main {
     .modal-info {
         flex: none;
         border-left: none;
-        border-top: 1px solid #dbdbdb;
+        border-top: 1px solid #eaeaea;
     }
 }
 
-@media screen and (max-width: 736px) {
-    .instagram-grid {
+@media screen and (max-width: 768px) {
+    .photo-grid {
         grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .instagram-post {
-        width: 100%;
     }
     
     .story-photos {
@@ -531,8 +496,9 @@ main {
 }
 
 @media screen and (max-width: 480px) {
-    .instagram-grid {
-        grid-template-columns: 1fr;
+    .photo-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 5px;
     }
     
     .modal-content {

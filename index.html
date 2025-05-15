@@ -31,18 +31,18 @@
             </button>
         </div>
         
-        <!-- Instagram-like Grid View -->
-        <section id="grid-view" class="instagram-grid">
+        <!-- Grid View -->
+        <section id="grid-view" class="photo-grid">
             <!-- Photo tiles will be inserted here by JavaScript -->
         </section>
         
-        <!-- Instagram-like Scroll View -->
-        <section id="scroll-view" class="instagram-scroll" style="display: none;">
+        <!-- Scroll View -->
+        <section id="scroll-view" class="photo-scroll" style="display: none;">
             <!-- Photo posts will be inserted here by JavaScript -->
         </section>
         
         <!-- Photo Detail Modal -->
-        <div id="photo-modal" class="instagram-modal">
+        <div id="photo-modal" class="photo-modal">
             <span class="close-modal" onclick="closePhotoModal()">&times;</span>
             <div class="modal-content">
                 <div class="modal-photo">
@@ -54,7 +54,7 @@
                 </div>
                 <div class="modal-info">
                     <div class="modal-header">
-                        <h3>Bird Photography</h3>
+                        <h3>Bird Details</h3>
                     </div>
                     <div class="modal-caption-container">
                         <p id="modal-caption"></p>
@@ -144,44 +144,31 @@
                 const location = altParts.length > 1 ? altParts[1].trim() : '';
                 
                 const post = document.createElement('div');
-                post.className = 'instagram-post';
+                post.className = 'photo-post';
                 
                 post.innerHTML = `
                     <div class="post-header">
-                        <div class="post-profile">
-                            <img src="assets/logo.png" alt="Profile" class="profile-pic">
-                            <div class="profile-info">
-                                <h3>Bird Photography</h3>
-                                <p>${location}</p>
-                            </div>
+                        <div class="post-location">
+                            <h3>${extractBirdName(birdInfo)}</h3>
+                            <p>${location}</p>
                         </div>
                     </div>
                     <div class="post-image">
-                        <img src="${photo.src}" alt="${photo.alt}">
-                    </div>
-                    <div class="post-actions">
-                        <div class="actions-left">
-                            <button class="action-btn"><i class="far fa-heart"></i></button>
-                            <button class="action-btn"><i class="far fa-comment"></i></button>
-                            <button class="action-btn"><i class="far fa-paper-plane"></i></button>
-                        </div>
-                        <div class="actions-right">
-                            <button class="action-btn"><i class="far fa-bookmark"></i></button>
-                        </div>
-                    </div>
-                    <div class="post-likes">
-                        <p>Liked by <strong>bird_lovers</strong> and <strong>others</strong></p>
+                        <img src="${photo.src}" alt="${photo.alt}" onclick="openPhotoModal(${index})">
                     </div>
                     <div class="post-caption">
-                        <p><strong>Bird Photography</strong> ${birdInfo}</p>
-                    </div>
-                    <div class="post-time">
-                        <p>2 DAYS AGO</p>
+                        <p>${birdInfo}</p>
                     </div>
                 `;
                 
                 scrollContainer.appendChild(post);
             });
+        }
+        
+        function extractBirdName(birdInfo) {
+            // Extract just the bird name from the info string (remove scientific name)
+            const parts = birdInfo.split('(');
+            return parts[0].trim();
         }
         
         function openPhotoModal(index) {
@@ -211,7 +198,18 @@
             const birdInfo = altParts[0].trim();
             const location = altParts.length > 1 ? altParts[1].trim() : '';
             
-            modalCaption.innerHTML = `<strong>Bird Photography</strong> ${birdInfo}<br><small>${location}</small>`;
+            // Create a more detailed caption
+            modalCaption.innerHTML = `
+                <p class="bird-name">${extractBirdName(birdInfo)}</p>
+                <p class="bird-scientific">${extractScientificName(birdInfo)}</p>
+                <p class="bird-location">Location: ${location}</p>
+            `;
+        }
+        
+        function extractScientificName(birdInfo) {
+            // Extract the scientific name from the info string
+            const match = birdInfo.match(/\((.*?)\)/);
+            return match ? match[1] : '';
         }
         
         function nextModalPhoto(event) {
