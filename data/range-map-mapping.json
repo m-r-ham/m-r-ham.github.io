@@ -2,128 +2,129 @@
   "species": [
     {
       "scientificName": "Piranga rubra",
-      "commonName": "Summer tanager",
-      "rangeMapFile": "data/range-maps/Piranga-rubra.jpg"
+      "commonName": "Summer Tanager",
+      "rangeMapFile": "data/range-maps/sumtan-range-map-v2023-en.png"
     },
     {
       "scientificName": "Setophaga chrysoparia",
-      "commonName": "Golden-cheeked warbler",
-      "rangeMapFile": "data/range-maps/Setophaga-chrysoparia.jpg"
+      "commonName": "Golden-cheeked Warbler",
+      "rangeMapFile": "data/range-maps/gchwar-range-map-v2023-en.png"
     },
     {
       "scientificName": "Pyrocephalus rubinus",
-      "commonName": "Vermillion flycatcher",
-      "rangeMapFile": "data/range-maps/Pyrocephalus-rubinus.jpg"
+      "commonName": "Vermilion Flycatcher",
+      "rangeMapFile": "data/range-maps/verfly-range-map-v2023-en.png"
     },
     {
       "scientificName": "Passerina ciris",
-      "commonName": "Painted bunting",
-      "rangeMapFile": "data/range-maps/Passerina-ciris.jpg"
+      "commonName": "Painted Bunting",
+      "rangeMapFile": "data/range-maps/paibun-range-map-v2023-en.png"
     },
     {
       "scientificName": "Vireo atricapilla",
-      "commonName": "Black-capped vireo",
-      "rangeMapFile": "data/range-maps/Vireo-atricapilla.jpg"
+      "commonName": "Black-capped Vireo",
+      "rangeMapFile": "data/range-maps/bkcvir1-range-map-v2023-en.png"
     },
     {
       "scientificName": "Icterus parisorum",
-      "commonName": "Scott's oriole",
-      "rangeMapFile": "data/range-maps/Icterus-parisorum.jpg"
+      "commonName": "Scott's Oriole",
+      "rangeMapFile": "data/range-maps/scoori-range-map-v2023-en.png"
     },
     {
       "scientificName": "Eumomota superciliosa",
-      "commonName": "Turquoise-browed motmot",
-      "rangeMapFile": "data/range-maps/Eumomota-superciliosa.jpg"
+      "commonName": "Turquoise-browed Motmot",
+      "rangeMapFile": "data/range-maps/tubmot1-range-map-year-round-v2023-en.png"
     },
     {
       "scientificName": "Colaptes auratus",
-      "commonName": "Northern flicker",
-      "rangeMapFile": "data/range-maps/Colaptes-auratus.jpg"
+      "commonName": "Northern Flicker",
+      "rangeMapFile": "data/range-maps/norfli-range-map-v2023-en.png"
     },
     {
       "scientificName": "Ardea herodias",
-      "commonName": "Great blue heron",
-      "rangeMapFile": "data/range-maps/Ardea-herodias.jpg"
+      "commonName": "Great Blue Heron",
+      "rangeMapFile": "data/range-maps/grbher3-range-map-v2023-en.png"
     },
     {
-      "scientificName": "Picoides pubescens",
-      "commonName": "Downy woodpecker",
-      "rangeMapFile": "data/range-maps/Picoides-pubescens.jpg"
+      "scientificName": "Dryobates pubescens",
+      "commonName": "Downy Woodpecker",
+      "rangeMapFile": "data/range-maps/dowwoo-range-map-year-round-v2023-en.png"
     },
     {
       "scientificName": "Megaceryle alcyon",
-      "commonName": "Belted kingfisher",
-      "rangeMapFile": "data/range-maps/Megaceryle-alcyon.jpg"
+      "commonName": "Belted Kingfisher",
+      "rangeMapFile": "data/range-maps/belkin1-range-map-v2023-en.png"
     },
     {
       "scientificName": "Sphyrapicus varius",
-      "commonName": "Yellow-bellied sapsucker",
-      "rangeMapFile": "data/range-maps/Sphyrapicus-varius.jpg"
+      "commonName": "Yellow-bellied Sapsucker",
+      "rangeMapFile": "data/range-maps/yebsap-range-map-v2023-en.png"
     },
     {
       "scientificName": "Coereba flaveola",
       "commonName": "Bananaquit",
-      "rangeMapFile": "data/range-maps/Coereba-flaveola.jpg"
+      "rangeMapFile": "data/range-maps/banana-range-map-year-round-v2023-en.png"
     },
     {
       "scientificName": "Catharus guttatus",
-      "commonName": "Hermit thrush",
-      "rangeMapFile": "data/range-maps/Catharus-guttatus.jpg"
+      "commonName": "Hermit Thrush",
+      "rangeMapFile": "data/range-maps/herthr-range-map-v2023-en.png"
     },
     {
       "scientificName": "Haliaeetus leucocephalus",
-      "commonName": "Bald eagle",
-      "rangeMapFile": "data/range-maps/Haliaeetus-leucocephalus.jpg"
+      "commonName": "Bald Eagle",
+      "rangeMapFile": "data/range-maps/baleag-range-map-v2023-en.png"
     },
     {
       "scientificName": "Amazona leucocephala caymanensis",
-      "commonName": "Cayman parrot",
-      "rangeMapFile": "data/range-maps/Amazona-leucocephala-caymanensis.jpg"
+      "commonName": "Cayman Parrot",
+      "rangeMapFile": "data/range-maps/cubpar1-range-map-year-round-v2023-en.png"
     },
     {
       "scientificName": "Aix sponsa",
-      "commonName": "Wood duck",
-      "rangeMapFile": "data/range-maps/Aix-sponsa.jpg"
+      "commonName": "Wood Duck",
+      "rangeMapFile": "data/range-maps/wooduc-range-map-v2023-en.png"
     },
     {
       "scientificName": "Spinus tristis",
-      "commonName": "American goldfinch",
-      "rangeMapFile": "data/range-maps/Spinus-tristis.jpg"
+      "commonName": "American Goldfinch",
+      "rangeMapFile": "data/range-maps/amegfi-range-map-v2023-en.png"
     },
     {
       "scientificName": "Sayornis phoebe",
-      "commonName": "Eastern phoebe",
-      "rangeMapFile": "data/range-maps/Sayornis-phoebe.jpg"
+      "commonName": "Eastern Phoebe",
+      "rangeMapFile": "data/range-maps/easpho-range-map-v2023-en.png"
     },
     {
       "scientificName": "Pheucticus ludovicianus",
-      "commonName": "Rose-breasted grosbeak",
-      "rangeMapFile": "data/range-maps/Pheucticus-ludovicianus.jpg"
+      "commonName": "Rose-breasted Grosbeak",
+      "rangeMapFile": "data/range-maps/robgro-range-map-v2023-en.png"
     },
     {
       "scientificName": "Regulus calendula",
-      "commonName": "Ruby-crowned kinglet",
-      "rangeMapFile": "data/range-maps/Regulus-calendula.jpg"
+      "commonName": "Ruby-crowned Kinglet",
+      "rangeMapFile": "data/range-maps/ruckin-range-map-v2023-en.png"
     },
     {
       "scientificName": "Setophaga coronata",
-      "commonName": "Yellow-rumped warbler",
-      "rangeMapFile": "data/range-maps/Setophaga-coronata.jpg"
+      "commonName": "Yellow-rumped Warbler",
+      "rangeMapFile": "data/range-maps/yerwar-range-map-v2023-en.png"
     },
     {
       "scientificName": "Salpinctes obsoletus",
-      "commonName": "Rock wren",
-      "rangeMapFile": "data/range-maps/Salpinctes-obsoletus.jpg"
+      "commonName": "Rock Wren",
+      "rangeMapFile": "data/range-maps/rocwre-range-map-v2023-en.png"
     },
     {
       "scientificName": "Campylorhynchus rufinucha",
-      "commonName": "Rufous-naped wren",
-      "rangeMapFile": "data/range-maps/Campylorhynchus-rufinucha.jpg"
+      "commonName": "Rufous-naped Wren",
+      "rangeMapFile": "assets/range-map-placeholder.jpg",
+      "notes": "Taxonomic status in flux: this species from Guanacaste, Costa Rica is likely Campylorhynchus rufinucha capistratus after recent splits"
     },
     {
       "scientificName": "Lonchura oryzivora",
-      "commonName": "Java sparrow",
-      "rangeMapFile": "data/range-maps/Lonchura-oryzivora.jpg"
+      "commonName": "Java Sparrow",
+      "rangeMapFile": "data/range-maps/javspa-range-map-year-round-v2023-en.png"
     }
   ]
 }
