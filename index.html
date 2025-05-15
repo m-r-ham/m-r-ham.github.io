@@ -148,16 +148,17 @@
                 
                 post.innerHTML = `
                     <div class="post-header">
-                        <div class="post-location">
+                        <div class="bird-info">
                             <h3>${extractBirdName(birdInfo)}</h3>
-                            <p>${location}</p>
+                            <p class="scientific-name">${extractScientificName(birdInfo)}</p>
+                        </div>
+                        <div class="location-info">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>${location}</span>
                         </div>
                     </div>
                     <div class="post-image">
                         <img src="${photo.src}" alt="${photo.alt}" onclick="openPhotoModal(${index})">
-                    </div>
-                    <div class="post-caption">
-                        <p>${birdInfo}</p>
                     </div>
                 `;
                 
@@ -169,6 +170,12 @@
             // Extract just the bird name from the info string (remove scientific name)
             const parts = birdInfo.split('(');
             return parts[0].trim();
+        }
+        
+        function extractScientificName(birdInfo) {
+            // Extract the scientific name from the info string
+            const match = birdInfo.match(/\((.*?)\)/);
+            return match ? match[1] : '';
         }
         
         function openPhotoModal(index) {
@@ -204,12 +211,6 @@
                 <p class="bird-scientific">${extractScientificName(birdInfo)}</p>
                 <p class="bird-location">Location: ${location}</p>
             `;
-        }
-        
-        function extractScientificName(birdInfo) {
-            // Extract the scientific name from the info string
-            const match = birdInfo.match(/\((.*?)\)/);
-            return match ? match[1] : '';
         }
         
         function nextModalPhoto(event) {
