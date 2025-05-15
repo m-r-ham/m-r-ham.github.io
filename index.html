@@ -6,6 +6,8 @@
     <title>Photo Portfolio</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <header>
@@ -21,36 +23,42 @@
     </header>
     <main>
         <div class="view-controls">
-            <button id="grid-view-btn" class="view-btn active">Grid View</button>
-            <button id="carousel-view-btn" class="view-btn">Carousel View</button>
+            <button id="grid-view-btn" class="view-btn active" aria-label="Grid View">
+                <i class="fas fa-th"></i>
+            </button>
+            <button id="scroll-view-btn" class="view-btn" aria-label="Scroll View">
+                <i class="fas fa-list"></i>
+            </button>
         </div>
         
-        <section id="grid-view" class="photo-portfolio">
-            <!-- Photo cards will be inserted here by JavaScript -->
+        <!-- Instagram-like Grid View -->
+        <section id="grid-view" class="instagram-grid">
+            <!-- Photo tiles will be inserted here by JavaScript -->
         </section>
         
-        <section id="carousel-view" class="carousel-container" style="display: none;">
-            <div class="feature-image-container">
-                <img id="feature-image" src="" alt="">
-                <p id="feature-caption"></p>
-                <div class="carousel-nav">
-                    <span class="prev" onclick="prevCarouselSlide()">&#10094;</span>
-                    <span class="next" onclick="nextCarouselSlide()">&#10095;</span>
-                </div>
-            </div>
-            <div class="thumbnails-container">
-                <!-- Thumbnails will be inserted here by JavaScript -->
-            </div>
+        <!-- Instagram-like Scroll View -->
+        <section id="scroll-view" class="instagram-scroll" style="display: none;">
+            <!-- Photo posts will be inserted here by JavaScript -->
         </section>
         
-        <div id="modal" class="modal" onclick="closeModalOutside(event)">
-            <span class="close" onclick="closeModal()">&times;</span>
+        <!-- Photo Detail Modal -->
+        <div id="photo-modal" class="instagram-modal">
+            <span class="close-modal" onclick="closePhotoModal()">&times;</span>
             <div class="modal-content">
-                <img id="modal-img" src="" alt="">
-                <p id="modal-caption"></p>
-                <div class="modal-nav">
-                    <span class="prev" onclick="prevSlide(event)">&#10094;</span>
-                    <span class="next" onclick="nextSlide(event)">&#10095;</span>
+                <div class="modal-photo">
+                    <img id="modal-img" src="" alt="">
+                    <div class="modal-nav">
+                        <span class="prev" onclick="prevModalPhoto(event)">&#10094;</span>
+                        <span class="next" onclick="nextModalPhoto(event)">&#10095;</span>
+                    </div>
+                </div>
+                <div class="modal-info">
+                    <div class="modal-header">
+                        <h3>Bird Photography</h3>
+                    </div>
+                    <div class="modal-caption-container">
+                        <p id="modal-caption"></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -81,11 +89,9 @@
         let currentIndex = 0;
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize Grid View
+            // Initialize Grid View and Scroll View
             initGridView();
-            
-            // Initialize Carousel View
-            initCarouselView();
+            initScrollView();
             
             // Set up view toggle buttons
             setupViewToggle();
@@ -93,127 +99,154 @@
         
         function setupViewToggle() {
             const gridViewBtn = document.getElementById('grid-view-btn');
-            const carouselViewBtn = document.getElementById('carousel-view-btn');
+            const scrollViewBtn = document.getElementById('scroll-view-btn');
             const gridView = document.getElementById('grid-view');
-            const carouselView = document.getElementById('carousel-view');
+            const scrollView = document.getElementById('scroll-view');
             
             gridViewBtn.addEventListener('click', function() {
                 gridView.style.display = 'grid';
-                carouselView.style.display = 'none';
+                scrollView.style.display = 'none';
                 gridViewBtn.classList.add('active');
-                carouselViewBtn.classList.remove('active');
+                scrollViewBtn.classList.remove('active');
             });
             
-            carouselViewBtn.addEventListener('click', function() {
+            scrollViewBtn.addEventListener('click', function() {
                 gridView.style.display = 'none';
-                carouselView.style.display = 'block';
+                scrollView.style.display = 'block';
                 gridViewBtn.classList.remove('active');
-                carouselViewBtn.classList.add('active');
-                // Make sure the carousel shows the current image
-                showCarouselSlide(currentIndex);
+                scrollViewBtn.classList.add('active');
             });
         }
         
         function initGridView() {
-            const photoPortfolio = document.getElementById('grid-view');
+            const gridContainer = document.getElementById('grid-view');
+            
             photos.forEach((photo, index) => {
-                const photoCard = document.createElement('div');
-                photoCard.className = 'photo-card';
-                photoCard.innerHTML = `
+                const gridItem = document.createElement('div');
+                gridItem.className = 'grid-item';
+                
+                gridItem.innerHTML = `
                     <img src="${photo.src}" alt="${photo.alt}">
-                    <div class="photo-info">
-                        <p>${photo.alt}</p>
+                `;
+                
+                gridItem.addEventListener('click', () => openPhotoModal(index));
+                gridContainer.appendChild(gridItem);
+            });
+        }
+        
+        function initScrollView() {
+            const scrollContainer = document.getElementById('scroll-view');
+            
+            photos.forEach((photo, index) => {
+                // Parse the bird name and location from the alt text
+                const altParts = photo.alt.split('|');
+                const birdInfo = altParts[0].trim();
+                const location = altParts.length > 1 ? altParts[1].trim() : '';
+                
+                const post = document.createElement('div');
+                post.className = 'instagram-post';
+                
+                post.innerHTML = `
+                    <div class="post-header">
+                        <div class="post-profile">
+                            <img src="assets/logo.png" alt="Profile" class="profile-pic">
+                            <div class="profile-info">
+                                <h3>Bird Photography</h3>
+                                <p>${location}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-image">
+                        <img src="${photo.src}" alt="${photo.alt}">
+                    </div>
+                    <div class="post-actions">
+                        <div class="actions-left">
+                            <button class="action-btn"><i class="far fa-heart"></i></button>
+                            <button class="action-btn"><i class="far fa-comment"></i></button>
+                            <button class="action-btn"><i class="far fa-paper-plane"></i></button>
+                        </div>
+                        <div class="actions-right">
+                            <button class="action-btn"><i class="far fa-bookmark"></i></button>
+                        </div>
+                    </div>
+                    <div class="post-likes">
+                        <p>Liked by <strong>bird_lovers</strong> and <strong>others</strong></p>
+                    </div>
+                    <div class="post-caption">
+                        <p><strong>Bird Photography</strong> ${birdInfo}</p>
+                    </div>
+                    <div class="post-time">
+                        <p>2 DAYS AGO</p>
                     </div>
                 `;
-                photoCard.onclick = () => openModal(index);
-                photoPortfolio.appendChild(photoCard);
+                
+                scrollContainer.appendChild(post);
             });
         }
         
-        function initCarouselView() {
-            const thumbnailsContainer = document.querySelector('.thumbnails-container');
-            
-            // Set initial feature image
-            showCarouselSlide(0);
-            
-            // Create thumbnails
-            photos.forEach((photo, index) => {
-                const thumbnail = document.createElement('div');
-                thumbnail.className = 'thumbnail';
-                thumbnail.innerHTML = `<img src="${photo.src}" alt="${photo.alt}">`;
-                thumbnail.onclick = () => {
-                    currentIndex = index;
-                    showCarouselSlide(index);
-                };
-                thumbnailsContainer.appendChild(thumbnail);
-            });
-        }
-        
-        function showCarouselSlide(index) {
-            const photo = photos[index];
-            const featureImage = document.getElementById('feature-image');
-            const featureCaption = document.getElementById('feature-caption');
-            
-            featureImage.src = photo.src;
-            featureImage.alt = photo.alt;
-            featureCaption.innerText = photo.alt;
-            
-            // Update thumbnail active state
-            document.querySelectorAll('.thumbnail').forEach((thumb, idx) => {
-                if (idx === index) {
-                    thumb.classList.add('active');
-                } else {
-                    thumb.classList.remove('active');
-                }
-            });
-        }
-        
-        function nextCarouselSlide() {
-            currentIndex = (currentIndex + 1) % photos.length;
-            showCarouselSlide(currentIndex);
-        }
-        
-        function prevCarouselSlide() {
-            currentIndex = (currentIndex - 1 + photos.length) % photos.length;
-            showCarouselSlide(currentIndex);
-        }
-
-        function openModal(index) {
+        function openPhotoModal(index) {
             currentIndex = index;
-            document.getElementById('modal').style.display = 'flex';
-            showSlide(currentIndex);
+            const modal = document.getElementById('photo-modal');
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Prevent scrolling while modal is open
+            showModalPhoto(currentIndex);
         }
-
-        function closeModal() {
-            document.getElementById('modal').style.display = 'none';
+        
+        function closePhotoModal() {
+            const modal = document.getElementById('photo-modal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Re-enable scrolling
         }
-
-        function closeModalOutside(event) {
-            if (event.target === document.getElementById('modal')) {
-                closeModal();
-            }
-        }
-
-        function showSlide(index) {
+        
+        function showModalPhoto(index) {
             const photo = photos[index];
             const modalImg = document.getElementById('modal-img');
             const modalCaption = document.getElementById('modal-caption');
+            
             modalImg.src = photo.src;
             modalImg.alt = photo.alt;
-            modalCaption.innerText = photo.alt;
+            
+            // Parse the bird name and location from the alt text
+            const altParts = photo.alt.split('|');
+            const birdInfo = altParts[0].trim();
+            const location = altParts.length > 1 ? altParts[1].trim() : '';
+            
+            modalCaption.innerHTML = `<strong>Bird Photography</strong> ${birdInfo}<br><small>${location}</small>`;
         }
-
-        function nextSlide(event) {
-            event.stopPropagation();
+        
+        function nextModalPhoto(event) {
+            if (event) event.stopPropagation();
             currentIndex = (currentIndex + 1) % photos.length;
-            showSlide(currentIndex);
+            showModalPhoto(currentIndex);
         }
-
-        function prevSlide(event) {
-            event.stopPropagation();
+        
+        function prevModalPhoto(event) {
+            if (event) event.stopPropagation();
             currentIndex = (currentIndex - 1 + photos.length) % photos.length;
-            showSlide(currentIndex);
+            showModalPhoto(currentIndex);
         }
+        
+        // Close modal when clicking outside of the modal content
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('photo-modal');
+            if (event.target === modal) {
+                closePhotoModal();
+            }
+        });
+        
+        // Handle keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            const modal = document.getElementById('photo-modal');
+            if (modal.style.display === 'block') {
+                if (event.key === 'ArrowLeft') {
+                    prevModalPhoto();
+                } else if (event.key === 'ArrowRight') {
+                    nextModalPhoto();
+                } else if (event.key === 'Escape') {
+                    closePhotoModal();
+                }
+            }
+        });
     </script>
 </body>
 </html>
