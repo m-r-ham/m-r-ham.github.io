@@ -53,11 +53,19 @@
                     </div>
                 </div>
                 <div class="modal-info">
-                    <div class="modal-header">
-                        <h3>Bird Details</h3>
+                    <div class="modal-header" id="modal-header">
+                        <!-- Bird name and location will be inserted here by JavaScript -->
                     </div>
                     <div class="modal-caption-container">
-                        <p id="modal-caption"></p>
+                        <div id="modal-description" class="bird-description">
+                            <!-- Bird description will be inserted here by JavaScript -->
+                        </div>
+                        <div class="range-map-container">
+                            <h4>Range Map</h4>
+                            <div class="range-map">
+                                <img id="range-map" src="assets/range-map-placeholder.jpg" alt="Range map">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -65,25 +73,101 @@
     </main>
     <script>
         const photos = [
-            { src: 'portfolio-photos/motmot.jpeg', alt: 'Turquoise-browed motmot (Eumomota superciliosa) | Guanacaste, Costa Rica' },
-            { src: 'portfolio-photos/northern-flicker.jpeg', alt: 'Northern flicker (Colaptes auratus) | Chicago, IL' },
-            { src: 'portfolio-photos/blue-heron.jpeg', alt: 'Great blue heron (Ardea herodias) | Atlanta, GA' },
-            { src: 'portfolio-photos/downy-woodpecker.jpeg', alt: 'Downy woodpecker (Picoides pubescens) | Chicago, IL' },
-            { src: 'portfolio-photos/kingfisher3.jpeg', alt: 'Belted kingfisher (Megaceryle alcyon) | Chicago, IL' },
-            { src: 'portfolio-photos/20250203_YellowBelliedSapsucker1-topaz.jpg', alt: 'Yellow-bellied sapsucker (Sphyrapicus varius) | Atlanta, GA' },
-            { src: 'portfolio-photos/20250315_9739_bananaquit.jpg', alt: 'Bananaquit (Coereba flaveola) | Grand Cayman, Cayman Islands' },
-            { src: 'portfolio-photos/20250308_Hermit_thrush_TrinityAudubonCenter-topaz.jpg', alt: 'Hermit thrush (Catharus guttatus) | Dallas, TX' },
-            { src: 'portfolio-photos/240921 Bald eagle 3-topaz.jpeg', alt: 'Bald eagle (Haliaeetus leucocephalus) | Watersmeet, MI' },
-            { src: 'portfolio-photos/20250315_9923_parrot.jpg', alt: 'Cayman parrot (Amazona leucocephala caymanensis) | Grand Cayman, Cayman Islands' },
-            { src: 'portfolio-photos/wood-duck.jpg', alt: 'Wood duck (Aix sponsa) | Chicago, IL' },
-            { src: 'portfolio-photos/240817-american-goldfinch-topaz.jpeg', alt: 'American goldfinch (Spinus tristis) | Chicago, IL' },
-            { src: 'portfolio-photos/20250308_Eastern_phoebe_TrinityAudubonCenter-topaz.jpg', alt: 'Eastern phoebe (Sayornis phoebe) | Dallas, TX' },
-            { src: 'portfolio-photos/rose-breasted-grosbeak.jpeg', alt: 'Rose-breasted grosbeak (Pheucticus ludovicianus) | Chicago, IL' },
-            { src: 'portfolio-photos/20241102 Ruby-crowned kinglet atlanta-topaz.jpg', alt: 'Ruby-crowned kinglet (Regulus calendula) | Atlanta, GA' }, 
-            { src: 'portfolio-photos/warbler%202.jpeg', alt: 'Yellow-rumped warbler (Setophaga coronata) | Los Angeles, CA' },
-            { src: 'portfolio-photos/rock-wren.jpg', alt: 'Rock wren (Salpinctes obsoletus) | Palm Springs, CA' },
-            { src: 'portfolio-photos/rufous-naped-wren.jpg', alt: 'Rufous-naped wren (Campylorhynchus rufinucha) | Guanacaste, Costa Rica' },
-            { src: 'portfolio-photos/java-sparrow-1.jpg', alt: 'Java sparrow (Lonchura oryzivora) | Maui, HI' },
+            { 
+                src: 'portfolio-photos/motmot.jpeg', 
+                alt: 'Turquoise-browed motmot (Eumomota superciliosa) | Guanacaste, Costa Rica',
+                description: 'The Turquoise-browed Motmot is known for its stunning colors and distinctive racket-shaped tail. I photographed this individual early in the morning at a resort in Guanacaste, where it was perched on a low branch hunting for insects. The early light highlighted its brilliant blue eyebrow stripe, giving it an almost ethereal appearance.'
+            },
+            { 
+                src: 'portfolio-photos/northern-flicker.jpeg', 
+                alt: 'Northern flicker (Colaptes auratus) | Chicago, IL',
+                description: 'Northern Flickers are woodpeckers with distinctive spotted plumage and bright yellow shaft feathers visible in flight. This individual was foraging on the ground at a Chicago park, a common behavior as they primarily eat ants and beetles. I was able to capture this image by staying still and letting the bird become comfortable with my presence.'
+            },
+            { 
+                src: 'portfolio-photos/blue-heron.jpeg', 
+                alt: 'Great blue heron (Ardea herodias) | Atlanta, GA',
+                description: 'Great Blue Herons are among the largest wading birds in North America. This majestic individual was stalking fish in a small pond in Atlanta. I was struck by its patience - it stood completely motionless for nearly 20 minutes before striking with lightning speed at a fish. Their prehistoric appearance always reminds me of the ancient lineage of birds.'
+            },
+            { 
+                src: 'portfolio-photos/downy-woodpecker.jpeg', 
+                alt: 'Downy woodpecker (Picoides pubescens) | Chicago, IL',
+                description: 'Downy Woodpeckers are the smallest woodpeckers in North America. I found this male (identified by the red patch on its head) working its way up a tree trunk in a Chicago forest preserve. These industrious birds are common in urban and suburban areas, making them one of the most accessible woodpeckers to photograph.'
+            },
+            { 
+                src: 'portfolio-photos/kingfisher3.jpeg', 
+                alt: 'Belted kingfisher (Megaceryle alcyon) | Chicago, IL',
+                description: 'Belted Kingfishers are striking birds with their slate blue coloration and impressive crest. This female (females have the rusty band across the belly) was perched above a stream, scanning for fish below. Kingfishers are notoriously skittish, so I had to use a long lens and stay well-hidden to capture this photo without disturbing her.'
+            },
+            { 
+                src: 'portfolio-photos/20250203_YellowBelliedSapsucker1-topaz.jpg', 
+                alt: 'Yellow-bellied sapsucker (Sphyrapicus varius) | Atlanta, GA',
+                description: 'Yellow-bellied Sapsuckers create distinctive rows of holes in trees to collect sap. This woodpecker was working on a pattern of fresh holes in an Atlanta park. I was particularly pleased to capture the yellow wash on its belly, which can be difficult to see in the field but shows up nicely in this photo.'
+            },
+            { 
+                src: 'portfolio-photos/20250315_9739_bananaquit.jpg', 
+                alt: 'Bananaquit (Coereba flaveola) | Grand Cayman, Cayman Islands',
+                description: 'The Bananaquit is a small, active nectar-feeder common throughout the Caribbean. This individual was feeding on hibiscus flowers near my hotel in Grand Cayman. Their curved bills are perfectly adapted for extracting nectar. I was amazed by how fearless this bird was, allowing me to approach within just a few feet.'
+            },
+            { 
+                src: 'portfolio-photos/20250308_Hermit_thrush_TrinityAudubonCenter-topaz.jpg', 
+                alt: 'Hermit thrush (Catharus guttatus) | Dallas, TX',
+                description: 'Hermit Thrushes are known for their beautiful, flute-like songs, though they're often difficult to spot as they forage in the understory. I found this individual quietly hopping through leaf litter at the Trinity Audubon Center in Dallas. The dappled sunlight through the trees created perfect lighting to highlight its spotted breast.'
+            },
+            { 
+                src: 'portfolio-photos/240921 Bald eagle 3-topaz.jpeg', 
+                alt: 'Bald eagle (Haliaeetus leucocephalus) | Watersmeet, MI',
+                description: 'The Bald Eagle is America's national bird and a conservation success story. I photographed this adult eagle at a lake in Michigan's Upper Peninsula where it was perched in a tall pine, surveying for fish. The intense yellow of the beak and white head feathers indicate this is a mature adult, at least 5 years old.'
+            },
+            { 
+                src: 'portfolio-photos/20250315_9923_parrot.jpg', 
+                alt: 'Cayman parrot (Amazona leucocephala caymanensis) | Grand Cayman, Cayman Islands',
+                description: 'The Cayman Parrot is a subspecies of the Cuban Amazon parrot and is the national bird of the Cayman Islands. This individual was part of a noisy group feeding in a fruit tree. Photographing parrots can be challenging as they're often hidden in dense foliage, so I was thrilled to capture this clear shot showing its distinctive coloration.'
+            },
+            { 
+                src: 'portfolio-photos/wood-duck.jpg', 
+                alt: 'Wood duck (Aix sponsa) | Chicago, IL',
+                description: 'Wood Ducks are often considered the most beautiful waterfowl in North America. This male was swimming in a small pond in a Chicago park. The iridescent colors of breeding males are stunning, but they can be skittish. I spent nearly an hour slowly approaching until I was close enough for this portrait.'
+            },
+            { 
+                src: 'portfolio-photos/240817-american-goldfinch-topaz.jpeg', 
+                alt: 'American goldfinch (Spinus tristis) | Chicago, IL',
+                description: 'American Goldfinches are bright spots of color in summer when males like this one wear their brilliant yellow breeding plumage. I found this individual feeding on thistle seeds, one of their favorite foods. The contrast of the yellow bird against the green background made for a striking composition.'
+            },
+            { 
+                src: 'portfolio-photos/20250308_Eastern_phoebe_TrinityAudubonCenter-topaz.jpg', 
+                alt: 'Eastern phoebe (Sayornis phoebe) | Dallas, TX',
+                description: 'Eastern Phoebes are early spring migrants and often one of the first flycatchers to return north. This bird was actively hunting from a low perch at Trinity Audubon Center in Dallas, making frequent flights to catch insects before returning to the same branch. Their distinctive tail-wagging behavior helped me identify it.'
+            },
+            { 
+                src: 'portfolio-photos/rose-breasted-grosbeak.jpeg', 
+                alt: 'Rose-breasted grosbeak (Pheucticus ludovicianus) | Chicago, IL',
+                description: 'The Rose-breasted Grosbeak is a stunning bird with its black and white plumage and distinctive rose-colored breast patch. This male visited a feeder in a Chicago backyard during spring migration. Their powerful bills are designed for cracking seeds, but they also eat insects and fruit.'
+            },
+            { 
+                src: 'portfolio-photos/20241102 Ruby-crowned kinglet atlanta-topaz.jpg', 
+                alt: 'Ruby-crowned kinglet (Regulus calendula) | Atlanta, GA',
+                description: 'Ruby-crowned Kinglets are tiny, restless birds that rarely sit still. I was lucky to capture this one during a brief moment of stillness in an Atlanta park. The ruby crown that gives this species its name is usually hidden, but when agitated, males will raise these feathers to create a bright red stripe on top of the head.'
+            }, 
+            { 
+                src: 'portfolio-photos/warbler%202.jpeg', 
+                alt: 'Yellow-rumped warbler (Setophaga coronata) | Los Angeles, CA',
+                description: 'Yellow-rumped Warblers are common throughout much of North America. This is the "Audubon's" form found in the western US, showing more yellow on the throat than eastern birds. I photographed this individual in a Los Angeles park as it flitted from branch to branch catching small insects. Their bright yellow rump patch is distinctive in flight.'
+            },
+            { 
+                src: 'portfolio-photos/rock-wren.jpg', 
+                alt: 'Rock wren (Salpinctes obsoletus) | Palm Springs, CA',
+                description: 'Rock Wrens inhabit arid rocky slopes throughout the western US. I found this individual hopping among boulders near Palm Springs, perfectly camouflaged against the rocky background. Their habit of bobbing up and down while perched makes them somewhat easier to spot despite their cryptic coloration.'
+            },
+            { 
+                src: 'portfolio-photos/rufous-naped-wren.jpg', 
+                alt: 'Rufous-naped wren (Campylorhynchus rufinucha) | Guanacaste, Costa Rica',
+                description: 'Rufous-naped Wrens are large, social wrens found in Central America. This individual was part of a noisy family group moving through trees near my hotel in Costa Rica. Unlike many wrens that can be secretive, these birds are often bold and conspicuous, making them relatively easy to photograph.'
+            },
+            { 
+                src: 'portfolio-photos/java-sparrow-1.jpg', 
+                alt: 'Java sparrow (Lonchura oryzivora) | Maui, HI',
+                description: 'Java Sparrows are not native to Hawaii but were introduced and have established populations on several islands. I found this group feeding on grass seeds in a Maui park. Their distinctive pink bills and black-and-white face pattern make them one of the most recognizable finches in their adopted home.'
+            },
         ];
 
         let currentIndex = 0;
@@ -95,6 +179,9 @@
             
             // Set up view toggle buttons
             setupViewToggle();
+            
+            // Create placeholder range map in assets directory if it doesn't exist
+            createPlaceholderRangeMap();
         });
         
         function setupViewToggle() {
@@ -195,7 +282,8 @@
         function showModalPhoto(index) {
             const photo = photos[index];
             const modalImg = document.getElementById('modal-img');
-            const modalCaption = document.getElementById('modal-caption');
+            const modalHeader = document.getElementById('modal-header');
+            const modalDescription = document.getElementById('modal-description');
             
             modalImg.src = photo.src;
             modalImg.alt = photo.alt;
@@ -205,12 +293,27 @@
             const birdInfo = altParts[0].trim();
             const location = altParts.length > 1 ? altParts[1].trim() : '';
             
-            // Create a more detailed caption
-            modalCaption.innerHTML = `
-                <p class="bird-name">${extractBirdName(birdInfo)}</p>
-                <p class="bird-scientific">${extractScientificName(birdInfo)}</p>
-                <p class="bird-location">Location: ${location}</p>
+            // Update the header with bird name and location
+            modalHeader.innerHTML = `
+                <div class="modal-bird-info">
+                    <h2 class="bird-name">${extractBirdName(birdInfo)}</h2>
+                    <p class="scientific-name">${extractScientificName(birdInfo)}</p>
+                </div>
+                <div class="modal-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>${location}</span>
+                </div>
             `;
+            
+            // Add the bird description
+            modalDescription.innerHTML = `
+                <p>${photo.description || 'No description available.'}</p>
+            `;
+            
+            // Set range map placeholder
+            // We'll use the same placeholder for all birds for now
+            document.getElementById('range-map').src = 'assets/range-map-placeholder.jpg';
+            document.getElementById('range-map').alt = `Range map for ${extractBirdName(birdInfo)}`;
         }
         
         function nextModalPhoto(event) {
@@ -246,6 +349,13 @@
                 }
             }
         });
+        
+        // Function to create placeholder range map if it doesn't exist
+        function createPlaceholderRangeMap() {
+            // This function would normally create or check for the placeholder image
+            // For this implementation, we'll assume the image exists or will be added manually
+            console.log('Make sure to create assets/range-map-placeholder.jpg');
+        }
     </script>
 </body>
 </html>
