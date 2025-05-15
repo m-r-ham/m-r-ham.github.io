@@ -108,7 +108,7 @@ main {
 .photo-scroll {
     display: flex;
     flex-direction: column;
-    gap: 30px; /* Reduced gap to ensure no overlap */
+    gap: 40px; /* Increased gap between cards */
     margin-bottom: 2rem;
     max-width: 900px;
     margin-left: auto;
@@ -120,37 +120,40 @@ main {
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px; /* Added bottom margin to ensure clear separation */
 }
 
 .post-header {
-    padding: 16px 20px;
-    display: flex;
-    justify-content: space-between;
+    padding: 12px 16px; /* Reduced padding to make header shorter */
+    display: grid;
+    grid-template-columns: 3fr 1fr; /* 2 column grid with 75/25 split */
     align-items: center;
     border-bottom: 1px solid #f1f1f1;
 }
 
 .bird-info {
-    flex: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
 }
 
 .bird-info h3 {
     margin: 0;
-    font-size: 18px;
+    font-size: 16px; /* Reduced font size */
     font-weight: 600;
     color: #333;
+    line-height: 1.2;
 }
 
 .scientific-name {
-    margin: 3px 0 0;
-    font-size: 14px;
+    margin: 1px 0 0; /* Reduced top margin for closer spacing */
+    font-size: 13px;
     font-style: italic;
     color: #666;
+    line-height: 1.2;
 }
 
 .location-info {
-    flex: 1;
     text-align: right;
     color: #666;
     font-size: 14px;
@@ -483,16 +486,6 @@ main {
         flex: none;
         border-left: none;
         border-top: 1px solid #eaeaea;
-    }
-
-    .post-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .location-info {
-        justify-content: flex-start;
-        margin-top: 10px;
     }
 }
 
