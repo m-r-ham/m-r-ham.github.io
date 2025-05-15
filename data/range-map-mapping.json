@@ -1,6 +1,36 @@
 {
   "species": [
     {
+      "scientificName": "Piranga rubra",
+      "commonName": "Summer tanager",
+      "rangeMapFile": "data/range-maps/Piranga-rubra.jpg"
+    },
+    {
+      "scientificName": "Setophaga chrysoparia",
+      "commonName": "Golden-cheeked warbler",
+      "rangeMapFile": "data/range-maps/Setophaga-chrysoparia.jpg"
+    },
+    {
+      "scientificName": "Pyrocephalus rubinus",
+      "commonName": "Vermillion flycatcher",
+      "rangeMapFile": "data/range-maps/Pyrocephalus-rubinus.jpg"
+    },
+    {
+      "scientificName": "Passerina ciris",
+      "commonName": "Painted bunting",
+      "rangeMapFile": "data/range-maps/Passerina-ciris.jpg"
+    },
+    {
+      "scientificName": "Vireo atricapilla",
+      "commonName": "Black-capped vireo",
+      "rangeMapFile": "data/range-maps/Vireo-atricapilla.jpg"
+    },
+    {
+      "scientificName": "Icterus parisorum",
+      "commonName": "Scott's oriole",
+      "rangeMapFile": "data/range-maps/Icterus-parisorum.jpg"
+    },
+    {
       "scientificName": "Eumomota superciliosa",
       "commonName": "Turquoise-browed motmot",
       "rangeMapFile": "data/range-maps/Eumomota-superciliosa.jpg"
