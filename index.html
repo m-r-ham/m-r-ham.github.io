@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Add any custom styles needed specifically for this page */
+        #photo-modal {
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -26,7 +32,7 @@
             <button id="grid-view-btn" class="view-btn active" aria-label="Grid View">
                 <i class="fas fa-th"></i>
             </button>
-            <button id="list-view-btn" class="view-btn" aria-label="List View">
+            <button id="scroll-view-btn" class="view-btn" aria-label="Scroll View">
                 <i class="fas fa-list"></i>
             </button>
         </div>
@@ -111,8 +117,8 @@
             </div>
         </section>
         
-        <!-- List View -->
-        <section id="list-view" class="photo-scroll" style="display: none;">
+        <!-- Scroll View -->
+        <section id="scroll-view" class="photo-scroll" style="display: none;">
             <!-- Hard-coded list view items -->
             <div class="photo-post">
                 <div class="post-header">
@@ -361,33 +367,38 @@
         // Range map mapping data
         let rangeMapMapping = null;
 
-        // Initialize when the page loads
-        window.onload = function() {
+        // Run code when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("DOM loaded");
             // Set up view toggle buttons
             setupViewToggle();
             
             // Load range map mapping data
             loadRangeMapMapping();
-        };
+        });
         
         function setupViewToggle() {
             const gridViewBtn = document.getElementById('grid-view-btn');
-            const listViewBtn = document.getElementById('list-view-btn');
+            const scrollViewBtn = document.getElementById('scroll-view-btn');
             const gridView = document.getElementById('grid-view');
-            const listView = document.getElementById('list-view');
+            const scrollView = document.getElementById('scroll-view');
             
+            // Grid view button click handler
             gridViewBtn.addEventListener('click', function() {
+                console.log("Grid view button clicked");
                 gridView.style.display = 'grid';
-                listView.style.display = 'none';
+                scrollView.style.display = 'none';
                 gridViewBtn.classList.add('active');
-                listViewBtn.classList.remove('active');
+                scrollViewBtn.classList.remove('active');
             });
             
-            listViewBtn.addEventListener('click', function() {
+            // List view button click handler
+            scrollViewBtn.addEventListener('click', function() {
+                console.log("List view button clicked");
                 gridView.style.display = 'none';
-                listView.style.display = 'block';
+                scrollView.style.display = 'block';
                 gridViewBtn.classList.remove('active');
-                listViewBtn.classList.add('active');
+                scrollViewBtn.classList.add('active');
             });
         }
         
@@ -407,7 +418,9 @@
             return match ? match[1] : '';
         }
         
+        // Open the photo modal with the specified photo index
         function openPhotoModal(index) {
+            console.log("Opening modal for photo index:", index);
             currentIndex = index;
             const modal = document.getElementById('photo-modal');
             modal.style.display = 'block';
@@ -415,18 +428,22 @@
             showModalPhoto(currentIndex);
         }
         
+        // Close the photo modal
         function closePhotoModal() {
             const modal = document.getElementById('photo-modal');
             modal.style.display = 'none';
             document.body.style.overflow = 'auto'; // Re-enable scrolling
         }
         
+        // Show the photo at the specified index in the modal
         function showModalPhoto(index) {
+            console.log("Showing modal photo at index:", index);
             const photo = photos[index];
             const modalImg = document.getElementById('modal-img');
             const modalHeader = document.getElementById('modal-header');
             const modalDescription = document.getElementById('modal-description');
             
+            // Set the modal image
             modalImg.src = photo.src;
             modalImg.alt = photo.alt;
             
@@ -457,12 +474,14 @@
             setRangeMap(scientificName, extractBirdName(birdInfo));
         }
         
+        // Navigate to the next photo in the modal
         function nextModalPhoto(event) {
             if (event) event.stopPropagation();
             currentIndex = (currentIndex + 1) % photos.length;
             showModalPhoto(currentIndex);
         }
         
+        // Navigate to the previous photo in the modal
         function prevModalPhoto(event) {
             if (event) event.stopPropagation();
             currentIndex = (currentIndex - 1 + photos.length) % photos.length;
@@ -491,19 +510,18 @@
             }
         });
         
-        // Function to create placeholder range map if it doesn't exist
-        function createPlaceholderRangeMap() {
-            // This function would normally create or check for the placeholder image
-            // For this implementation, we'll assume the image exists or will be added manually
-            console.log('Make sure to create assets/range-map-placeholder.jpg');
-        }
-        
         // Load the range map mapping file
         async function loadRangeMapMapping() {
             try {
+                console.log("Loading range map mapping data");
                 const response = await fetch('data/range-map-mapping.json');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
                 rangeMapMapping = await response.json();
-                console.log('Range map mapping loaded successfully');
+                console.log("Range map mapping data loaded successfully");
             } catch (error) {
                 console.error('Error loading range map mapping:', error);
             }
@@ -515,6 +533,7 @@
             
             // Default to placeholder if mapping isn't loaded yet
             if (!rangeMapMapping) {
+                console.log("Range map mapping not yet loaded, using placeholder");
                 rangeMapImg.src = 'assets/range-map-placeholder.jpg';
                 rangeMapImg.alt = `Range map for ${commonName}`;
                 return;
@@ -526,13 +545,13 @@
             );
             
             if (species && species.rangeMapFile) {
+                console.log(`Found range map for ${scientificName}: ${species.rangeMapFile}`);
                 rangeMapImg.src = species.rangeMapFile;
                 rangeMapImg.alt = `Range map for ${commonName} (${scientificName})`;
             } else {
-                // Use placeholder if no matching range map found
+                console.log(`No range map found for ${scientificName}, using placeholder`);
                 rangeMapImg.src = 'assets/range-map-placeholder.jpg';
                 rangeMapImg.alt = `Range map for ${commonName}`;
-                console.log(`No range map found for ${scientificName}`);
             }
         }
     </script>
