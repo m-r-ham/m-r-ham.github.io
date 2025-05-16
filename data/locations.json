@@ -1,6 +1,47 @@
 {
   "locations": [
     {
+      "id": "kerr-county-tx",
+      "name": "Kerr County",
+      "city": "Kerr County",
+      "state": "TX",
+      "country": "USA",
+      "latitude": 30.0672, 
+      "longitude": -99.1333,
+      "photos": [
+        {
+          "src": "portfolio-photos/summertanager1.jpeg", 
+          "alt": "Summer Tanager (Piranga rubra) | Kerr County, TX",
+          "description": "The Summer Tanager is one of the few completely red birds in North America."
+        },
+        {
+          "src": "portfolio-photos/goldencheekedwarbler.jpeg", 
+          "alt": "Golden-cheeked Warbler (Setophaga chrysoparia) | Kerr County, TX",
+          "description": "The Golden-cheeked Warbler is an endangered species that breeds only in the mature juniper-oak woodlands of central Texas."
+        },
+        {
+          "src": "portfolio-photos/vermillionflycatcher1.jpeg", 
+          "alt": "Vermilion Flycatcher (Pyrocephalus rubinus) | Kerr County, TX",
+          "description": "The Vermilion Flycatcher is arguably one of the most striking birds in North America."
+        },
+        {
+          "src": "portfolio-photos/paintedbunting1.jpeg", 
+          "alt": "Painted Bunting (Passerina ciris) | Kerr County, TX",
+          "description": "The Painted Bunting is often called the most beautiful bird in North America."
+        },
+        {
+          "src": "portfolio-photos/blackcappedvireo.jpeg", 
+          "alt": "Black-capped Vireo (Vireo atricapilla) | Kerr County, TX",
+          "description": "The Black-capped Vireo is an endangered species that has very specific habitat requirements of scrubby oak and juniper."
+        },
+        {
+          "src": "portfolio-photos/scottsoriole.jpeg", 
+          "alt": "Scott's Oriole (Icterus parisorum) | Kerr County, TX",
+          "description": "Scott's Orioles are striking birds of arid landscapes in the southwestern United States."
+        }
+      ]
+    },
+    {
       "id": "guanacaste-costa-rica",
       "name": "Guanacaste",
       "city": "Guanacaste",
@@ -11,12 +52,12 @@
       "photos": [
         {
           "src": "portfolio-photos/motmot.jpeg", 
-          "alt": "Turquoise-browed motmot (Eumomota superciliosa) | Guanacaste, Costa Rica",
+          "alt": "Turquoise-browed Motmot (Eumomota superciliosa) | Guanacaste, Costa Rica",
           "description": "The Turquoise-browed Motmot is known for its stunning colors and distinctive racket-shaped tail."
         },
         {
           "src": "portfolio-photos/rufous-naped-wren.jpg", 
-          "alt": "Rufous-naped wren (Campylorhynchus rufinucha) | Guanacaste, Costa Rica",
+          "alt": "Rufous-naped Wren (Campylorhynchus rufinucha) | Guanacaste, Costa Rica",
           "description": "Rufous-naped Wrens are large, social wrens found in Central America."
         }
       ]
@@ -32,33 +73,165 @@
       "photos": [
         {
           "src": "portfolio-photos/northern-flicker.jpeg", 
-          "alt": "Northern flicker (Colaptes auratus) | Chicago, IL",
+          "alt": "Northern Flicker (Colaptes auratus) | Chicago, IL",
           "description": "Northern Flickers are woodpeckers with distinctive spotted plumage and bright yellow shaft feathers."
         },
         {
           "src": "portfolio-photos/downy-woodpecker.jpeg", 
-          "alt": "Downy woodpecker (Picoides pubescens) | Chicago, IL",
+          "alt": "Downy Woodpecker (Picoides pubescens) | Chicago, IL",
           "description": "Downy Woodpeckers are the smallest woodpeckers in North America."
         },
         {
           "src": "portfolio-photos/kingfisher3.jpeg", 
-          "alt": "Belted kingfisher (Megaceryle alcyon) | Chicago, IL",
+          "alt": "Belted Kingfisher (Megaceryle alcyon) | Chicago, IL",
           "description": "Belted Kingfishers are striking birds with their slate blue coloration and impressive crest."
         },
         {
           "src": "portfolio-photos/wood-duck.jpg", 
-          "alt": "Wood duck (Aix sponsa) | Chicago, IL",
+          "alt": "Wood Duck (Aix sponsa) | Chicago, IL",
           "description": "Wood Ducks are often considered the most beautiful waterfowl in North America."
         },
         {
           "src": "portfolio-photos/240817-american-goldfinch-topaz.jpeg", 
-          "alt": "American goldfinch (Spinus tristis) | Chicago, IL",
+          "alt": "American Goldfinch (Spinus tristis) | Chicago, IL",
           "description": "American Goldfinches are bright spots of color in summer."
         },
         {
           "src": "portfolio-photos/rose-breasted-grosbeak.jpeg", 
-          "alt": "Rose-breasted grosbeak (Pheucticus ludovicianus) | Chicago, IL",
+          "alt": "Rose-breasted Grosbeak (Pheucticus ludovicianus) | Chicago, IL",
           "description": "The Rose-breasted Grosbeak is a stunning bird with its black and white plumage."
+        }
+      ]
+    },
+    {
+      "id": "atlanta-ga",
+      "name": "Atlanta Area",
+      "city": "Atlanta",
+      "state": "GA",
+      "country": "USA",
+      "latitude": 33.7490,
+      "longitude": -84.3880,
+      "photos": [
+        {
+          "src": "portfolio-photos/blue-heron.jpeg", 
+          "alt": "Great Blue Heron (Ardea herodias) | Atlanta, GA",
+          "description": "Great Blue Herons are among the largest wading birds in North America."
+        },
+        {
+          "src": "portfolio-photos/20250203_YellowBelliedSapsucker1-topaz.jpg", 
+          "alt": "Yellow-bellied Sapsucker (Sphyrapicus varius) | Atlanta, GA",
+          "description": "Yellow-bellied Sapsuckers create distinctive rows of holes in trees to collect sap."
+        },
+        {
+          "src": "portfolio-photos/20241102 Ruby-crowned kinglet atlanta-topaz.jpg", 
+          "alt": "Ruby-crowned Kinglet (Regulus calendula) | Atlanta, GA",
+          "description": "Ruby-crowned Kinglets are tiny, restless birds that rarely sit still."
+        }
+      ]
+    },
+    {
+      "id": "dallas-tx",
+      "name": "Dallas Area",
+      "city": "Dallas",
+      "state": "TX",
+      "country": "USA",
+      "latitude": 32.7767,
+      "longitude": -96.7970,
+      "photos": [
+        {
+          "src": "portfolio-photos/20250308_Hermit_thrush_TrinityAudubonCenter-topaz.jpg", 
+          "alt": "Hermit Thrush (Catharus guttatus) | Dallas, TX",
+          "description": "Hermit Thrushes are known for their beautiful, flute-like songs."
+        },
+        {
+          "src": "portfolio-photos/20250308_Eastern_phoebe_TrinityAudubonCenter-topaz.jpg", 
+          "alt": "Eastern Phoebe (Sayornis phoebe) | Dallas, TX",
+          "description": "Eastern Phoebes are early spring migrants and often one of the first flycatchers to return north."
+        }
+      ]
+    },
+    {
+      "id": "watersmeet-mi",
+      "name": "Watersmeet",
+      "city": "Watersmeet",
+      "state": "MI",
+      "country": "USA",
+      "latitude": 46.2946,
+      "longitude": -89.1762,
+      "photos": [
+        {
+          "src": "portfolio-photos/240921 Bald eagle 3-topaz.jpeg", 
+          "alt": "Bald Eagle (Haliaeetus leucocephalus) | Watersmeet, MI",
+          "description": "The Bald Eagle is America's national bird and a conservation success story."
+        }
+      ]
+    },
+    {
+      "id": "grand-cayman",
+      "name": "Grand Cayman",
+      "city": "Grand Cayman",
+      "state": "",
+      "country": "Cayman Islands",
+      "latitude": 19.3222,
+      "longitude": -81.2409,
+      "photos": [
+        {
+          "src": "portfolio-photos/20250315_9739_bananaquit.jpg", 
+          "alt": "Bananaquit (Coereba flaveola) | Grand Cayman, Cayman Islands",
+          "description": "The Bananaquit is a small, active nectar-feeder common throughout the Caribbean."
+        },
+        {
+          "src": "portfolio-photos/20250315_9923_parrot.jpg", 
+          "alt": "Cayman Parrot (Amazona leucocephala caymanensis) | Grand Cayman, Cayman Islands",
+          "description": "The Cayman Parrot is a subspecies of the Cuban Amazon parrot and is the national bird of the Cayman Islands."
+        }
+      ]
+    },
+    {
+      "id": "los-angeles-ca",
+      "name": "Los Angeles",
+      "city": "Los Angeles",
+      "state": "CA",
+      "country": "USA",
+      "latitude": 34.0522,
+      "longitude": -118.2437,
+      "photos": [
+        {
+          "src": "portfolio-photos/warbler 2.jpeg", 
+          "alt": "Yellow-rumped Warbler (Setophaga coronata) | Los Angeles, CA",
+          "description": "Yellow-rumped Warblers are common throughout much of North America."
+        }
+      ]
+    },
+    {
+      "id": "palm-springs-ca",
+      "name": "Palm Springs",
+      "city": "Palm Springs",
+      "state": "CA",
+      "country": "USA",
+      "latitude": 33.8303,
+      "longitude": -116.5453,
+      "photos": [
+        {
+          "src": "portfolio-photos/rock-wren.jpg", 
+          "alt": "Rock Wren (Salpinctes obsoletus) | Palm Springs, CA",
+          "description": "Rock Wrens inhabit arid rocky slopes throughout the western US."
+        }
+      ]
+    },
+    {
+      "id": "maui-hi",
+      "name": "Maui",
+      "city": "Maui",
+      "state": "HI",
+      "country": "USA",
+      "latitude": 20.7984,
+      "longitude": -156.3319,
+      "photos": [
+        {
+          "src": "portfolio-photos/java-sparrow-1.jpg", 
+          "alt": "Java Sparrow (Lonchura oryzivora) | Maui, HI",
+          "description": "Java Sparrows are not native to Hawaii but were introduced and have established populations on several islands."
         }
       ]
     }
