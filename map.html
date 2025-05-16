@@ -90,23 +90,24 @@
                         photos: JSON.stringify(loc.photos)
                     }
                 }));
-                map.loadImage('assets/camera-icon.png', (err, image) => {
-                    if (err) throw err;
-                    map.addImage('camera-icon', image);
-                    map.addSource('locations', {
-                        type: 'geojson',
-                        data: { type: 'FeatureCollection', features: features }
-                    });
-                    map.addLayer({
-                        id: 'location-markers',
-                        type: 'symbol',
-                        source: 'locations',
-                        layout: {
-                            'icon-image': 'camera-icon',
-                            'icon-size': 0.5,
-                            'icon-anchor': 'bottom'
-                        }
-                    });
+                
+                // Add a source for locations
+                map.addSource('locations', {
+                    type: 'geojson',
+                    data: { type: 'FeatureCollection', features: features }
+                });
+                
+                // Add a circle layer to represent the points
+                map.addLayer({
+                    id: 'location-markers',
+                    type: 'circle',
+                    source: 'locations',
+                    paint: {
+                        'circle-radius': 8,
+                        'circle-color': '#FF5722',
+                        'circle-stroke-width': 2,
+                        'circle-stroke-color': '#FFFFFF'
+                    }
                 });
 
                 map.on('click', 'location-markers', (e) => {
