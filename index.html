@@ -11,6 +11,48 @@
         /* Add any custom styles needed specifically for this page */
         #photo-modal {
             display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            overflow: auto;
+        }
+        /* Ensure scroll view is properly shown when active */
+        #scroll-view.active {
+            display: block !important;
+        }
+        #grid-view.active {
+            display: grid !important;
+        }
+        #grid-view.inactive {
+            display: none !important;
+        }
+        #scroll-view.inactive {
+            display: none !important;
+        }
+        /* Additional modal styles to ensure it's displayed properly */
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1010;
+        }
+        .modal-content {
+            display: flex;
+            max-width: 1200px;
+            height: 80vh;
+            margin: 10vh auto;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
     </style>
 </head>
@@ -38,13 +80,13 @@
         </div>
         
         <!-- Grid View -->
-        <section id="grid-view" class="photo-grid">
+        <section id="grid-view" class="photo-grid active">
             <!-- Hard-coded photos for reliable display -->
             <div class="grid-item">
-                <img src="portfolio-photos/summertanager1.jpeg" alt="Summer Tanager (Piranga rubra) | Lost Maples State Park, TX" onclick="openPhotoModal(0)">
+                <img src="portfolio-photos/summertanager1.jpeg" alt="Summer Tanager (Piranga rubra) | Kerr County, TX" onclick="openPhotoModal(0)">
             </div>
             <div class="grid-item">
-                <img src="portfolio-photos/goldencheekedwarbler.jpeg" alt="Golden-cheeked Warbler (Setophaga chrysoparia) | Lost Maples State Park, TX" onclick="openPhotoModal(1)">
+                <img src="portfolio-photos/goldencheekedwarbler.jpeg" alt="Golden-cheeked Warbler (Setophaga chrysoparia) | Kerr County, TX" onclick="openPhotoModal(1)">
             </div>
             <div class="grid-item">
                 <img src="portfolio-photos/motmot.jpeg" alt="Turquoise-browed Motmot (Eumomota superciliosa) | Guanacaste, Costa Rica" onclick="openPhotoModal(2)">
@@ -53,7 +95,7 @@
                 <img src="portfolio-photos/northern-flicker.jpeg" alt="Northern Flicker (Colaptes auratus) | Chicago, IL" onclick="openPhotoModal(3)">
             </div>
             <div class="grid-item">
-                <img src="portfolio-photos/vermillionflycatcher1.jpeg" alt="Vermilion Flycatcher (Pyrocephalus rubinus) | Lost Maples State Park, TX" onclick="openPhotoModal(4)">
+                <img src="portfolio-photos/vermillionflycatcher1.jpeg" alt="Vermilion Flycatcher (Pyrocephalus rubinus) | Kerr County, TX" onclick="openPhotoModal(4)">
             </div>
             <div class="grid-item">
                 <img src="portfolio-photos/blue-heron.jpeg" alt="Great Blue Heron (Ardea herodias) | Atlanta, GA" onclick="openPhotoModal(5)">
@@ -68,7 +110,7 @@
                 <img src="portfolio-photos/20250203_YellowBelliedSapsucker1-topaz.jpg" alt="Yellow-bellied Sapsucker (Sphyrapicus varius) | Atlanta, GA" onclick="openPhotoModal(8)">
             </div>
             <div class="grid-item">
-                <img src="portfolio-photos/paintedbunting1.jpeg" alt="Painted Bunting (Passerina ciris) | Lost Maples State Park, TX" onclick="openPhotoModal(9)">
+                <img src="portfolio-photos/paintedbunting1.jpeg" alt="Painted Bunting (Passerina ciris) | Kerr County, TX" onclick="openPhotoModal(9)">
             </div>
             <div class="grid-item">
                 <img src="portfolio-photos/20250315_9739_bananaquit.jpg" alt="Bananaquit (Coereba flaveola) | Grand Cayman, Cayman Islands" onclick="openPhotoModal(10)">
@@ -95,7 +137,7 @@
                 <img src="portfolio-photos/rose-breasted-grosbeak.jpeg" alt="Rose-breasted Grosbeak (Pheucticus ludovicianus) | Chicago, IL" onclick="openPhotoModal(17)">
             </div>
             <div class="grid-item">
-                <img src="portfolio-photos/blackcappedvireo.jpeg" alt="Black-capped Vireo (Vireo atricapilla) | Lost Maples State Park, TX" onclick="openPhotoModal(18)">
+                <img src="portfolio-photos/blackcappedvireo.jpeg" alt="Black-capped Vireo (Vireo atricapilla) | Kerr County, TX" onclick="openPhotoModal(18)">
             </div>
             <div class="grid-item">
                 <img src="portfolio-photos/20241102 Ruby-crowned kinglet atlanta-topaz.jpg" alt="Ruby-crowned Kinglet (Regulus calendula) | Atlanta, GA" onclick="openPhotoModal(19)">
@@ -110,7 +152,7 @@
                 <img src="portfolio-photos/rufous-naped-wren.jpg" alt="Rufous-naped Wren (Campylorhynchus rufinucha) | Guanacaste, Costa Rica" onclick="openPhotoModal(22)">
             </div>
             <div class="grid-item">
-                <img src="portfolio-photos/scottsoriole.jpeg" alt="Scott's Oriole (Icterus parisorum) | Lost Maples State Park, TX" onclick="openPhotoModal(23)">
+                <img src="portfolio-photos/scottsoriole.jpeg" alt="Scott's Oriole (Icterus parisorum) | Kerr County, TX" onclick="openPhotoModal(23)">
             </div>
             <div class="grid-item">
                 <img src="portfolio-photos/java-sparrow-1.jpg" alt="Java Sparrow (Lonchura oryzivora) | Maui, HI" onclick="openPhotoModal(24)">
@@ -118,7 +160,7 @@
         </section>
         
         <!-- Scroll View -->
-        <section id="scroll-view" class="photo-scroll" style="display: none;">
+        <section id="scroll-view" class="photo-scroll inactive">
             <!-- Hard-coded list view items -->
             <div class="photo-post">
                 <div class="post-header">
@@ -128,7 +170,7 @@
                     </div>
                     <div class="location-info">
                         <i class="fas fa-map-marker-alt"></i>
-                        <span>Lost Maples State Park, TX</span>
+                        <span>Kerr County, TX</span>
                     </div>
                 </div>
                 <div class="post-image">
@@ -144,7 +186,7 @@
                     </div>
                     <div class="location-info">
                         <i class="fas fa-map-marker-alt"></i>
-                        <span>Lost Maples State Park, TX</span>
+                        <span>Kerr County, TX</span>
                     </div>
                 </div>
                 <div class="post-image">
@@ -192,7 +234,7 @@
                     </div>
                     <div class="location-info">
                         <i class="fas fa-map-marker-alt"></i>
-                        <span>Lost Maples State Park, TX</span>
+                        <span>Kerr County, TX</span>
                     </div>
                 </div>
                 <div class="post-image">
@@ -237,13 +279,13 @@
         const photos = [
             { 
                 src: 'portfolio-photos/summertanager1.jpeg',
-                alt: 'Summer Tanager (Piranga rubra) | Lost Maples State Park, TX',
-                description: 'The Summer Tanager is one of the few completely red birds in North America. This brilliant male was foraging in the canopy at Lost Maples State Park. Their diet consists primarily of bees and wasps, which they catch in flight and remove the stinger before eating. I was fortunate to capture this image when he briefly perched in the open.'
+                alt: 'Summer Tanager (Piranga rubra) | Kerr County, TX',
+                description: 'The Summer Tanager is one of the few completely red birds in North America. This brilliant male was foraging in the canopy in Kerr County. Their diet consists primarily of bees and wasps, which they catch in flight and remove the stinger before eating. I was fortunate to capture this image when he briefly perched in the open.'
             },
             { 
                 src: 'portfolio-photos/goldencheekedwarbler.jpeg',
-                alt: 'Golden-cheeked Warbler (Setophaga chrysoparia) | Lost Maples State Park, TX',
-                description: 'The Golden-cheeked Warbler is an endangered species that breeds only in the mature juniper-oak woodlands of central Texas. I spent several hours searching for this striking male at Lost Maples State Park during breeding season. Their distinctive black throat and bright yellow face make them unmistakable, though they often stay high in the canopy making photography challenging.'
+                alt: 'Golden-cheeked Warbler (Setophaga chrysoparia) | Kerr County, TX',
+                description: 'The Golden-cheeked Warbler is an endangered species that breeds only in the mature juniper-oak woodlands of central Texas. I spent several hours searching for this striking male in Kerr County during breeding season. Their distinctive black throat and bright yellow face make them unmistakable, though they often stay high in the canopy making photography challenging.'
             },
             { 
                 src: 'portfolio-photos/motmot.jpeg',
@@ -257,7 +299,7 @@
             },
             { 
                 src: 'portfolio-photos/vermillionflycatcher1.jpeg',
-                alt: 'Vermilion Flycatcher (Pyrocephalus rubinus) | Lost Maples State Park, TX',
+                alt: 'Vermilion Flycatcher (Pyrocephalus rubinus) | Kerr County, TX',
                 description: 'The Vermilion Flycatcher is arguably one of the most striking birds in North America. This brilliantly colored male was perched prominently on a fence post, making occasional sallies to catch flying insects. The intense red plumage contrasted beautifully against the blue Texas sky, making this one of my favorite photographs from the trip.'
             },
             { 
@@ -282,8 +324,8 @@
             },
             { 
                 src: 'portfolio-photos/paintedbunting1.jpeg',
-                alt: 'Painted Bunting (Passerina ciris) | Lost Maples State Park, TX',
-                description: 'The Painted Bunting is often called the most beautiful bird in North America, and it's easy to see why. This male's vibrant blue head, red underparts, and green back make it look like it was colored by a child with crayons. I spent several hours at Lost Maples waiting for this secretive bird to emerge from dense brush, and was rewarded with this clear view as it perched to sing its sweet, warbling song.'
+                alt: 'Painted Bunting (Passerina ciris) | Kerr County, TX',
+                description: 'The Painted Bunting is often called the most beautiful bird in North America, and it's easy to see why. This male's vibrant blue head, red underparts, and green back make it look like it was colored by a child with crayons. I spent several hours in Kerr County waiting for this secretive bird to emerge from dense brush, and was rewarded with this clear view as it perched to sing its sweet, warbling song.'
             },
             { 
                 src: 'portfolio-photos/20250315_9739_bananaquit.jpg',
@@ -327,8 +369,8 @@
             },
             { 
                 src: 'portfolio-photos/blackcappedvireo.jpeg',
-                alt: 'Black-capped Vireo (Vireo atricapilla) | Lost Maples State Park, TX',
-                description: 'The Black-capped Vireo is an endangered species that has very specific habitat requirements of scrubby oak and juniper. This male was singing persistently from the edge of a clearing at Lost Maples State Park. Their striking black cap and white spectacles make them one of the most distinctive vireo species, though they can be quite secretive and challenging to photograph.'
+                alt: 'Black-capped Vireo (Vireo atricapilla) | Kerr County, TX',
+                description: 'The Black-capped Vireo is an endangered species that has very specific habitat requirements of scrubby oak and juniper. This male was singing persistently from the edge of a clearing in Kerr County. Their striking black cap and white spectacles make them one of the most distinctive vireo species, though they can be quite secretive and challenging to photograph.'
             },
             { 
                 src: 'portfolio-photos/20241102 Ruby-crowned kinglet atlanta-topaz.jpg',
@@ -352,8 +394,8 @@
             },
             { 
                 src: 'portfolio-photos/scottsoriole.jpeg',
-                alt: 'Scott\'s Oriole (Icterus parisorum) | Lost Maples State Park, TX',
-                description: 'Scott\'s Orioles are striking birds of arid landscapes in the southwestern United States. This male was foraging in a yucca-dotted hillside at Lost Maples State Park. Their yellow and black plumage provides a beautiful contrast against the dry landscape, and their melodious whistling song echoed through the canyon as I photographed this individual.'
+                alt: 'Scott\'s Oriole (Icterus parisorum) | Kerr County, TX',
+                description: 'Scott\'s Orioles are striking birds of arid landscapes in the southwestern United States. This male was foraging in a yucca-dotted hillside in Kerr County. Their yellow and black plumage provides a beautiful contrast against the dry landscape, and their melodious whistling song echoed through the canyon as I photographed this individual.'
             },
             { 
                 src: 'portfolio-photos/java-sparrow-1.jpg',
@@ -383,11 +425,19 @@
             const gridView = document.getElementById('grid-view');
             const scrollView = document.getElementById('scroll-view');
             
+            // Set initial state
+            gridView.classList.add('active');
+            gridView.classList.remove('inactive');
+            scrollView.classList.add('inactive');
+            scrollView.classList.remove('active');
+            
             // Grid view button click handler
             gridViewBtn.addEventListener('click', function() {
                 console.log("Grid view button clicked");
-                gridView.style.display = 'grid';
-                scrollView.style.display = 'none';
+                gridView.classList.add('active');
+                gridView.classList.remove('inactive');
+                scrollView.classList.add('inactive');
+                scrollView.classList.remove('active');
                 gridViewBtn.classList.add('active');
                 scrollViewBtn.classList.remove('active');
             });
@@ -395,8 +445,10 @@
             // List view button click handler
             scrollViewBtn.addEventListener('click', function() {
                 console.log("List view button clicked");
-                gridView.style.display = 'none';
-                scrollView.style.display = 'block';
+                gridView.classList.add('inactive');
+                gridView.classList.remove('active');
+                scrollView.classList.add('active');
+                scrollView.classList.remove('inactive');
                 gridViewBtn.classList.remove('active');
                 scrollViewBtn.classList.add('active');
             });
@@ -423,25 +475,43 @@
             console.log("Opening modal for photo index:", index);
             currentIndex = index;
             const modal = document.getElementById('photo-modal');
-            modal.style.display = 'block';
-            document.body.style.overflow = 'hidden'; // Prevent scrolling while modal is open
-            showModalPhoto(currentIndex);
+            if (modal) {
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden'; // Prevent scrolling while modal is open
+                showModalPhoto(currentIndex);
+            } else {
+                console.error("Modal element not found");
+            }
         }
         
         // Close the photo modal
         function closePhotoModal() {
             const modal = document.getElementById('photo-modal');
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto'; // Re-enable scrolling
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto'; // Re-enable scrolling
+            } else {
+                console.error("Modal element not found");
+            }
         }
         
         // Show the photo at the specified index in the modal
         function showModalPhoto(index) {
             console.log("Showing modal photo at index:", index);
+            if (index < 0 || index >= photos.length) {
+                console.error("Invalid photo index:", index);
+                return;
+            }
+            
             const photo = photos[index];
             const modalImg = document.getElementById('modal-img');
             const modalHeader = document.getElementById('modal-header');
             const modalDescription = document.getElementById('modal-description');
+            
+            if (!modalImg || !modalHeader || !modalDescription) {
+                console.error("One or more modal elements not found");
+                return;
+            }
             
             // Set the modal image
             modalImg.src = photo.src;
@@ -477,6 +547,10 @@
         // Navigate to the next photo in the modal
         function nextModalPhoto(event) {
             if (event) event.stopPropagation();
+            if (!photos || photos.length === 0) {
+                console.error("Photos array is empty or undefined");
+                return;
+            }
             currentIndex = (currentIndex + 1) % photos.length;
             showModalPhoto(currentIndex);
         }
@@ -484,6 +558,10 @@
         // Navigate to the previous photo in the modal
         function prevModalPhoto(event) {
             if (event) event.stopPropagation();
+            if (!photos || photos.length === 0) {
+                console.error("Photos array is empty or undefined");
+                return;
+            }
             currentIndex = (currentIndex - 1 + photos.length) % photos.length;
             showModalPhoto(currentIndex);
         }
@@ -491,7 +569,7 @@
         // Close modal when clicking outside of the modal content
         window.addEventListener('click', function(event) {
             const modal = document.getElementById('photo-modal');
-            if (event.target === modal) {
+            if (modal && event.target === modal) {
                 closePhotoModal();
             }
         });
@@ -499,7 +577,7 @@
         // Handle keyboard navigation
         document.addEventListener('keydown', function(event) {
             const modal = document.getElementById('photo-modal');
-            if (modal.style.display === 'block') {
+            if (modal && modal.style.display === 'block') {
                 if (event.key === 'ArrowLeft') {
                     prevModalPhoto();
                 } else if (event.key === 'ArrowRight') {
