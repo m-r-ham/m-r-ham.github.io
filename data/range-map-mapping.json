@@ -125,6 +125,57 @@
       "scientificName": "Lonchura oryzivora",
       "commonName": "Java Sparrow",
       "rangeMapFile": "data/range-maps/javspa-range-map-year-round-v2023-en.png"
+    },
+    {
+      "scientificName": "Bubo virginianus",
+      "commonName": "Great Horned Owl",
+      "rangeMapFile": "data/range-maps/grhowl-range-map-year-round-v2023-en.png"
+    },
+    {
+      "scientificName": "Thryomanes bewickii",
+      "commonName": "Bewick's Wren",
+      "rangeMapFile": "data/range-maps/bewwre-range-map-v2023-en.png"
+    },
+    {
+      "scientificName": "Calypte anna",
+      "commonName": "Anna's Hummingbird",
+      "rangeMapFile": "data/range-maps/annhum-range-map-v2023-en.png"
+    },
+    {
+      "scientificName": "Myiarchus crinitus",
+      "commonName": "Great Crested Flycatcher",
+      "rangeMapFile": "data/range-maps/grcfly-range-map-v2023-en.png"
+    },
+    {
+      "scientificName": "Pitangus sulphuratus",
+      "commonName": "Great Kiskadee",
+      "rangeMapFile": "data/range-maps/grekis-range-map-year-round-v2023-en.png"
+    },
+    {
+      "scientificName": "Mimus polyglottos",
+      "commonName": "Northern Mockingbird",
+      "rangeMapFile": "data/range-maps/normoc-range-map-v2023-en.png"
+    },
+    {
+      "scientificName": "Agelaius phoeniceus",
+      "commonName": "Red-winged Blackbird",
+      "rangeMapFile": "data/range-maps/rewbla-range-map-v2023-en.png"
+    },
+    {
+      "scientificName": "Calocitta formosa",
+      "commonName": "White-throated Magpie-Jay",
+      "rangeMapFile": "assets/range-map-placeholder.jpg",
+      "notes": "Limited range data available for this Central American species"
+    },
+    {
+      "scientificName": "Mniotilta varia",
+      "commonName": "Black-and-white Warbler",
+      "rangeMapFile": "data/range-maps/bawwar-range-map-v2023-en.png"
+    },
+    {
+      "scientificName": "Icterus galbula",
+      "commonName": "Baltimore Oriole",
+      "rangeMapFile": "data/range-maps/balori-range-map-v2023-en.png"
     }
   ]
 }
