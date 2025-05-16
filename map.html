@@ -8,13 +8,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <!-- Mapbox GL JS CSS -->
-    <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.css" rel="stylesheet">
     <!-- Mapbox GL JS -->
-    <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
-    <!-- Mapbox Clustering -->
-    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
-    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.js"></script>
+    
     <!-- Configuration file with API key -->
     <script src="config.js"></script>
     <style>
@@ -421,19 +420,25 @@
     </div>
     
     <script>
-        document.addEventListener('DOMContentLoaded', async function() {
-            console.log("DOM loaded, initializing map...");
-            
-            // Initialize the map with Mapbox token from config
+        document.addEventListener('DOMContentLoaded', function() {
+            // Verify we have a valid Mapbox token
             if (!config || !config.mapboxAccessToken) {
-                console.error("Missing Mapbox access token in config.js");
-                document.getElementById('map').innerHTML = '<div style="text-align: center; padding: 20px;"><h3>Error: Missing map configuration</h3><p>Please make sure config.js is properly set up with a Mapbox access token.</p></div>';
+                console.error('Error: Mapbox access token not found. Check config.js file.');
+                document.getElementById('map').innerHTML = '<div style="text-align: center; padding: 20px;"><h3>Error: Mapbox Access Token Missing</h3><p>The Mapbox access token is missing or invalid. Please check the config.js file.</p></div>';
                 return;
             }
             
+            // Set Mapbox access token
             mapboxgl.accessToken = config.mapboxAccessToken;
-            console.log("Mapbox token loaded");
             
+            // Add loading indicator before map initialization
+            const mapContainer = document.getElementById('map');
+            const loadingEl = document.createElement('div');
+            loadingEl.id = 'map-loading';
+            loadingEl.innerHTML = '<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255,255,255,0.8); padding: 20px; border-radius: 10px; text-align: center; z-index: 10;"><i class="fas fa-spinner fa-spin" style="font-size: 30px; margin-bottom: 10px;"></i><p>Loading map...</p></div>';
+            mapContainer.appendChild(loadingEl);
+            
+            // Initialize the map
             const map = new mapboxgl.Map({
                 container: 'map',
                 style: 'mapbox://styles/mapbox/outdoors-v12',
@@ -442,170 +447,197 @@
                 attributionControl: true
             });
             
-            // Add loading indicator
-            const mapContainer = document.getElementById('map');
-            const loadingEl = document.createElement('div');
-            loadingEl.id = 'map-loading';
-            loadingEl.innerHTML = '<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255,255,255,0.8); padding: 20px; border-radius: 10px; text-align: center; z-index: 10;"><i class="fas fa-spinner fa-spin" style="font-size: 30px; margin-bottom: 10px;"></i><p>Loading map data...</p></div>';
-            mapContainer.appendChild(loadingEl);
-            
             // Add navigation controls
             map.addControl(new mapboxgl.NavigationControl(), 'top-right');
             
-            // Wait for map to finish loading
-            map.on('load', function() {
-                console.log("Map base layer loaded");
+            // Handle map load errors
+            map.on('error', function(e) {
+                console.error('Mapbox error:', e);
+                if (loadingEl && loadingEl.parentNode) {
+                    loadingEl.innerHTML = '<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255,255,255,0.8); padding: 20px; border-radius: 10px; text-align: center; z-index: 10;"><i class="fas fa-exclamation-triangle" style="font-size: 30px; margin-bottom: 10px; color: #e74c3c;"></i><p>Error loading map: ' + e.error.message + '</p></div>';
+                }
             });
             
-            // Load location data
-            let locationData;
-            try {
-                console.log("Fetching location data from data/locations.json");
-                const response = await fetch('data/locations.json');
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+            // Wait for map to finish loading
+            map.on('load', function() {
+                // Update loading indicator message
+                if (loadingEl) {
+                    loadingEl.innerHTML = '<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255,255,255,0.8); padding: 20px; border-radius: 10px; text-align: center; z-index: 10;"><i class="fas fa-spinner fa-spin" style="font-size: 30px; margin-bottom: 10px;"></i><p>Loading location data...</p></div>';
                 }
                 
-                locationData = await response.json();
-                console.log(`Loaded ${locationData.locations ? locationData.locations.length : 0} locations`);
-                
-                if (!locationData.locations || locationData.locations.length === 0) {
-                    throw new Error("No location data found");
-                }
-            } catch (error) {
-                console.error('Error loading location data:', error);
-                mapContainer.innerHTML = `<div style="text-align: center; padding: 20px;"><h3>Error Loading Map Data</h3><p>${error.message}</p><p>Please check that the data/locations.json file exists and is properly formatted.</p></div>`;
-                return;
-            }
+                // Load location data after map is fully loaded
+                loadLocationData();
+            });
             
-            // Remove loading indicator after data is loaded
-            if (loadingEl && loadingEl.parentNode) {
-                loadingEl.parentNode.removeChild(loadingEl);
-            }
-            
-            // Add markers to the map
-            const bounds = new mapboxgl.LngLatBounds();
-            const markers = [];
-            
-            locationData.locations.forEach(location => {
-                // Skip locations with all zeroes for coordinates (special categories like "Other Locations")
-                if (location.latitude === 0 && location.longitude === 0) {
-                    console.log(`Skipping marker for ${location.name} - no coordinates`);
+            // Function to load location data and add markers
+            async function loadLocationData() {
+                // Load location data
+                let locationData;
+                try {
+                    const response = await fetch('data/locations.json');
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const textData = await response.text();
+                    
+                    try {
+                        locationData = JSON.parse(textData);
+                    } catch (parseError) {
+                        console.error('JSON parse error:', parseError);
+                        throw new Error(`Invalid JSON format: ${parseError.message}`);
+                    }
+                    
+                    if (!locationData.locations || locationData.locations.length === 0) {
+                        throw new Error("No location data found");
+                    }
+                } catch (error) {
+                    console.error('Error loading location data:', error);
+                    mapContainer.innerHTML = `<div style="text-align: center; padding: 20px;"><h3>Error Loading Map Data</h3><p>${error.message}</p><p>Please check that the data/locations.json file exists and is properly formatted.</p></div>`;
                     return;
                 }
                 
-                // Log the marker we're adding
-                console.log(`Adding marker for ${location.name} at ${location.latitude}, ${location.longitude} with ${location.photos.length} photos`);
+                // Remove loading indicator
+                if (loadingEl && loadingEl.parentNode) {
+                    loadingEl.parentNode.removeChild(loadingEl);
+                }
                 
-                // Extend bounds to include this location
-                bounds.extend([location.longitude, location.latitude]);
+                // Add markers to the map
+                const bounds = new mapboxgl.LngLatBounds();
+                const markers = [];
                 
-                // Create a marker element
-                const markerEl = document.createElement('div');
-                markerEl.className = 'marker';
-                markerEl.innerHTML = `<i class="fas fa-camera"></i><span class="marker-count">${location.photos.length}</span>`;
+                // Verify map is still available before adding markers
+                if (!map || !map.loaded()) {
+                    console.error('Map not loaded when trying to add markers');
+                    return;
+                }
                 
-                // Get first photo for preview in popup
-                const previewPhoto = location.photos[0];
-                const previewBirdName = extractBirdName(previewPhoto.alt.split('|')[0].trim());
+                let validLocationsCount = 0;
                 
-                // Create the marker
-                const marker = new mapboxgl.Marker(markerEl)
-                    .setLngLat([location.longitude, location.latitude])
-                    .setPopup(new mapboxgl.Popup({ offset: 25, maxWidth: '300px' })
-                        .setHTML(`
-                            <div style="text-align: center;">
-                                <h3>${location.name}</h3>
-                                <p>${location.city}, ${location.state ? location.state + ', ' : ''}${location.country}</p>
-                                <div style="margin: 10px 0;">
-                                    <img src="${previewPhoto.src}" alt="${previewBirdName}" 
-                                        style="max-width: 100%; max-height: 120px; object-fit: cover; border-radius: 4px;">
+                locationData.locations.forEach(location => {
+                    // Skip locations with all zeroes for coordinates (special categories like "Other Locations")
+                    if (location.latitude === 0 && location.longitude === 0) {
+                        return;
+                    }
+                    
+                    validLocationsCount++;
+                    
+                    // Validate coordinates
+                    if (!isFinite(location.latitude) || !isFinite(location.longitude) ||
+                        location.latitude > 90 || location.latitude < -90 ||
+                        location.longitude > 180 || location.longitude < -180) {
+                        console.error(`Invalid coordinates for ${location.name}: [${location.latitude}, ${location.longitude}]`);
+                        return;
+                    }
+                    
+                    // Extend bounds to include this location
+                    bounds.extend([location.longitude, location.latitude]);
+                    
+                    // Create a marker element
+                    const markerEl = document.createElement('div');
+                    markerEl.className = 'marker';
+                    markerEl.innerHTML = `<i class="fas fa-camera"></i><span class="marker-count">${location.photos.length}</span>`;
+                    
+                    // Get first photo for preview in popup
+                    const previewPhoto = location.photos[0];
+                    const previewBirdName = extractBirdName(previewPhoto.alt.split('|')[0].trim());
+                    
+                    // Create the marker
+                    const marker = new mapboxgl.Marker(markerEl)
+                        .setLngLat([location.longitude, location.latitude])
+                        .setPopup(new mapboxgl.Popup({ offset: 25, maxWidth: '300px' })
+                            .setHTML(`
+                                <div style="text-align: center;">
+                                    <h3>${location.name}</h3>
+                                    <p>${location.city}, ${location.state ? location.state + ', ' : ''}${location.country}</p>
+                                    <div style="margin: 10px 0;">
+                                        <img src="${previewPhoto.src}" alt="${previewBirdName}" 
+                                            style="max-width: 100%; max-height: 120px; object-fit: cover; border-radius: 4px;">
+                                    </div>
+                                    <p>
+                                        ${location.photos.length > 1 ? 
+                                        `<strong>${previewBirdName}</strong> and ${location.photos.length - 1} other bird${location.photos.length > 2 ? 's' : ''}` : 
+                                        `<strong>${previewBirdName}</strong>`}
+                                    </p>
+                                    <p><a href="javascript:void(0)" onclick="document.getElementById('view-${location.id}').click()" 
+                                        style="background: #e74c3c; color: white; padding: 5px 10px; border-radius: 4px; 
+                                        text-decoration: none; display: inline-block; margin-top: 5px;">
+                                        View all photos</a></p>
                                 </div>
-                                <p>
-                                    ${location.photos.length > 1 ? 
-                                    `<strong>${previewBirdName}</strong> and ${location.photos.length - 1} other bird${location.photos.length > 2 ? 's' : ''}` : 
-                                    `<strong>${previewBirdName}</strong>`}
-                                </p>
-                                <p><a href="javascript:void(0)" onclick="document.getElementById('view-${location.id}').click()" 
-                                    style="background: #e74c3c; color: white; padding: 5px 10px; border-radius: 4px; 
-                                    text-decoration: none; display: inline-block; margin-top: 5px;">
-                                    View all photos</a></p>
-                            </div>
-                        `))
-                    .addTo(map);
+                            `))
+                        .addTo(map);
                 
-                // Store reference to marker
-                markers.push({
-                    id: location.id,
-                    marker: marker,
-                    element: markerEl
-                });
-                
-                // Hidden element to trigger showing photos
-                const viewButton = document.createElement('button');
-                viewButton.id = `view-${location.id}`;
-                viewButton.style.display = 'none';
-                document.body.appendChild(viewButton);
-                
-                // Add click event to show photos in sidebar
-                markerEl.addEventListener('click', () => {
-                    // Highlight the active marker
-                    markers.forEach(m => {
-                        m.element.classList.remove('active-marker');
+                    // Store reference to marker
+                    markers.push({
+                        id: location.id,
+                        marker: marker,
+                        element: markerEl
                     });
-                    markerEl.classList.add('active-marker');
                     
-                    showLocationPhotos(location);
+                    // Hidden element to trigger showing photos
+                    const viewButton = document.createElement('button');
+                    viewButton.id = `view-${location.id}`;
+                    viewButton.style.display = 'none';
+                    document.body.appendChild(viewButton);
+                    
+                    // Add click event to show photos in sidebar
+                    markerEl.addEventListener('click', () => {
+                        // Highlight the active marker
+                        markers.forEach(m => {
+                            m.element.classList.remove('active-marker');
+                        });
+                        markerEl.classList.add('active-marker');
+                        
+                        showLocationPhotos(location);
+                    });
+                    
+                    // Also trigger from the view button
+                    viewButton.addEventListener('click', () => {
+                        markers.forEach(m => {
+                            m.element.classList.remove('active-marker');
+                        });
+                        markerEl.classList.add('active-marker');
+                        
+                        showLocationPhotos(location);
+                    });
                 });
                 
-                // Also trigger from the view button
-                viewButton.addEventListener('click', () => {
-                    markers.forEach(m => {
-                        m.element.classList.remove('active-marker');
-                    });
-                    markerEl.classList.add('active-marker');
-                    
-                    showLocationPhotos(location);
-                });
-            });
-            
-            // Skip zero coordinates locations 
-            const validLocations = locationData.locations.filter(loc => 
-                loc.latitude !== 0 || loc.longitude !== 0
-            );
-            
-            // Fit map to markers if we have any valid coordinates
-            if (validLocations.length > 0) {
-                console.log(`Fitting map to ${validLocations.length} valid locations`);
-                map.fitBounds(bounds, {
-                    padding: { top: 50, bottom: 50, left: 350, right: 50 }, // Account for sidebar
-                    maxZoom: 8
-                });
-            } else {
-                console.log("No valid locations with coordinates found");
-            }
-            
-            // Check for URL parameter to open a specific location
-            const urlParams = new URLSearchParams(window.location.search);
-            const locationId = urlParams.get('location');
-            if (locationId) {
-                const locationMatch = locationData.locations.find(loc => loc.id === locationId);
-                if (locationMatch) {
-                    // Find the marker and simulate a click
-                    setTimeout(() => {
-                        const markerMatch = markers.find(m => m.id === locationId);
-                        if (markerMatch) {
-                            markerMatch.element.click();
-                            
-                            // Also center the map on this location
-                            map.flyTo({
-                                center: [locationMatch.longitude, locationMatch.latitude],
-                                zoom: 9,
-                                essential: true
-                            });
-                        }
-                    }, 1000); // Give map time to load
+                // Fit map to markers if we have any
+                if (bounds.isEmpty() === false) {
+                    try {
+                        map.fitBounds(bounds, {
+                            padding: { top: 50, bottom: 50, left: 350, right: 50 },
+                            maxZoom: 8
+                        });
+                    } catch (e) {
+                        console.error('Error fitting bounds:', e);
+                    }
+                } else {
+                    console.warn('No valid bounds to fit map to');
+                }
+                
+                // Check for URL parameter to open a specific location
+                const urlParams = new URLSearchParams(window.location.search);
+                const locationId = urlParams.get('location');
+                if (locationId) {
+                    const locationMatch = locationData.locations.find(loc => loc.id === locationId);
+                    if (locationMatch) {
+                        // Find the marker and simulate a click
+                        setTimeout(() => {
+                            const markerMatch = markers.find(m => m.id === locationId);
+                            if (markerMatch) {
+                                markerMatch.element.click();
+                                
+                                // Also center the map on this location
+                                map.flyTo({
+                                    center: [locationMatch.longitude, locationMatch.latitude],
+                                    zoom: 9,
+                                    essential: true
+                                });
+                            }
+                        }, 1000); // Give map time to load
+                    }
                 }
             }
             
@@ -830,25 +862,49 @@
         
         // Function to open photo modal when clicking on a photo in the map view
         function openPhotoModalFromMap(photoSrc) {
-            // Find the index of the photo in the main photos array
-            let photoIndex = -1;
+            // Open the image in a full screen view within the current page
+            const modal = document.createElement('div');
+            modal.style.position = 'fixed';
+            modal.style.top = '0';
+            modal.style.left = '0';
+            modal.style.width = '100%';
+            modal.style.height = '100%';
+            modal.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+            modal.style.display = 'flex';
+            modal.style.alignItems = 'center';
+            modal.style.justifyContent = 'center';
+            modal.style.zIndex = '1000';
+            modal.style.cursor = 'pointer';
+            modal.onclick = function() { document.body.removeChild(modal); };
             
-            // This assumes we have access to the photos array from index.html
-            // We'll need to check if it's available and handle appropriately
-            if (typeof photos !== 'undefined') {
-                photoIndex = photos.findIndex(p => p.src === photoSrc);
-                
-                if (photoIndex !== -1) {
-                    // Use the existing openPhotoModal function if available
-                    openPhotoModal(photoIndex);
-                } else {
-                    // Fallback: open the image in a new tab
-                    window.open(photoSrc, '_blank');
-                }
-            } else {
-                // Fallback: open the image in a new tab
-                window.open(photoSrc, '_blank');
-            }
+            const img = document.createElement('img');
+            img.src = photoSrc;
+            img.style.maxWidth = '90%';
+            img.style.maxHeight = '90%';
+            img.style.objectFit = 'contain';
+            img.style.border = '2px solid white';
+            img.style.borderRadius = '4px';
+            img.style.boxShadow = '0 4px 20px rgba(0,0,0,0.6)';
+            
+            // Prevent click on image from closing modal
+            img.onclick = function(e) { e.stopPropagation(); };
+            
+            // Add close button
+            const closeBtn = document.createElement('button');
+            closeBtn.innerHTML = '×';
+            closeBtn.style.position = 'absolute';
+            closeBtn.style.top = '20px';
+            closeBtn.style.right = '30px';
+            closeBtn.style.fontSize = '40px';
+            closeBtn.style.color = 'white';
+            closeBtn.style.background = 'none';
+            closeBtn.style.border = 'none';
+            closeBtn.style.cursor = 'pointer';
+            closeBtn.onclick = function() { document.body.removeChild(modal); };
+            
+            modal.appendChild(img);
+            modal.appendChild(closeBtn);
+            document.body.appendChild(modal);
         }
     </script>
 </body>
