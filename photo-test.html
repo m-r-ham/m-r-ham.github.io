@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Loading Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .photo-test {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .photo-item {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+        .photo-item img {
+            max-width: 200px;
+            max-height: 200px;
+        }
+        .status {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Photo Loading Test</h1>
+    <p>Testing direct image loading without JavaScript processing:</p>
+    
+    <div class="photo-test">
+        <div class="photo-item">
+            <p>Summer Tanager:</p>
+            <img src="portfolio-photos/summertanager1.jpeg" alt="Summer Tanager" 
+                 onload="this.nextElementSibling.innerHTML='Loaded successfully'; this.nextElementSibling.className='status success';" 
+                 onerror="this.nextElementSibling.innerHTML='Failed to load'; this.nextElementSibling.className='status error';">
+            <div class="status">Loading...</div>
+        </div>
+        
+        <div class="photo-item">
+            <p>Golden-cheeked Warbler:</p>
+            <img src="portfolio-photos/goldencheekedwarbler.jpeg" alt="Golden-cheeked Warbler" 
+                 onload="this.nextElementSibling.innerHTML='Loaded successfully'; this.nextElementSibling.className='status success';" 
+                 onerror="this.nextElementSibling.innerHTML='Failed to load'; this.nextElementSibling.className='status error';">
+            <div class="status">Loading...</div>
+        </div>
+        
+        <div class="photo-item">
+            <p>Motmot:</p>
+            <img src="portfolio-photos/motmot.jpeg" alt="Motmot" 
+                 onload="this.nextElementSibling.innerHTML='Loaded successfully'; this.nextElementSibling.className='status success';" 
+                 onerror="this.nextElementSibling.innerHTML='Failed to load'; this.nextElementSibling.className='status error';">
+            <div class="status">Loading...</div>
+        </div>
+        
+        <div class="photo-item">
+            <p>Northern Flicker:</p>
+            <img src="portfolio-photos/northern-flicker.jpeg" alt="Northern Flicker" 
+                 onload="this.nextElementSibling.innerHTML='Loaded successfully'; this.nextElementSibling.className='status success';" 
+                 onerror="this.nextElementSibling.innerHTML='Failed to load'; this.nextElementSibling.className='status error';">
+            <div class="status">Loading...</div>
+        </div>
+        
+        <div class="photo-item">
+            <p>Vermilion Flycatcher:</p>
+            <img src="portfolio-photos/vermillionflycatcher1.jpeg" alt="Vermilion Flycatcher" 
+                 onload="this.nextElementSibling.innerHTML='Loaded successfully'; this.nextElementSibling.className='status success';" 
+                 onerror="this.nextElementSibling.innerHTML='Failed to load'; this.nextElementSibling.className='status error';">
+            <div class="status">Loading...</div>
+        </div>
+    </div>
+    
+    <p>If the images load successfully above but not in index.html, it suggests a JavaScript issue rather than a file access issue.</p>
+</body>
+</html>
