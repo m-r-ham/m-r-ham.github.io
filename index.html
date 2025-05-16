@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Add any custom styles needed specifically for this page */
+        #photo-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            overflow: auto;
+        }
+        /* Ensure scroll view is properly shown when active */
+        #scroll-view.active {
+            display: block !important;
+        }
+        #grid-view.active {
+            display: grid !important;
+        }
+        #grid-view.inactive {
+            display: none !important;
+        }
+        #scroll-view.inactive {
+            display: none !important;
+        }
+        /* Additional modal styles to ensure it's displayed properly */
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1010;
+        }
+        .modal-content {
+            display: flex;
+            max-width: 1200px;
+            height: 80vh;
+            margin: 10vh auto;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="assets/logo.png" alt="My Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html" class="active">Photos</a></li>
+                <li><a href="stories.html">Stories</a></li>
+                <li><a href="map.html">Map</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="view-controls">
+            <button id="grid-view-btn" class="view-btn active" aria-label="Grid View">
+                <i class="fas fa-th"></i>
+            </button>
+            <button id="scroll-view-btn" class="view-btn" aria-label="Scroll View">
+                <i class="fas fa-list"></i>
+            </button>
+        </div>
+        
+        <!-- Grid View -->
+        <section id="grid-view" class="photo-grid active">
+            <!-- Hard-coded photos for reliable display -->
+            <div class="grid-item">
+                <img src="portfolio-photos/summertanager1.jpeg" alt="Summer Tanager (Piranga rubra) | Kerr County, TX" onclick="openPhotoModal(0)">
+            </div>
+            <div class="grid-item">
+                <img src="portfolio-photos/goldencheekedwarbler.jpeg" alt="Golden-cheeked Warbler (Setophaga chrysoparia) | Kerr County, TX" onclick="openPhotoModal(1)">
+            </div>
+            <div class="grid-item">
+                <img src="portfolio-photos/motmot.jpeg" alt="Turquoise-browed Motmot (Eumomota superciliosa) | Guanacaste, Costa Rica" onclick="openPhotoModal(2)">
+            </div>
+            <div class="grid-item">
+                <img src="portfolio-photos/northern-flicker.jpeg" alt="Northern Flicker (Colaptes auratus) | Chicago, IL" onclick="openPhotoModal(3)">
+            </div>
+            <div class="grid-item">
+                <img src="portfolio-photos/vermillionflycatcher1.jpeg" alt="Vermilion Flycatcher (Pyrocephalus rubinus) | Kerr County, TX" onclick="openPhotoModal(4)">
+            </div>
+            <div class="grid-item">
+                <img src="portfolio-photos/blue-heron.jpeg" alt="Great Blue Heron (Ardea herodias) | Atlanta, GA" onclick="openPhotoModal(5)">
+            </div>
+            <div class="grid-item">
+                <img src="portfolio-photos/downy-woodpecker.jpeg" alt="Downy Woodpecker (Dryobates pubescens) | Chicago, IL" onclick="openPhotoModal(6)">
+            </div>
+            <div class="grid-item">
+                <img src="portfolio-photos/kingfisher3.jpeg" alt="Belted Kingfisher (Megaceryle alcyon) | Chicago, IL" onclick="openPhotoModal(7)">
+            </div>
+            <div class="grid-item">
+                <img src="portfolio-photos/20250203_YellowBelliedSapsucker1-topaz.jpg" alt="Yellow-bellied Sapsucker (Sphyrapicus varius) | Atlanta, GA" onclick="openPhotoModal(8)">
+            </div>
+            <div class="grid-item">
+                <img src="portfolio-photos/paintedbunting1.jpeg" alt="Painted Bunting (Passerina ciris) | Kerr County, TX" onclick="openPhotoModal(9)">
+            </div>
+            <div class="grid-item">
+                <img src="portfolio-photos/20250315_9739_bananaquit.jpg" alt="Bananaquit (Coereba flaveola) | Grand Cayman, Cayman Islands" onclick="openPhotoModal(10)">
+            </div>
+            <div class="grid-item">
+                <img src="portfolio-photos/20250308_Hermit_thrush_TrinityAudubonCenter-topaz.jpg" alt="Hermit Thrush (Catharus guttatus) | Dallas, TX" onclick="openPhotoModal(11)">
+            </div>
+            <div class="grid-item">
+                <img src="portfolio-photos/240921 Bald eagle 3-topaz.jpeg" alt="Bald Eagle (Haliaeetus leucocephalus) | Watersmeet, MI" onclick="openPhotoModal(12)">
+            </div>
+            <div class="grid-item">
+                <img src="portfolio-photos/20250315_9923_parrot.jpg" alt="Cayman Parrot (Amazona leucocephala caymanensis) | Grand Cayman, Cayman Islands" onclick="openPhotoModal(13)">
+            </div>
+            <div class="grid-item">
+                <img src="portfolio-photos/wood-duck.jpg" alt="Wood Duck (Aix sponsa) | Chicago, IL" onclick="openPhotoModal(14)">
+            </div>
+            <div class="grid-item">
+                <img src="portfolio-photos/240817-american-goldfinch-topaz.jpeg" alt="American Goldfinch (Spinus tristis) | Chicago, IL" onclick="openPhotoModal(15)">
+            </div>
+            <div class="grid-item">
+                <img src="portfolio-photos/20250308_Eastern_phoebe_TrinityAudubonCenter-topaz.jpg" alt="Eastern Phoebe (Sayornis phoebe) | Dallas, TX" onclick="openPhotoModal(16)">
+            </div>
+            <div class="grid-item">
+                <img src="portfolio-photos/rose-breasted-grosbeak.jpeg" alt="Rose-breasted Grosbeak (Pheucticus ludovicianus) | Chicago, IL" onclick="openPhotoModal(17)">
+            </div>
+            <div class="grid-item">
+                <img src="portfolio-photos/blackcappedvireo.jpeg" alt="Black-capped Vireo (Vireo atricapilla) | Kerr County, TX" onclick="openPhotoModal(18)">
+            </div>
+            <div class="grid-item">
+                <img src="portfolio-photos/20241102 Ruby-crowned kinglet atlanta-topaz.jpg" alt="Ruby-crowned Kinglet (Regulus calendula) | Atlanta, GA" onclick="openPhotoModal(19)">
+            </div>
+            <div class="grid-item">
+                <img src="portfolio-photos/warbler 2.jpeg" alt="Yellow-rumped Warbler (Setophaga coronata) | Los Angeles, CA" onclick="openPhotoModal(20)">
+            </div>
+            <div class="grid-item">
+                <img src="portfolio-photos/rock-wren.jpg" alt="Rock Wren (Salpinctes obsoletus) | Palm Springs, CA" onclick="openPhotoModal(21)">
+            </div>
+            <div class="grid-item">
+                <img src="portfolio-photos/rufous-naped-wren.jpg" alt="Rufous-naped Wren (Campylorhynchus rufinucha) | Guanacaste, Costa Rica" onclick="openPhotoModal(22)">
+            </div>
+            <div class="grid-item">
+                <img src="portfolio-photos/scottsoriole.jpeg" alt="Scott's Oriole (Icterus parisorum) | Kerr County, TX" onclick="openPhotoModal(23)">
+            </div>
+            <div class="grid-item">
+                <img src="portfolio-photos/java-sparrow-1.jpg" alt="Java Sparrow (Lonchura oryzivora) | Maui, HI" onclick="openPhotoModal(24)">
+            </div>
+        </section>
+        
+        <!-- Scroll View -->
+        <section id="scroll-view" class="photo-scroll inactive">
+            <!-- Hard-coded list view items -->
+            <div class="photo-post">
+                <div class="post-header">
+                    <div class="bird-info">
+                        <h3>Summer Tanager</h3>
+                        <p class="scientific-name">Piranga rubra</p>
+                    </div>
+                    <div class="location-info">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Kerr County, TX</span>
+                    </div>
+                </div>
+                <div class="post-image">
+                    <img src="portfolio-photos/summertanager1.jpeg" alt="Summer Tanager" onclick="openPhotoModal(0)">
+                </div>
+            </div>
+            
+            <div class="photo-post">
+                <div class="post-header">
+                    <div class="bird-info">
+                        <h3>Golden-cheeked Warbler</h3>
+                        <p class="scientific-name">Setophaga chrysoparia</p>
+                    </div>
+                    <div class="location-info">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Kerr County, TX</span>
+                    </div>
+                </div>
+                <div class="post-image">
+                    <img src="portfolio-photos/goldencheekedwarbler.jpeg" alt="Golden-cheeked Warbler" onclick="openPhotoModal(1)">
+                </div>
+            </div>
+            
+            <div class="photo-post">
+                <div class="post-header">
+                    <div class="bird-info">
+                        <h3>Turquoise-browed Motmot</h3>
+                        <p class="scientific-name">Eumomota superciliosa</p>
+                    </div>
+                    <div class="location-info">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Guanacaste, Costa Rica</span>
+                    </div>
+                </div>
+                <div class="post-image">
+                    <img src="portfolio-photos/motmot.jpeg" alt="Turquoise-browed Motmot" onclick="openPhotoModal(2)">
+                </div>
+            </div>
+            
+            <div class="photo-post">
+                <div class="post-header">
+                    <div class="bird-info">
+                        <h3>Northern Flicker</h3>
+                        <p class="scientific-name">Colaptes auratus</p>
+                    </div>
+                    <div class="location-info">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Chicago, IL</span>
+                    </div>
+                </div>
+                <div class="post-image">
+                    <img src="portfolio-photos/northern-flicker.jpeg" alt="Northern Flicker" onclick="openPhotoModal(3)">
+                </div>
+            </div>
+            
+            <div class="photo-post">
+                <div class="post-header">
+                    <div class="bird-info">
+                        <h3>Vermilion Flycatcher</h3>
+                        <p class="scientific-name">Pyrocephalus rubinus</p>
+                    </div>
+                    <div class="location-info">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Kerr County, TX</span>
+                    </div>
+                </div>
+                <div class="post-image">
+                    <img src="portfolio-photos/vermillionflycatcher1.jpeg" alt="Vermilion Flycatcher" onclick="openPhotoModal(4)">
+                </div>
+            </div>
+        </section>
+        
+        <!-- Photo Detail Modal -->
+        <div id="photo-modal" class="photo-modal">
+            <span class="close-modal" onclick="closePhotoModal()">&times;</span>
+            <div class="modal-content">
+                <div class="modal-photo">
+                    <img id="modal-img" src="" alt="">
+                    <div class="modal-nav">
+                        <span class="prev" onclick="prevModalPhoto(event)">&#10094;</span>
+                        <span class="next" onclick="nextModalPhoto(event)">&#10095;</span>
+                    </div>
+                </div>
+                <div class="modal-info">
+                    <div class="modal-header" id="modal-header">
+                        <!-- Bird name and location will be inserted here by JavaScript -->
+                    </div>
+                    <div class="modal-caption-container">
+                        <div id="modal-description" class="bird-description">
+                            <!-- Bird description will be inserted here by JavaScript -->
+                        </div>
+                        <div class="range-map-container">
+                            <h4>Range Map</h4>
+                            <div class="range-map">
+                                <img id="range-map" src="assets/range-map-placeholder.jpg" alt="Range map">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        // Array of bird photos with proper capitalization for both common and scientific names
+        const photos = [
+            { 
+                src: 'portfolio-photos/summertanager1.jpeg',
+                alt: 'Summer Tanager (Piranga rubra) | Kerr County, TX',
+                description: "The Summer Tanager is one of the few completely red birds in North America. This brilliant male was foraging in the canopy in Kerr County. Their diet consists primarily of bees and wasps, which they catch in flight and remove the stinger before eating."
+            },
+            { 
+                src: 'portfolio-photos/goldencheekedwarbler.jpeg',
+                alt: 'Golden-cheeked Warbler (Setophaga chrysoparia) | Kerr County, TX',
+                description: "The Golden-cheeked Warbler is an endangered species that breeds only in the mature juniper-oak woodlands of central Texas. Their distinctive black throat and bright yellow face make them unmistakable, though they often stay high in the canopy making photography challenging."
+            },
+            { 
+                src: 'portfolio-photos/motmot.jpeg',
+                alt: 'Turquoise-browed Motmot (Eumomota superciliosa) | Guanacaste, Costa Rica',
+                description: 'The Turquoise-browed Motmot is known for its stunning colors and distinctive racket-shaped tail. I photographed this individual early in the morning behind our Airbnb near Samara Beach. The early light highlighted its brilliant blue eyebrow stripe, giving it an almost ethereal appearance.'
+            },
+            { 
+                src: 'portfolio-photos/northern-flicker.jpeg',
+                alt: 'Northern Flicker (Colaptes auratus) | Chicago, IL',
+                description: 'Northern Flickers are woodpeckers with distinctive spotted plumage and bright yellow shaft feathers visible in flight. This individual was pecking around a partially dead tree for ants and beetles.'
+            },
+            { 
+                src: 'portfolio-photos/vermillionflycatcher1.jpeg',
+                alt: 'Vermilion Flycatcher (Pyrocephalus rubinus) | Kerr County, TX',
+                description: 'The Vermilion Flycatcher is arguably one of the most striking birds in North America. This brilliantly colored male was perched on a low limb, making occasional sallies to catch flying insects. The intense red plumage contrasted beautifully against the surroundings.'
+            },
+            { 
+                src: 'portfolio-photos/blue-heron.jpeg',
+                alt: 'Great Blue Heron (Ardea herodias) | Atlanta, GA',
+                description: 'Great Blue Herons are among the largest wading birds in North America. This majestic individual was stalking fish in the Chattahoochee River in Atlanta. I was struck by its patience - it stood completely motionless for nearly 10 minutes before striking with lightning speed at a fish. Their prehistoric appearance always reminds me of the ancient lineage of birds.'
+            },
+            { 
+                src: 'portfolio-photos/downy-woodpecker.jpeg',
+                alt: 'Downy Woodpecker (Dryobates pubescens) | Chicago, IL',
+                description: 'Downy Woodpeckers are the smallest woodpeckers in North America. I found this male (identified by the red patch on its head) working its way up a tree trunk in a forest preserve west of Chicago. These industrious birds are common in urban and suburban areas, making them one of the most accessible woodpeckers to photograph.'
+            },
+            { 
+                src: 'portfolio-photos/kingfisher3.jpeg',
+                alt: 'Belted Kingfisher (Megaceryle alcyon) | Chicago, IL',
+                description: 'Belted Kingfishers are striking birds with their slate blue coloration and impressive crest. This kingfisher stayed unusually exposed for a while, allowing me to photograph it from several angles.'
+            },
+            { 
+                src: 'portfolio-photos/20250203_YellowBelliedSapsucker1-topaz.jpg',
+                alt: 'Yellow-bellied Sapsucker (Sphyrapicus varius) | Atlanta, GA',
+                description: 'Yellow-bellied Sapsuckers create distinctive rows of holes in trees to collect sap. This woodpecker was working on a pattern of fresh holes on a tree at my parents house. I was particularly pleased to capture the yellow wash on its belly, which can be difficult to see in the field but shows up nicely in this photo.'
+            },
+            { 
+                src: 'portfolio-photos/paintedbunting1.jpeg',
+                alt: 'Painted Bunting (Passerina ciris) | Kerr County, TX',
+                description: "The Painted Bunting is often called the most beautiful bird in North America, and it's easy to see why. This male's vibrant blue head, red underparts, and green back make it look like it was colored by a child with crayons. Painted Buntings are usually easier to hear than see, so I was lucky with this clear view of 2 males."
+            },
+            { 
+                src: 'portfolio-photos/20250315_9739_bananaquit.jpg',
+                alt: 'Bananaquit (Coereba flaveola) | Grand Cayman, Cayman Islands',
+                description: 'The Bananaquit is a small, active nectar-feeder common throughout the Caribbean. This individual was relaxing on a tree in the Queen Elizabeth II Botanical Gardens on Grand Cayman. Their curved bills are perfectly adapted for extracting nectar.'
+            },
+            { 
+                src: 'portfolio-photos/20250308_Hermit_thrush_TrinityAudubonCenter-topaz.jpg',
+                alt: 'Hermit Thrush (Catharus guttatus) | Dallas, TX',
+                description: "Hermit Thrushes are known for their beautiful, flute-like songs, though they're often difficult to spot as they forage in the understory (hence the hermit moniker). I found this individual quietly hopping through leaf litter at the Trinity Audubon Center in Dallas."
+            },
+            { 
+                src: 'portfolio-photos/240921 Bald eagle 3-topaz.jpeg',
+                alt: 'Bald Eagle (Haliaeetus leucocephalus) | Watersmeet, MI',
+                description: "The Bald Eagle is America's national bird and a conservation success story. I photographed this adult eagle at a lake in Michigan's Upper Peninsula where it was perched in a tall pine, surveying for fish."
+            },
+            { 
+                src: 'portfolio-photos/20250315_9923_parrot.jpg',
+                alt: 'Cayman Parrot (Amazona leucocephala caymanensis) | Grand Cayman, Cayman Islands',
+                description: "The Cayman Parrot is a subspecies of the Cuban Amazon parrot and is the national bird of the Cayman Islands. This individual flew into a nearby tree with a group of parrots and immediately struck a pose."
+            },
+            { 
+                src: 'portfolio-photos/wood-duck.jpg',
+                alt: 'Wood Duck (Aix sponsa) | Chicago, IL',
+                description: 'Wood Ducks are some of the most beautiful waterfowl in North America. This female was swimming in the pond in Lincoln Park with her ducklings.'
+            },
+            { 
+                src: 'portfolio-photos/240817-american-goldfinch-topaz.jpeg',
+                alt: 'American Goldfinch (Spinus tristis) | Chicago, IL',
+                description: 'American Goldfinches are bright spots of color in summer when males like this one wear their brilliant yellow breeding plumage. I found this individual feeding on thistle seeds, one of their favorite foods.'
+            },
+            { 
+                src: 'portfolio-photos/20250308_Eastern_phoebe_TrinityAudubonCenter-topaz.jpg',
+                alt: 'Eastern Phoebe (Sayornis phoebe) | Dallas, TX',
+                description: 'Eastern Phoebes are early spring migrants and often one of the first flycatchers to return north. This bird was actively hunting from a low perch at Trinity Audubon Center in Dallas, making frequent flights to catch insects before returning to the same branch. Their distinctive tail-wagging behavior and call helped me identify it.'
+            },
+            { 
+                src: 'portfolio-photos/rose-breasted-grosbeak.jpeg',
+                alt: 'Rose-breasted Grosbeak (Pheucticus ludovicianus) | Chicago, IL',
+                description: 'The Rose-breasted Grosbeak is a stunning bird with its black and white plumage and distinctive rose-colored breast patch. This male visited Montrose Park in Chicago for a few days, much to the delight of local birders.'
+            },
+            { 
+                src: 'portfolio-photos/blackcappedvireo.jpeg',
+                alt: 'Black-capped Vireo (Vireo atricapilla) | Kerr County, TX',
+                description: 'The Black-capped Vireo is an endangered species that has very specific habitat requirements of scrubby oak and juniper. This male was singing persistently from the edge of a clearing in Kerr County. Their striking black cap and white spectacles make them one of the most distinctive vireo species, though they can be quite secretive and challenging to photograph.'
+            },
+            { 
+                src: 'portfolio-photos/20241102 Ruby-crowned kinglet atlanta-topaz.jpg',
+                alt: 'Ruby-crowned Kinglet (Regulus calendula) | Atlanta, GA',
+                description: 'Ruby-crowned Kinglets are tiny, restless birds that rarely sit still. I was lucky to capture this one during a brief moment of stillness in an Atlanta park. The ruby crown that gives this species its name is usually hidden, but when agitated, males will raise these feathers to create a bright red stripe on top of the head.'
+            }, 
+            { 
+                src: 'portfolio-photos/warbler 2.jpeg',
+                alt: 'Yellow-rumped Warbler (Setophaga coronata) | Los Angeles, CA',
+                description: "Yellow-rumped Warblers are common throughout much of North America. This is probably 'Audubon\\'s' form found in the western US, showing more yellow on the throat than eastern birds. I photographed this individual in a Los Angeles park as it flitted from branch to branch catching small insects. Their bright yellow rump patch is distinctive in flight."
+            },
+            { 
+                src: 'portfolio-photos/rock-wren.jpg',
+                alt: 'Rock Wren (Salpinctes obsoletus) | Palm Springs, CA',
+                description: 'Rock Wrens inhabit arid rocky slopes throughout the western US. I found this individual hopping among boulders near Palm Springs, perfectly camouflaged against the rocky background. Their habit of bobbing up and down while perched makes them somewhat easier to spot despite their cryptic coloration.'
+            },
+            { 
+                src: 'portfolio-photos/rufous-naped-wren.jpg',
+                alt: 'Rufous-naped Wren (Campylorhynchus rufinucha) | Guanacaste, Costa Rica',
+                description: 'Rufous-naped Wrens are large, social wrens found in Central America. This individual was part of a noisy family group moving through trees near my hotel in Costa Rica. Unlike many wrens that can be secretive, these birds are often bold and conspicuous, making them relatively easy to photograph.'
+            },
+            { 
+                src: 'portfolio-photos/scottsoriole.jpeg',
+                alt: 'Scott\'s Oriole (Icterus parisorum) | Kerr County, TX',
+                description: "Scott\\'s Orioles are striking birds of arid landscapes in the southwestern United States. This male was foraging in a yucca-dotted hillside in Kerr County. Their yellow and black plumage provides a beautiful contrast against the dry landscape, and their melodious whistling song echoed through the canyon as I photographed this individual."
+            },
+            { 
+                src: 'portfolio-photos/java-sparrow-1.jpg',
+                alt: 'Java Sparrow (Lonchura oryzivora) | Maui, HI',
+                description: 'Java Sparrows are not native to Hawaii but were introduced and have established populations on several islands. I found a group feeding hanging out on a Maui hotel building. Their distinctive pink bills and black-and-white face pattern make them one of the most recognizable finches in their adopted home.'
+            },
+        ];
+        
+        let currentIndex = 0;
+        
+        // Range map mapping data
+        let rangeMapMapping = null;
+
+        // Run code when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("DOM loaded");
+            // Set up view toggle buttons
+            setupViewToggle();
+            
+            // Load range map mapping data
+            loadRangeMapMapping();
+        });
+        
+        function setupViewToggle() {
+            const gridViewBtn = document.getElementById('grid-view-btn');
+            const scrollViewBtn = document.getElementById('scroll-view-btn');
+            const gridView = document.getElementById('grid-view');
+            const scrollView = document.getElementById('scroll-view');
+            
+            // Set initial state
+            gridView.classList.add('active');
+            gridView.classList.remove('inactive');
+            scrollView.classList.add('inactive');
+            scrollView.classList.remove('active');
+            
+            // Grid view button click handler
+            gridViewBtn.addEventListener('click', function() {
+                console.log("Grid view button clicked");
+                gridView.classList.add('active');
+                gridView.classList.remove('inactive');
+                scrollView.classList.add('inactive');
+                scrollView.classList.remove('active');
+                gridViewBtn.classList.add('active');
+                scrollViewBtn.classList.remove('active');
+            });
+            
+            // List view button click handler
+            scrollViewBtn.addEventListener('click', function() {
+                console.log("List view button clicked");
+                gridView.classList.add('inactive');
+                gridView.classList.remove('active');
+                scrollView.classList.add('active');
+                scrollView.classList.remove('inactive');
+                gridViewBtn.classList.remove('active');
+                scrollViewBtn.classList.add('active');
+            });
+        }
+        
+        function extractBirdName(birdInfo) {
+            // Extract just the bird name from the info string (remove scientific name)
+            // Handle HTML tags in the input string
+            const cleanInfo = birdInfo.replace(/<\/?[^>]+(>|$)/g, "");
+            const parts = cleanInfo.split('(');
+            return parts[0].trim();
+        }
+        
+        function extractScientificName(birdInfo) {
+            // Extract the scientific name from the info string
+            // Handle HTML tags in the input string
+            const cleanInfo = birdInfo.replace(/<\/?[^>]+(>|$)/g, "");
+            const match = cleanInfo.match(/\((.*?)\)/);
+            return match ? match[1] : '';
+        }
+        
+        // Open the photo modal with the specified photo index
+        function openPhotoModal(index) {
+            console.log("Opening modal for photo index:", index);
+            currentIndex = index;
+            const modal = document.getElementById('photo-modal');
+            if (modal) {
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden'; // Prevent scrolling while modal is open
+                showModalPhoto(currentIndex);
+            } else {
+                console.error("Modal element not found");
+            }
+        }
+        
+        // Close the photo modal
+        function closePhotoModal() {
+            const modal = document.getElementById('photo-modal');
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto'; // Re-enable scrolling
+            } else {
+                console.error("Modal element not found");
+            }
+        }
+        
+        // Show the photo at the specified index in the modal
+        function showModalPhoto(index) {
+            console.log("Showing modal photo at index:", index);
+            if (index < 0 || index >= photos.length) {
+                console.error("Invalid photo index:", index);
+                return;
+            }
+            
+            const photo = photos[index];
+            const modalImg = document.getElementById('modal-img');
+            const modalHeader = document.getElementById('modal-header');
+            const modalDescription = document.getElementById('modal-description');
+            
+            if (!modalImg || !modalHeader || !modalDescription) {
+                console.error("One or more modal elements not found");
+                return;
+            }
+            
+            // Set the modal image
+            modalImg.src = photo.src;
+            modalImg.alt = photo.alt;
+            
+            // Parse the bird name and location from the alt text
+            const altParts = photo.alt.split('|');
+            const birdInfo = altParts[0].trim();
+            const location = altParts.length > 1 ? altParts[1].trim() : '';
+            
+            // Update the header with bird name and location
+            modalHeader.innerHTML = `
+                <div class="modal-bird-info">
+                    <h2 class="bird-name">${extractBirdName(birdInfo)}</h2>
+                    <p class="scientific-name">${extractScientificName(birdInfo)}</p>
+                </div>
+                <div class="modal-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>${location}</span>
+                </div>
+            `;
+            
+            // Add the bird description
+            modalDescription.innerHTML = `
+                <p>${photo.description || 'No description available.'}</p>
+            `;
+            
+            // Set range map - use the mapping file to find the correct range map
+            const scientificName = extractScientificName(birdInfo);
+            setRangeMap(scientificName, extractBirdName(birdInfo));
+        }
+        
+        // Navigate to the next photo in the modal
+        function nextModalPhoto(event) {
+            if (event) event.stopPropagation();
+            if (!photos || photos.length === 0) {
+                console.error("Photos array is empty or undefined");
+                return;
+            }
+            currentIndex = (currentIndex + 1) % photos.length;
+            showModalPhoto(currentIndex);
+        }
+        
+        // Navigate to the previous photo in the modal
+        function prevModalPhoto(event) {
+            if (event) event.stopPropagation();
+            if (!photos || photos.length === 0) {
+                console.error("Photos array is empty or undefined");
+                return;
+            }
+            currentIndex = (currentIndex - 1 + photos.length) % photos.length;
+            showModalPhoto(currentIndex);
+        }
+        
+        // Close modal when clicking outside of the modal content
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('photo-modal');
+            if (modal && event.target === modal) {
+                closePhotoModal();
+            }
+        });
+        
+        // Handle keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            const modal = document.getElementById('photo-modal');
+            if (modal && modal.style.display === 'block') {
+                if (event.key === 'ArrowLeft') {
+                    prevModalPhoto();
+                } else if (event.key === 'ArrowRight') {
+                    nextModalPhoto();
+                } else if (event.key === 'Escape') {
+                    closePhotoModal();
+                }
+            }
+        });
+        
+        // Load the range map mapping file
+        async function loadRangeMapMapping() {
+            try {
+                console.log("Loading range map mapping data");
+                const response = await fetch('data/range-map-mapping.json');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                rangeMapMapping = await response.json();
+                console.log("Range map mapping data loaded successfully");
+            } catch (error) {
+                console.error('Error loading range map mapping:', error);
+            }
+        }
+        
+        // Function to set the range map based on scientific name
+        function setRangeMap(scientificName, commonName) {
+            const rangeMapImg = document.getElementById('range-map');
+            
+            // Default to placeholder if mapping isn't loaded yet
+            if (!rangeMapMapping) {
+                console.log("Range map mapping not yet loaded, using placeholder");
+                rangeMapImg.src = 'assets/range-map-placeholder.jpg';
+                rangeMapImg.alt = `Range map for ${commonName}`;
+                return;
+            }
+            
+            // Find the corresponding range map
+            const species = rangeMapMapping.species.find(s => 
+                s.scientificName.toLowerCase() === scientificName.toLowerCase()
+            );
+            
+            if (species && species.rangeMapFile) {
+                console.log(`Found range map for ${scientificName}: ${species.rangeMapFile}`);
+                rangeMapImg.src = species.rangeMapFile;
+                rangeMapImg.alt = `Range map for ${commonName} (${scientificName})`;
+            } else {
+                console.log(`No range map found for ${scientificName}, using placeholder`);
+                rangeMapImg.src = 'assets/range-map-placeholder.jpg';
+                rangeMapImg.alt = `Range map for ${commonName}`;
+            }
+        }
+    </script>
+</body>
+</html>

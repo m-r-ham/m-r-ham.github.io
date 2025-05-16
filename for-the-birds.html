@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For the Birds</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="assets/logo.png" alt="My Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Photos</a></li>
+                <li><a href="stories.html" class="active">Stories</a></li>
+                <li><a href="map.html">Map</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="story-header">
+            <h1>For the Birds</h1>
+        </section>
+        <section class="story-photos">
+            <img src="portfolio-photos/kingfisher.jpg" alt="Belted Kingfisher">
+            <img src="portfolio-photos/scarlet-tanager.jpg" alt="Scarlet Tanager">
+            <img src="portfolio-photos/northern-flicker.jpeg" alt="Northern Flicker">
+        </section>
+        <section class="story-content">
+            <p>What is the first bird that comes to your mind? The pigeons that congregate on the sidewalk outside your apartment? Maybe a Bald Eagle? If you’re a baseball fan, maybe a Cardinal or Blue Jay?</p>
+            <p>I’m willing to bet you don’t think of the Common Yellowthroat, Eastern Meadowlark, Belted Kingfisher, Scarlet Tanager, or Rose-breasted Grosbeak.</p>
+            <p>There are over 2,000+ bird species found in North America. Around 300 bird species can be found in Chicago, where I live, either seasonally or year-round. Over 200 live in or visit New York City each year. Some are just stopping through on their annual migration. Others stay relatively close to home year-round. They all help pollinate plants, distribute seeds, and manage pests. The more birds you see and hear, the more likely you are to be in a healthy ecosystem.</p>
+            <p>Watching and listening for birds is a great way to engage with nature and the world around you. Next time you walk around town, stop to look and listen. You might just see or hear a bird you didn’t know you share a neighborhood with.</p>
+        </section>
+        <div id="back-to-top" onclick="scrollToTop()">
+            <span>&uarr; Back to Top</span>
+        </div>
+    </main>
+
+    <script>
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.addEventListener('scroll', function() {
+            var button = document.getElementById('back-to-top');
+            if (window.scrollY > 200) {
+                button.style.display = 'block';
+            } else {
+                button.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

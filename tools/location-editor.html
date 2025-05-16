@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location Data Editor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Mapbox GL JS CSS -->
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
+    <!-- Mapbox GL JS -->
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+    <script src="../config.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .editor-layout {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .locations-panel {
+            flex: 1;
+            border-right: 1px solid #eaeaea;
+            padding-right: 20px;
+        }
+        
+        .location-editor {
+            flex: 2;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+        
+        textarea {
+            min-height: 100px;
+        }
+        
+        .button-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        button {
+            padding: 8px 16px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        button.secondary {
+            background-color: #ccc;
+            color: #333;
+        }
+        
+        button:hover {
+            opacity: 0.9;
+        }
+        
+        .location-list {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #eaeaea;
+            border-radius: 4px;
+        }
+        
+        .location-item {
+            padding: 10px 15px;
+            border-bottom: 1px solid #eaeaea;
+            cursor: pointer;
+        }
+        
+        .location-item:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .location-item.active {
+            background-color: #f0f0f0;
+            font-weight: 500;
+        }
+        
+        .photo-list {
+            margin-top: 20px;
+            border: 1px solid #eaeaea;
+            border-radius: 4px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .photo-item {
+            padding: 10px 15px;
+            border-bottom: 1px solid #eaeaea;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .photo-item:last-child {
+            border-bottom: none;
+        }
+        
+        .photo-item button {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+        
+        .json-output {
+            margin-top: 30px;
+        }
+        
+        .json-output textarea {
+            width: 100%;
+            min-height: 200px;
+            font-family: monospace;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        #map {
+            width: 100%;
+            height: 300px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        
+        .coords-display {
+            font-family: monospace;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            display: none;
+        }
+        
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            display: none;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .tab.active {
+            border-bottom-color: #333;
+            font-weight: 500;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Location Data Editor</h1>
+        
+        <div class="tabs">
+            <div class="tab active" data-tab="editor">Editor</div>
+            <div class="tab" data-tab="help">Help</div>
+        </div>
+        
+        <div id="editor-tab" class="tab-content active">
+            <div class="editor-layout">
+                <div class="locations-panel">
+                    <h2>Locations</h2>
+                    <div class="button-row">
+                        <button id="add-location-btn">Add New Location</button>
+                        <button id="load-data-btn" class="secondary">Load Data</button>
+                    </div>
+                    <div class="location-list" id="location-list">
+                        <!-- Location items will be added here by JavaScript -->
+                        <div class="location-item">No locations added yet</div>
+                    </div>
+                </div>
+                
+                <div class="location-editor">
+                    <h2>Location Details</h2>
+                    
+                    <div class="success-message" id="success-message"></div>
+                    <div class="error-message" id="error-message"></div>
+                    
+                    <form id="location-form">
+                        <div class="form-group">
+                            <label for="location-id">Location ID:</label>
+                            <input type="text" id="location-id" placeholder="e.g., chicago-il (use lowercase-with-dashes)">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="location-name">Location Name:</label>
+                            <input type="text" id="location-name" placeholder="e.g., Chicago Area">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="location-city">City:</label>
+                            <input type="text" id="location-city" placeholder="e.g., Chicago">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="location-state">State/Province:</label>
+                            <input type="text" id="location-state" placeholder="e.g., IL (optional)">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="location-country">Country:</label>
+                            <input type="text" id="location-country" placeholder="e.g., USA">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Location Coordinates:</label>
+                            <div id="map"></div>
+                            <p class="coords-display">
+                                Latitude: <span id="latitude">0</span>, 
+                                Longitude: <span id="longitude">0</span>
+                            </p>
+                            <small>Click on the map to set the location coordinates</small>
+                        </div>
+                        
+                        <h3>Photos at this Location</h3>
+                        <div class="photo-list" id="photo-list">
+                            <!-- Photo items will be added here by JavaScript -->
+                            <div class="photo-item">No photos added yet</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="photo-src">Photo Path:</label>
+                            <input type="text" id="photo-src" placeholder="e.g., portfolio-photos/northern-flicker.jpeg">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="photo-alt">Photo Alt Text:</label>
+                            <input type="text" id="photo-alt" placeholder="e.g., Northern flicker (Colaptes auratus) | Chicago, IL">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="photo-description">Photo Description:</label>
+                            <textarea id="photo-description" placeholder="Brief description of the bird and photo..."></textarea>
+                        </div>
+                        
+                        <div class="button-row">
+                            <button type="button" id="add-photo-btn">Add Photo to Location</button>
+                            <button type="button" id="clear-photo-form-btn" class="secondary">Clear Photo Form</button>
+                        </div>
+                        
+                        <div class="button-row">
+                            <button type="submit" id="save-location-btn">Save Location</button>
+                            <button type="button" id="delete-location-btn" class="secondary">Delete Location</button>
+                            <button type="button" id="clear-form-btn" class="secondary">Clear Form</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="json-output">
+                <h2>JSON Output</h2>
+                <p>Copy this JSON data to your locations.json file:</p>
+                <textarea id="json-output" readonly></textarea>
+                <div class="button-row">
+                    <button id="copy-json-btn">Copy to Clipboard</button>
+                    <button id="download-json-btn">Download JSON File</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="help-tab" class="tab-content">
+            <h2>How to Use This Tool</h2>
+            
+            <h3>Basic Instructions</h3>
+            <ol>
+                <li><strong>Load existing data</strong> (if any) using the "Load Data" button</li>
+                <li><strong>Add a new location</strong> by clicking "Add New Location" and filling out the form</li>
+                <li><strong>Set coordinates</strong> by clicking on the map</li>
+                <li><strong>Add photos</strong> to the location using the photo form and "Add Photo" button</li>
+                <li><strong>Save the location</strong> with the "Save Location" button</li>
+                <li><strong>Generate the JSON</strong> and copy it to your locations.json file</li>
+            </ol>
+            
+            <h3>Important Notes</h3>
+            <ul>
+                <li>Location IDs should be unique and use lowercase letters with dashes (e.g., "chicago-il")</li>
+                <li>Photo paths should be relative to your website root (e.g., "portfolio-photos/example.jpg")</li>
+                <li>Alt text should follow your format: "Bird name (Scientific name) | Location"</li>
+                <li>You can edit existing locations by selecting them from the locations panel</li>
+                <li>Don't forget to copy the final JSON output to your locations.json file</li>
+            </ul>
+            
+            <button class="secondary" onclick="document.querySelector('.tab[data-tab=\'editor\']').click()">Back to Editor</button>
+        </div>
+    </div>
+    
+    <script>
+        // Tab functionality
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and tab contents
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding content
+                tab.classList.add('active');
+                document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
+            });
+        });
+        
+        // Initialize Mapbox map
+        mapboxgl.accessToken = config.mapboxAccessToken;
+        const map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v12',
+            center: [0, 0],
+            zoom: 1
+        });
+        
+        let marker;
+        
+        // Add click handler to map
+        map.on('click', (e) => {
+            const lngLat = e.lngLat;
+            
+            // Update coordinate display
+            document.getElementById('latitude').textContent = lngLat.lat.toFixed(6);
+            document.getElementById('longitude').textContent = lngLat.lng.toFixed(6);
+            
+            // Add or update marker
+            if (marker) {
+                marker.setLngLat(lngLat);
+            } else {
+                marker = new mapboxgl.Marker({
+                    color: '#e74c3c',
+                    draggable: true
+                })
+                .setLngLat(lngLat)
+                .addTo(map);
+                
+                // Update coordinates when marker is dragged
+                marker.on('dragend', () => {
+                    const lngLat = marker.getLngLat();
+                    document.getElementById('latitude').textContent = lngLat.lat.toFixed(6);
+                    document.getElementById('longitude').textContent = lngLat.lng.toFixed(6);
+                });
+            }
+        });
+        
+        // Initialize data storage
+        let locationData = {
+            locations: []
+        };
+        
+        let currentLocationIndex = -1;
+        let locationPhotos = [];
+        
+        // DOM elements
+        const locationForm = document.getElementById('location-form');
+        const locationList = document.getElementById('location-list');
+        const photoList = document.getElementById('photo-list');
+        const jsonOutput = document.getElementById('json-output');
+        const successMessage = document.getElementById('success-message');
+        const errorMessage = document.getElementById('error-message');
+        
+        // Load data button
+        document.getElementById('load-data-btn').addEventListener('click', () => {
+            const input = prompt('Paste your existing JSON data here:');
+            if (input) {
+                try {
+                    const data = JSON.parse(input);
+                    if (data && data.locations) {
+                        locationData = data;
+                        updateLocationList();
+                        updateJsonOutput();
+                        showMessage('success', 'Data loaded successfully!');
+                    } else {
+                        showMessage('error', 'Invalid data format. Expected { locations: [...] }');
+                    }
+                } catch (e) {
+                    showMessage('error', 'Invalid JSON format: ' + e.message);
+                }
+            }
+        });
+        
+        // Add new location button
+        document.getElementById('add-location-btn').addEventListener('click', () => {
+            clearForm();
+            currentLocationIndex = -1;
+            locationPhotos = [];
+            updatePhotoList();
+        });
+        
+        // Add photo to location button
+        document.getElementById('add-photo-btn').addEventListener('click', () => {
+            const src = document.getElementById('photo-src').value.trim();
+            const alt = document.getElementById('photo-alt').value.trim();
+            const description = document.getElementById('photo-description').value.trim();
+            
+            if (!src || !alt) {
+                showMessage('error', 'Photo path and alt text are required');
+                return;
+            }
+            
+            locationPhotos.push({
+                src,
+                alt,
+                description: description || 'No description available.'
+            });
+            
+            updatePhotoList();
+            clearPhotoForm();
+            showMessage('success', 'Photo added to location!');
+        });
+        
+        // Clear photo form button
+        document.getElementById('clear-photo-form-btn').addEventListener('click', clearPhotoForm);
+        
+        // Save location button (form submission)
+        locationForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const id = document.getElementById('location-id').value.trim();
+            const name = document.getElementById('location-name').value.trim();
+            const city = document.getElementById('location-city').value.trim();
+            const state = document.getElementById('location-state').value.trim();
+            const country = document.getElementById('location-country').value.trim();
+            const latitude = parseFloat(document.getElementById('latitude').textContent);
+            const longitude = parseFloat(document.getElementById('longitude').textContent);
+            
+            if (!id || !name || !city || !country) {
+                showMessage('error', 'Location ID, name, city, and country are required');
+                return;
+            }
+            
+            if (isNaN(latitude) || isNaN(longitude)) {
+                showMessage('error', 'Please set the location coordinates by clicking on the map');
+                return;
+            }
+            
+            if (locationPhotos.length === 0) {
+                showMessage('error', 'Please add at least one photo to this location');
+                return;
+            }
+            
+            const location = {
+                id,
+                name,
+                city,
+                state,
+                country,
+                latitude,
+                longitude,
+                photos: [...locationPhotos]
+            };
+            
+            if (currentLocationIndex >= 0) {
+                // Update existing location
+                locationData.locations[currentLocationIndex] = location;
+            } else {
+                // Check for duplicate ID
+                if (locationData.locations.some(loc => loc.id === id)) {
+                    showMessage('error', `Location ID "${id}" already exists. Please use a unique ID.`);
+                    return;
+                }
+                
+                // Add new location
+                locationData.locations.push(location);
+            }
+            
+            updateLocationList();
+            updateJsonOutput();
+            showMessage('success', 'Location saved successfully!');
+        });
+        
+        // Delete location button
+        document.getElementById('delete-location-btn').addEventListener('click', () => {
+            if (currentLocationIndex >= 0) {
+                if (confirm('Are you sure you want to delete this location?')) {
+                    locationData.locations.splice(currentLocationIndex, 1);
+                    clearForm();
+                    currentLocationIndex = -1;
+                    locationPhotos = [];
+                    updateLocationList();
+                    updatePhotoList();
+                    updateJsonOutput();
+                    showMessage('success', 'Location deleted successfully!');
+                }
+            } else {
+                showMessage('error', 'No location selected');
+            }
+        });
+        
+        // Clear form button
+        document.getElementById('clear-form-btn').addEventListener('click', () => {
+            clearForm();
+            currentLocationIndex = -1;
+            locationPhotos = [];
+            updatePhotoList();
+        });
+        
+        // Copy JSON button
+        document.getElementById('copy-json-btn').addEventListener('click', () => {
+            jsonOutput.select();
+            document.execCommand('copy');
+            showMessage('success', 'JSON copied to clipboard!');
+        });
+        
+        // Download JSON button
+        document.getElementById('download-json-btn').addEventListener('click', () => {
+            const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(locationData, null, 2));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute('href', dataStr);
+            downloadAnchorNode.setAttribute('download', 'locations.json');
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+        });
+        
+        // Helper Functions
+        function updateLocationList() {
+            locationList.innerHTML = '';
+            
+            if (locationData.locations.length === 0) {
+                locationList.innerHTML = '<div class="location-item">No locations added yet</div>';
+                return;
+            }
+            
+            locationData.locations.forEach((location, index) => {
+                const item = document.createElement('div');
+                item.className = 'location-item';
+                if (index === currentLocationIndex) {
+                    item.classList.add('active');
+                }
+                
+                item.textContent = `${location.name} (${location.photos.length} photos)`;
+                
+                item.addEventListener('click', () => {
+                    currentLocationIndex = index;
+                    loadLocationToForm(location);
+                    updateLocationList();
+                });
+                
+                locationList.appendChild(item);
+            });
+        }
+        
+        function updatePhotoList() {
+            photoList.innerHTML = '';
+            
+            if (locationPhotos.length === 0) {
+                photoList.innerHTML = '<div class="photo-item">No photos added yet</div>';
+                return;
+            }
+            
+            locationPhotos.forEach((photo, index) => {
+                const item = document.createElement('div');
+                item.className = 'photo-item';
+                
+                const nameSpan = document.createElement('span');
+                nameSpan.textContent = extractBirdName(photo.alt);
+                
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'secondary';
+                deleteBtn.textContent = 'Remove';
+                deleteBtn.addEventListener('click', () => {
+                    locationPhotos.splice(index, 1);
+                    updatePhotoList();
+                });
+                
+                item.appendChild(nameSpan);
+                item.appendChild(deleteBtn);
+                photoList.appendChild(item);
+            });
+        }
+        
+        function loadLocationToForm(location) {
+            document.getElementById('location-id').value = location.id;
+            document.getElementById('location-name').value = location.name;
+            document.getElementById('location-city').value = location.city;
+            document.getElementById('location-state').value = location.state || '';
+            document.getElementById('location-country').value = location.country;
+            
+            document.getElementById('latitude').textContent = location.latitude.toFixed(6);
+            document.getElementById('longitude').textContent = location.longitude.toFixed(6);
+            
+            // Set map view and marker
+            map.setCenter([location.longitude, location.latitude]);
+            map.setZoom(10);
+            
+            if (marker) {
+                marker.setLngLat([location.longitude, location.latitude]);
+            } else {
+                marker = new mapboxgl.Marker({
+                    color: '#e74c3c',
+                    draggable: true
+                })
+                .setLngLat([location.longitude, location.latitude])
+                .addTo(map);
+                
+                marker.on('dragend', () => {
+                    const lngLat = marker.getLngLat();
+                    document.getElementById('latitude').textContent = lngLat.lat.toFixed(6);
+                    document.getElementById('longitude').textContent = lngLat.lng.toFixed(6);
+                });
+            }
+            
+            // Load photos
+            locationPhotos = [...location.photos];
+            updatePhotoList();
+        }
+        
+        function clearForm() {
+            document.getElementById('location-id').value = '';
+            document.getElementById('location-name').value = '';
+            document.getElementById('location-city').value = '';
+            document.getElementById('location-state').value = '';
+            document.getElementById('location-country').value = '';
+            document.getElementById('latitude').textContent = '0';
+            document.getElementById('longitude').textContent = '0';
+            
+            if (marker) {
+                marker.remove();
+                marker = null;
+            }
+            
+            map.setCenter([0, 0]);
+            map.setZoom(1);
+            
+            clearPhotoForm();
+        }
+        
+        function clearPhotoForm() {
+            document.getElementById('photo-src').value = '';
+            document.getElementById('photo-alt').value = '';
+            document.getElementById('photo-description').value = '';
+        }
+        
+        function updateJsonOutput() {
+            jsonOutput.value = JSON.stringify(locationData, null, 2);
+        }
+        
+        function showMessage(type, message) {
+            const messageEl = type === 'success' ? successMessage : errorMessage;
+            const otherEl = type === 'success' ? errorMessage : successMessage;
+            
+            messageEl.textContent = message;
+            messageEl.style.display = 'block';
+            otherEl.style.display = 'none';
+            
+            setTimeout(() => {
+                messageEl.style.display = 'none';
+            }, 5000);
+        }
+        
+        function extractBirdName(altText) {
+            const parts = altText.split('|');
+            const birdInfo = parts[0].trim();
+            const nameMatch = birdInfo.split('(');
+            return nameMatch[0].trim();
+        }
+        
+        // Initialize
+        updateLocationList();
+        updatePhotoList();
+        updateJsonOutput();
+    </script>
+</body>
+</html>

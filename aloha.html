@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aloha from Maui</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="assets/logo.png" alt="My Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Photos</a></li>
+                <li><a href="stories.html" class="active">Stories</a></li>
+                <li><a href="map.html">Map</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="story-header">
+            <h1>Aloha from Maui</h1>
+        </section>
+        <section class="story-photos">
+            <img src="portfolio-photos/warbling-white-eye.jpg" alt="A small warbler with a distinct white eye ring">
+            <img src="portfolio-photos/white-rumped-shama.jpg" alt="A dark blue bird with a brown-ish chest and a long tail on a branch in a rainy forest">
+            <img src="portfolio-photos/common-myna.jpg" alt="The most common bird in Maui, a starling-like bird with a bright yellow eye and beak">
+        </section>
+        <section class="story-content">
+            <p>I spent the last week on Maui. The Hawaiian islands are lush and tropical on the windward side - an ideal habitat for many bird species. However, their remoteness has limited the amount and diversity of bird species that live on the island.</p>
+            <p>My Merlin Bird ID app says there are only ~50 bird species commonly seen around Maui in July. By contrast, there are over 150 "likely birds" in Chicago this time of year.</p>
+            <p>Still, Hawaii has some strange, beautiful birds. On a hike along the Waihe’e Ridge Trail, we spotted a Warbling White-eye, a White-rumped Shama, and several other species we couldn’t quite place. Everywhere there are people, there are sure to be many Common Myna (a starling relative), Red-headed Cardinals (a weird little bird compared to the ubiquitous Northern Cardinal on the mainland), Java Sparrows (attractive little sparrows), and Zebra Doves. Despite the limited diversity overall, Hawaii is still a paradise for many bird species.</p>
+            <p>If you're ever in Maui, be sure to hike around the West Maui Forest Preserve on the NW part of the island or anywhere along the road to Hāna on Maui's NE corner. Your effort will be rewarded with breathtaking views and, of course, many interesting birds. Happy birding!</p>
+        </section>
+        <div id="back-to-top" onclick="scrollToTop()">
+            <span>&uarr; Back to Top</span>
+        </div>
+    </main>
+
+    <script>
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.addEventListener('scroll', function() {
+            var button = document.getElementById('back-to-top');
+            if (window.scrollY > 200) {
+                button.style.display = 'block';
+            } else {
+                button.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

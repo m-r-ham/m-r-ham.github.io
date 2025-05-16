@@ -1,0 +1,13 @@
+# Configuration file with API keys
+config.js
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Editor directories and files
+.idea/
+.vscode/
+*.swp
+*.swoconfig.js
+config.js

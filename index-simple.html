@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="assets/logo.png" alt="My Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html" class="active">Photos</a></li>
+                <li><a href="stories.html">Stories</a></li>
+                <li><a href="map.html">Map</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="view-controls">
+            <button id="grid-view-btn" class="view-btn active" aria-label="Grid View">
+                <i class="fas fa-th"></i>
+            </button>
+            <button id="list-view-btn" class="view-btn" aria-label="List View">
+                <i class="fas fa-list"></i>
+            </button>
+        </div>
+        
+        <!-- Grid View -->
+        <section id="grid-view" class="photo-grid">
+            <!-- Hard-coded photos for reliable display -->
+            <div class="grid-item">
+                <img src="portfolio-photos/summertanager1.jpeg" alt="Summer Tanager">
+            </div>
+            <div class="grid-item">
+                <img src="portfolio-photos/goldencheekedwarbler.jpeg" alt="Golden-cheeked Warbler">
+            </div>
+            <div class="grid-item">
+                <img src="portfolio-photos/motmot.jpeg" alt="Turquoise-browed Motmot">
+            </div>
+            <div class="grid-item">
+                <img src="portfolio-photos/northern-flicker.jpeg" alt="Northern Flicker">
+            </div>
+            <div class="grid-item">
+                <img src="portfolio-photos/vermillionflycatcher1.jpeg" alt="Vermilion Flycatcher">
+            </div>
+            <div class="grid-item">
+                <img src="portfolio-photos/blue-heron.jpeg" alt="Great Blue Heron">
+            </div>
+            <div class="grid-item">
+                <img src="portfolio-photos/downy-woodpecker.jpeg" alt="Downy Woodpecker">
+            </div>
+            <div class="grid-item">
+                <img src="portfolio-photos/kingfisher3.jpeg" alt="Belted Kingfisher">
+            </div>
+        </section>
+        
+        <!-- List View -->
+        <section id="list-view" class="photo-scroll" style="display: none;">
+            <!-- Hard-coded list view items -->
+            <div class="photo-post">
+                <div class="post-header">
+                    <div class="bird-info">
+                        <h3>Summer Tanager</h3>
+                        <p class="scientific-name">Piranga rubra</p>
+                    </div>
+                    <div class="location-info">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Lost Maples State Park, TX</span>
+                    </div>
+                </div>
+                <div class="post-image">
+                    <img src="portfolio-photos/summertanager1.jpeg" alt="Summer Tanager">
+                </div>
+            </div>
+            
+            <div class="photo-post">
+                <div class="post-header">
+                    <div class="bird-info">
+                        <h3>Golden-cheeked Warbler</h3>
+                        <p class="scientific-name">Setophaga chrysoparia</p>
+                    </div>
+                    <div class="location-info">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Lost Maples State Park, TX</span>
+                    </div>
+                </div>
+                <div class="post-image">
+                    <img src="portfolio-photos/goldencheekedwarbler.jpeg" alt="Golden-cheeked Warbler">
+                </div>
+            </div>
+            
+            <div class="photo-post">
+                <div class="post-header">
+                    <div class="bird-info">
+                        <h3>Turquoise-browed Motmot</h3>
+                        <p class="scientific-name">Eumomota superciliosa</p>
+                    </div>
+                    <div class="location-info">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Guanacaste, Costa Rica</span>
+                    </div>
+                </div>
+                <div class="post-image">
+                    <img src="portfolio-photos/motmot.jpeg" alt="Turquoise-browed Motmot">
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const gridViewBtn = document.getElementById('grid-view-btn');
+            const listViewBtn = document.getElementById('list-view-btn');
+            const gridView = document.getElementById('grid-view');
+            const listView = document.getElementById('list-view');
+            
+            // Grid view button click handler
+            gridViewBtn.addEventListener('click', function() {
+                gridView.style.display = 'grid';
+                listView.style.display = 'none';
+                gridViewBtn.classList.add('active');
+                listViewBtn.classList.remove('active');
+            });
+            
+            // List view button click handler
+            listViewBtn.addEventListener('click', function() {
+                gridView.style.display = 'none';
+                listView.style.display = 'block';
+                gridViewBtn.classList.remove('active');
+                listViewBtn.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

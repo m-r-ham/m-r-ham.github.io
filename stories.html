@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stories</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="assets/logo.png" alt="My Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Photos</a></li>
+                <li><a href="stories.html" class="active">Stories</a></li>
+                <li><a href="map.html">Map</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="stories">
+            <a href="color.html" class="story-link">
+                <div class="story-row">
+                    <img src="portfolio-photos/summertanager7.jpeg" alt="Male Summer Tanager in bright red plumage">
+                    <div class="story-info">
+                        <h2>Sex and color in the bird world</h2>
+                        <p>Sexual dimorphism is common in the bird world. Female birds typically get the short end of the genetic straw.</p>
+                        <p class="date">May 20, 2025</p>
+                    </div>
+                </div>
+            </a>
+            <a href="may.html" class="story-link">
+                <div class="story-row">
+                    <img src="portfolio-photos/paintedbunting2.jpeg" alt="Painted Bunting with vibrant blue, red, and green plumage">
+                    <div class="story-info">
+                        <h2>April showers bring May… birds?</h2>
+                        <p>May migration in West Texas</p>
+                        <p class="date">May 12, 2025</p>
+                    </div>
+                </div>
+            </a>
+            <a href="woodpeckers.html" class="story-link">
+                <div class="story-row">
+                    <img src="portfolio-photos/northern-flicker.jpeg" alt="Brown woodpecker clinging to a tree">
+                    <div class="story-info">
+                        <h2>Woodpeckers</h2>
+                        <p>How much wood would a woodpecker peck...</p>
+                        <p class="date">November 3, 2024</p>
+                    </div>
+                </div>
+            </a>
+            <a href="aloha.html" class="story-link">
+                <div class="story-row">
+                    <img src="portfolio-photos/warbling-white-eye-2.jpg" alt="Small bird with a white circle around its eye on a small branch">
+                    <div class="story-info">
+                        <h2>Aloha</h2>
+                        <p>Birdwatching on Maui</p>
+                        <p class="date">July 13, 2024</p>
+                    </div>
+                </div>
+            </a>
+            <a href="migration.html" class="story-link">
+                <div class="story-row">
+                    <img src="portfolio-photos/baltimore-oriole.jpeg" alt="Story 2">
+                    <div class="story-info">
+                        <h2>Go south, young bird</h2>
+                        <p>Migration is in full swing. Get outside to see your favorite migrators before they're gone again!</p>
+                        <p class="date">July 4, 2024</p>
+                    </div>
+                </div>
+            </a>
+            <a href="for-the-birds.html" class="story-link">
+                <div class="story-row">
+                    <img src="portfolio-photos/blackbird1.jpg" alt="Story 1">
+                    <div class="story-info">
+                        <h2>For the Birds</h2>
+                        <p>Over 2,000 species of birds that call North America home for at least part of the year. Which ones have you seen?</p>
+                        <p class="date">June 23, 2024</p>
+                    </div>
+                </div>
+            </a>
+        </section>
+        <div id="back-to-top" onclick="scrollToTop()">
+            <span>&uarr; Back to Top</span>
+        </div>
+    </main>
+
+    <script>
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.addEventListener('scroll', function() {
+            var button = document.getElementById('back-to-top');
+            if (window.scrollY > 200) {
+                button.style.display = 'block';
+            } else {
+                button.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

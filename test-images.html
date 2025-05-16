@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Test</title>
+    <style>
+        img {
+            max-width: 300px;
+            border: 1px solid #ccc;
+            margin: 10px;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Image Loading Test</h1>
+
+    <div id="test-results"></div>
+
+    <script>
+        // List of images to test
+        const imagesToTest = [
+            'portfolio-photos/summertanager1.jpeg',
+            'portfolio-photos/goldencheekedwarbler.jpeg',
+            'portfolio-photos/motmot.jpeg',
+            'portfolio-photos/northern-flicker.jpeg',
+            'portfolio-photos/vermillionflycatcher1.jpeg',
+            'portfolio-photos/blue-heron.jpeg',
+            'portfolio-photos/downy-woodpecker.jpeg',
+            'portfolio-photos/kingfisher3.jpeg',
+            'portfolio-photos/20250203_YellowBelliedSapsucker1-topaz.jpg',
+            'portfolio-photos/paintedbunting1.jpeg'
+        ];
+
+        const resultsContainer = document.getElementById('test-results');
+
+        // Test each image
+        imagesToTest.forEach((imagePath, index) => {
+            const containerDiv = document.createElement('div');
+            
+            const statusP = document.createElement('p');
+            statusP.textContent = `Testing ${imagePath}: `;
+            
+            const img = document.createElement('img');
+            img.src = imagePath;
+            
+            img.onload = () => {
+                statusP.textContent += 'SUCCESS';
+                statusP.className = 'success';
+            };
+            
+            img.onerror = () => {
+                statusP.textContent += 'FAILED';
+                statusP.className = 'error';
+            };
+            
+            containerDiv.appendChild(statusP);
+            containerDiv.appendChild(img);
+            resultsContainer.appendChild(containerDiv);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>April showers bring May… birds?</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="assets/logo.png" alt="My Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Photos</a></li>
+                <li><a href="stories.html" class="active">Stories</a></li>
+                <li><a href="map.html">Map</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="story-header">
+            <h1>April showers bring May… birds?</h1>
+            <p>May migration in West Texas</p>
+        </section>
+        <section class="story-photos">
+            <img src="portfolio-photos/summertanager1.jpeg" alt="Summer Tanager perched on a branch">
+            <img src="portfolio-photos/paintedbunting3.jpeg" alt="Painted Bunting with vibrant colors">
+            <img src="portfolio-photos/vermillionflycatcher2.jpeg" alt="Vermillion Flycatcher on a post">
+        </section>
+        <section class="story-content">
+            <p>There's a magic that happens in May across Texas. As spring flowers bloom and temperatures rise, the skies fill with millions of migrating birds making their way north. This past week, I had the incredible opportunity to witness this spectacle firsthand at Lost Maples State Natural Area in the Texas Hill Country.</p>
+            
+            <p>According to eBird data, May is the peak month for bird migration across North America, with more species on the move than any other time of year. Central and West Texas lie directly in what ornithologists call the "Central Flyway" — one of the major migratory routes that birds use to travel between their winter homes in Central and South America and their breeding grounds in the northern United States and Canada.</p>
+            
+            <p>The Texas Hill Country, with its diverse habitats of oak-juniper woodlands, riparian corridors, and open grasslands, serves as a critical stopover site for these tired travelers. eBird reports show that over 350 species pass through this region annually, with May 5-15 typically showing the highest diversity counts of the entire year.</p>
+            
+            <img src="portfolio-photos/goldencheekedwarbler.jpeg" alt="Golden-cheeked Warbler singing from a juniper" class="inline-image">
+            
+            <p>What makes this area particularly special is that it's not just a rest stop — it's also the breeding destination for several remarkable species found nowhere else. The endangered Golden-cheeked Warbler, pictured above, breeds exclusively in the mature oak-juniper woodlands of central Texas. I was lucky enough to spot several males establishing territories, their distinctive black throats and bright yellow faces catching the morning light as they sang from the treetops.</p>
+            
+            <p>The stars of the show, however, were the Painted Buntings. These kaleidoscopic birds, looking almost as if they were colored by a child with crayons, arrive in force during early May. eBird hotspot data for Lost Maples shows that sightings increase by over 400% during the first two weeks of May compared to April numbers. Males like the one below establish territories with their sweet, warbling songs.</p>
+            
+            <img src="portfolio-photos/paintedbunting2.jpeg" alt="Close-up of a male Painted Bunting" class="inline-image">
+            
+            <p>According to migration tracking studies conducted by the Cornell Lab of Ornithology, the Central Flyway hosts approximately 30-40% of all North American migratory birds each spring. Texas, situated at the narrowest point of this funnel, becomes a concentration point for these travelers — a phenomenon birders call "migration fallout" when weather conditions cause birds to descend in large numbers.</p>
+            
+            <p>eBird's "Migration Forecast" tool predicted an incredible wave of migrants during my visit, and the birds didn't disappoint. Summer Tanagers, Baltimore Orioles, various warblers, and the brilliant Vermilion Flycatchers seemed to appear overnight, turning the landscape into a living rainbow.</p>
+            
+            <p>If you've never experienced spring migration in Texas, add it to your bucket list. The window is short — typically just 2-3 weeks in May — but the memories will last a lifetime. Just remember to bring your binoculars, camera, plenty of water, and patience. The birds will reward you with some of the most spectacular displays nature has to offer.</p>
+        </section>
+        <div id="back-to-top" onclick="scrollToTop()">
+            <span>&uarr; Back to Top</span>
+        </div>
+    </main>
+
+    <script>
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.addEventListener('scroll', function() {
+            var button = document.getElementById('back-to-top');
+            if (window.scrollY > 200) {
+                button.style.display = 'block';
+            } else {
+                button.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
