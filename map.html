@@ -422,28 +422,66 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', async function() {
-            // Initialize the map
+            console.log("DOM loaded, initializing map...");
+            
+            // Initialize the map with Mapbox token from config
+            if (!config || !config.mapboxAccessToken) {
+                console.error("Missing Mapbox access token in config.js");
+                document.getElementById('map').innerHTML = '<div style="text-align: center; padding: 20px;"><h3>Error: Missing map configuration</h3><p>Please make sure config.js is properly set up with a Mapbox access token.</p></div>';
+                return;
+            }
+            
             mapboxgl.accessToken = config.mapboxAccessToken;
+            console.log("Mapbox token loaded");
             
             const map = new mapboxgl.Map({
                 container: 'map',
                 style: 'mapbox://styles/mapbox/outdoors-v12',
-                center: [0, 20], // Default center (will be adjusted based on data)
-                zoom: 2,
+                center: [-98, 39], // Default center on USA
+                zoom: 3,
                 attributionControl: true
             });
+            
+            // Add loading indicator
+            const mapContainer = document.getElementById('map');
+            const loadingEl = document.createElement('div');
+            loadingEl.id = 'map-loading';
+            loadingEl.innerHTML = '<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255,255,255,0.8); padding: 20px; border-radius: 10px; text-align: center; z-index: 10;"><i class="fas fa-spinner fa-spin" style="font-size: 30px; margin-bottom: 10px;"></i><p>Loading map data...</p></div>';
+            mapContainer.appendChild(loadingEl);
             
             // Add navigation controls
             map.addControl(new mapboxgl.NavigationControl(), 'top-right');
             
+            // Wait for map to finish loading
+            map.on('load', function() {
+                console.log("Map base layer loaded");
+            });
+            
             // Load location data
             let locationData;
             try {
+                console.log("Fetching location data from data/locations.json");
                 const response = await fetch('data/locations.json');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
                 locationData = await response.json();
+                console.log(`Loaded ${locationData.locations ? locationData.locations.length : 0} locations`);
+                
+                if (!locationData.locations || locationData.locations.length === 0) {
+                    throw new Error("No location data found");
+                }
             } catch (error) {
                 console.error('Error loading location data:', error);
-                locationData = { locations: [] };
+                mapContainer.innerHTML = `<div style="text-align: center; padding: 20px;"><h3>Error Loading Map Data</h3><p>${error.message}</p><p>Please check that the data/locations.json file exists and is properly formatted.</p></div>`;
+                return;
+            }
+            
+            // Remove loading indicator after data is loaded
+            if (loadingEl && loadingEl.parentNode) {
+                loadingEl.parentNode.removeChild(loadingEl);
             }
             
             // Add markers to the map
@@ -451,6 +489,15 @@
             const markers = [];
             
             locationData.locations.forEach(location => {
+                // Skip locations with all zeroes for coordinates (special categories like "Other Locations")
+                if (location.latitude === 0 && location.longitude === 0) {
+                    console.log(`Skipping marker for ${location.name} - no coordinates`);
+                    return;
+                }
+                
+                // Log the marker we're adding
+                console.log(`Adding marker for ${location.name} at ${location.latitude}, ${location.longitude} with ${location.photos.length} photos`);
+                
                 // Extend bounds to include this location
                 bounds.extend([location.longitude, location.latitude]);
                 
@@ -523,12 +570,20 @@
                 });
             });
             
-            // Fit map to markers if we have any
-            if (locationData.locations.length > 0) {
+            // Skip zero coordinates locations 
+            const validLocations = locationData.locations.filter(loc => 
+                loc.latitude !== 0 || loc.longitude !== 0
+            );
+            
+            // Fit map to markers if we have any valid coordinates
+            if (validLocations.length > 0) {
+                console.log(`Fitting map to ${validLocations.length} valid locations`);
                 map.fitBounds(bounds, {
                     padding: { top: 50, bottom: 50, left: 350, right: 50 }, // Account for sidebar
-                    maxZoom: 10
+                    maxZoom: 8
                 });
+            } else {
+                console.log("No valid locations with coordinates found");
             }
             
             // Check for URL parameter to open a specific location

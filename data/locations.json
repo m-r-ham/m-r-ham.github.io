@@ -15,6 +15,21 @@
           "description": "The Summer Tanager is one of the few completely red birds in North America. This brilliant male was foraging in the canopy in Kerr County. Their diet consists primarily of bees and wasps, which they catch in flight and remove the stinger before eating."
         },
         {
+          "src": "portfolio-photos/summertanager5.jpeg", 
+          "alt": "Summer Tanager (Piranga rubra) | Kerr County, TX",
+          "description": "Male Summer Tanager in breeding plumage. The males are entirely bright red while females are olive-yellow."
+        },
+        {
+          "src": "portfolio-photos/summertanager7.jpeg", 
+          "alt": "Summer Tanager (Piranga rubra) | Kerr County, TX",
+          "description": "Summer Tanagers primarily eat large flying insects, especially bees and wasps."
+        },
+        {
+          "src": "portfolio-photos/summertanagerF.jpeg", 
+          "alt": "Summer Tanager (Piranga rubra) - Female | Kerr County, TX",
+          "description": "Female Summer Tanager showing the characteristic olive-yellow coloration that distinguishes it from the all-red male."
+        },
+        {
           "src": "portfolio-photos/goldencheekedwarbler.jpeg", 
           "alt": "Golden-cheeked Warbler (Setophaga chrysoparia) | Kerr County, TX",
           "description": "The Golden-cheeked Warbler is an endangered species that breeds only in the mature juniper-oak woodlands of central Texas. I spent several hours searching for this striking male in Kerr County during breeding season."
@@ -25,9 +40,39 @@
           "description": "The Vermilion Flycatcher is arguably one of the most striking birds in North America. This brilliantly colored male was perched prominently on a fence post, making occasional sallies to catch flying insects."
         },
         {
+          "src": "portfolio-photos/vermillionflycatcher2.jpeg", 
+          "alt": "Vermilion Flycatcher (Pyrocephalus rubinus) | Kerr County, TX",
+          "description": "Male Vermilion Flycatcher in breeding plumage showing its brilliant red coloration that stands out against any background."
+        },
+        {
+          "src": "portfolio-photos/vermillionflycatcher4.jpeg", 
+          "alt": "Vermilion Flycatcher (Pyrocephalus rubinus) | Kerr County, TX",
+          "description": "This male Vermilion Flycatcher repeatedly returned to the same perch after catching flying insects, allowing for excellent photography opportunities."
+        },
+        {
+          "src": "portfolio-photos/vermillionflycatcherF.jpeg", 
+          "alt": "Vermilion Flycatcher (Pyrocephalus rubinus) - Female | Kerr County, TX",
+          "description": "Female Vermilion Flycatcher showing the peach-colored underparts instead of the bright red seen in males."
+        },
+        {
           "src": "portfolio-photos/paintedbunting1.jpeg", 
           "alt": "Painted Bunting (Passerina ciris) | Kerr County, TX",
           "description": "The Painted Bunting is often called the most beautiful bird in North America, and it\\'s easy to see why. This male\\'s vibrant blue head, red underparts, and green back make it look like it was colored by a child with crayons."
+        },
+        {
+          "src": "portfolio-photos/paintedbunting2.jpeg", 
+          "alt": "Painted Bunting (Passerina ciris) | Kerr County, TX",
+          "description": "Male Painted Bunting in breeding plumage. These colorful birds spend much of their time concealed in dense vegetation."
+        },
+        {
+          "src": "portfolio-photos/paintedbunting3.jpeg", 
+          "alt": "Painted Bunting (Passerina ciris) | Kerr County, TX",
+          "description": "The striking combination of blue, green, and red in the male Painted Bunting makes it one of the most vividly colored birds in North America."
+        },
+        {
+          "src": "portfolio-photos/paintedbuntingF.jpeg", 
+          "alt": "Painted Bunting (Passerina ciris) - Female | Kerr County, TX",
+          "description": "Female Painted Bunting. Unlike the vibrantly colored males, females are a uniform bright yellow-green that provides excellent camouflage."
         },
         {
           "src": "portfolio-photos/blackcappedvireo.jpeg", 
@@ -38,6 +83,16 @@
           "src": "portfolio-photos/scottsoriole.jpeg", 
           "alt": "Scott's Oriole (Icterus parisorum) | Kerr County, TX",
           "description": "Scott\\'s Orioles are striking birds of arid landscapes in the southwestern United States. Their yellow and black plumage provides a beautiful contrast against the dry landscape."
+        },
+        {
+          "src": "portfolio-photos/baltimore-oriole.jpeg", 
+          "alt": "Baltimore Oriole (Icterus galbula) | Kerr County, TX", 
+          "description": "The Baltimore Oriole is known for its brilliant orange and black plumage. This male was foraging in the canopy of tall trees."
+        },
+        {
+          "src": "portfolio-photos/indigo-bunting.jpeg", 
+          "alt": "Indigo Bunting (Passerina cyanea) | Kerr County, TX", 
+          "description": "Male Indigo Bunting in breeding plumage. These small birds appear almost entirely blue in good lighting."
         }
       ]
     },
@@ -232,6 +287,78 @@
           "src": "portfolio-photos/java-sparrow-1.jpg", 
           "alt": "Java Sparrow (Lonchura oryzivora) | Maui, HI",
           "description": "Java Sparrows are not native to Hawaii but were introduced and have established populations on several islands. I found this group feeding on grass seeds in a Maui park."
+        },
+        {
+          "src": "portfolio-photos/warbling-white-eye.jpg", 
+          "alt": "Japanese White-eye (Zosterops japonicus) | Maui, HI",
+          "description": "The Japanese White-eye, also known as Warbling White-eye, is another introduced species that has established populations on most Hawaiian islands."
+        },
+        {
+          "src": "portfolio-photos/warbling-white-eye-2.jpg", 
+          "alt": "Japanese White-eye (Zosterops japonicus) | Maui, HI",
+          "description": "These small, active birds have a distinctive white eye-ring that gives them their common name. They\\'re common in parks and gardens throughout Hawaii."
+        },
+        {
+          "src": "portfolio-photos/common-myna.jpg", 
+          "alt": "Common Myna (Acridotheres tristis) | Maui, HI",
+          "description": "Common Mynas were introduced to Hawaii in the late 1800s and are now abundant in urban and agricultural areas throughout the islands."
+        },
+        {
+          "src": "portfolio-photos/white-rumped-shama.jpg", 
+          "alt": "White-rumped Shama (Copsychus malabaricus) | Maui, HI",
+          "description": "The White-rumped Shama is known for its beautiful song and was introduced to Hawaii from southeast Asia. This striking bird is often seen perched in the mid-canopy."
+        }
+      ]
+    },
+    {
+      "id": "oahu-hi",
+      "name": "Oahu",
+      "city": "Honolulu",
+      "state": "HI",
+      "country": "USA",
+      "latitude": 21.3099,
+      "longitude": -157.8581,
+      "photos": [
+        {
+          "src": "portfolio-photos/blackbird1.jpg", 
+          "alt": "Red-vented Bulbul (Pycnonotus cafer) | Honolulu, HI",
+          "description": "The Red-vented Bulbul is an introduced species in Hawaii, primarily found on Oahu. These bold birds have adapted well to urban environments."
+        }
+      ]
+    },
+    {
+      "id": "other-locations",
+      "name": "Other Locations",
+      "city": "Various",
+      "state": "",
+      "country": "Various",
+      "latitude": 0,
+      "longitude": 0,
+      "photos": [
+        {
+          "src": "portfolio-photos/scarlet-tanager.jpg", 
+          "alt": "Scarlet Tanager (Piranga olivacea) | Eastern USA",
+          "description": "The Scarlet Tanager is a medium-sized American songbird with breeding males featuring brilliant red plumage and black wings and tail."
+        },
+        {
+          "src": "portfolio-photos/240927 Ladder-backed woodpecker-topaz.jpeg", 
+          "alt": "Ladder-backed Woodpecker (Dryobates scalaris) | Southwestern USA",
+          "description": "The Ladder-backed Woodpecker is a small woodpecker of arid regions featuring black and white barred back and wings that give it a ladder-like appearance."
+        },
+        {
+          "src": "portfolio-photos/yellow-bellied-sapsucker.jpg", 
+          "alt": "Yellow-bellied Sapsucker (Sphyrapicus varius) | Eastern USA",
+          "description": "Yellow-bellied Sapsuckers are migratory woodpeckers known for drilling neat rows of holes in trees to feed on sap and insects attracted to it."
+        },
+        {
+          "src": "portfolio-photos/american-goldfinch.jpeg", 
+          "alt": "American Goldfinch (Spinus tristis) | North America",
+          "description": "The American Goldfinch is a small North American bird in the finch family. The male displays bright yellow plumage during the breeding season."
+        },
+        {
+          "src": "portfolio-photos/kingfisher.jpg", 
+          "alt": "Belted Kingfisher (Megaceryle alcyon) | North America",
+          "description": "The Belted Kingfisher is a large, conspicuous water kingfisher commonly found near rivers and lakes throughout North America."
         }
       ]
     }
