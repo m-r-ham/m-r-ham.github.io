@@ -1,18 +1,27 @@
 name: Build & Deploy to GitHub Pages
 
+# Allow the workflow to push back to the repo
+permissions:
+  contents: write
+  pages: write
+
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout main
+      - name: Checkout main branch
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          # Needed so we can push from within the Action
           persist-credentials: true
+          # Fetch full history to avoid shallow-clone push errors
+          fetch-depth: 0
 
       - name: Generate config.js
         run: |
@@ -22,13 +31,21 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # Clone the existing gh-pages branch (or create it if it doesn't exist)
           git clone \
             --branch gh-pages \
             https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }} \
             gh-pages || \
-          (git clone https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }} gh-pages && cd gh-pages && git checkout --orphan gh-pages)
+          (git clone https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }} gh-pages && \
+           cd gh-pages && git checkout --orphan gh-pages)
+
+          # Remove all old files
           rm -rf gh-pages/*
+
+          # Copy everything from the workspace (including config.js)
           cp -R ./* gh-pages/
+
+          # Commit & push
           cd gh-pages
           git add .
           git config user.name "github-actions[bot]"
