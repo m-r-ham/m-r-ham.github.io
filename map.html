@@ -1,251 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bird Photography Map</title>
-
-  <!-- Your main stylesheet -->
-  <link rel="stylesheet" href="styles.css"/>
-
-  <!-- Google Fonts & FontAwesome -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-
-  <!-- Mapbox GL CSS & JS -->
-  <link href="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.css" rel="stylesheet"/>
-  <script src="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.js"></script>
-
-  <!-- Injected at deploy time via GitHub Actions -->
-  <script src="config.js"></script>
-
-  <style>
-    /* Layout */
-    body, html { margin:0; padding:0; height:100%; font-family:'Inter',sans-serif; }
-    .map-container { display:flex; height: calc(100vh - 60px); } /* header is 60px high */
-    #map             { flex: 2; position:relative; }
-    .photo-sidebar   {
-      flex: 1;
-      background: #f8f8f8;
-      border-left: 1px solid #eaeaea;
-      overflow-y: auto;
-      display: none;
-      padding: 20px;
-    }
-    .map-container.sidebar-open #map { flex: 1; }
-    .map-container.sidebar-open .photo-sidebar { display: block; }
-
-    /* Loading Spinner Overlay */
-    #map-loading {
-      position: absolute; top:0; left:0; right:0; bottom:0;
-      background: rgba(255,255,255,0.8);
-      display: flex; align-items:center; justify-content:center;
-      z-index: 1;
-    }
-    #map-loading i { font-size: 2rem; color: #666; }
-
-    /* Empty Sidebar State */
-    .empty-state { text-align:center; color:#666; }
-    .empty-state i { font-size:2rem; margin-bottom:.5rem; }
-
-    /* Sidebar – vertical list of photos */
-    #photo-list {
-      margin-top:1rem;
-      display:flex; flex-direction:column; gap:1rem;
-    }
-    .photo-item img {
-      width:100%; border-radius:8px; object-fit:cover; cursor:pointer;
-    }
-    .photo-item .caption {
-      margin-top:.5rem; font-style:italic; color:#444;
-    }
-
-    /* Fullscreen Modal */
-    .photo-modal {
-      display: none; position: fixed; inset:0;
-      background: rgba(0,0,0,0.9); align-items:center; justify-content:center;
-      z-index: 1000;
-    }
-    .photo-modal img {
-      max-width: 90%; max-height: 90%; border:2px solid #fff; border-radius:4px;
-    }
-
-    /* Navbar copied from index.html */
-    header {
-      height: 60px; display: flex; align-items:center; padding: 0 20px;
-      background: #fff; border-bottom:1px solid #eaeaea;
-    }
-    .logo img { height: 40px; }
-    nav ul { list-style:none; display:flex; margin:0; padding:0; }
-    nav li { margin-left: 20px; }
-    nav a {
-      text-decoration:none; color:#333; font-weight:500; padding-bottom:4px;
-    }
-    nav a.active { border-bottom:2px solid #333; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bird Photography Map</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.js"></script>
+    <script src="config.js"></script>
+    <style>
+        .map-container { display: flex; height: calc(100vh - 83px); }
+        #map { flex: 2; height: 100%; }
+        .photo-sidebar { flex: 1; overflow-y: auto; padding: 20px; background-color: #f8f8f8; border-left: 1px solid #eaeaea; display: none; }
+        .location-header h2 { margin: 0 0 5px; font-size: 22px; }
+        .map-photo-item img { width: 100%; aspect-ratio: 16/9; object-fit: cover; cursor: pointer; border-radius: 8px; }
+        .map-photo-caption { padding: 10px 15px; }
+        .map-photo-caption h3 { margin: 0 0 5px; font-size: 16px; font-weight: 600; }
+        .map-photo-caption p { margin: 0; font-size: 14px; color: #666; }
+        .map-container.sidebar-open #map { flex: 1; }
+        .map-container.sidebar-open .photo-sidebar { flex: 1; display: block; }
+        .close-sidebar { position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 24px; cursor: pointer; color: #666; }
+        .scientific-name { font-style: italic; color: #666; margin-top: -5px; margin-bottom: 5px; }
+        .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #666; text-align: center; padding: 0 20px; }
+        .empty-state i { font-size: 40px; margin-bottom: 15px; color: #ccc; }
+        .empty-state h3 { margin: 0 0 10px; font-size: 18px; }
+        .empty-state p { margin: 0; font-size: 14px; }
+        header { height: 83px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; background-color: #fff; border-bottom: 1px solid #eaeaea; }
+        .logo img { height: 40px; }
+        nav ul { list-style: none; display: flex; margin: 0; padding: 0; }
+        nav li { margin-left: 20px; }
+        nav a { text-decoration: none; color: #333; font-weight: 500; padding-bottom: 4px; }
+        nav a.active { border-bottom: 2px solid #333; }
+    </style>
 </head>
-
 <body>
-  <header>
-    <div class="logo">
-      <a href="index.html"><img src="assets/logo.png" alt="Logo"></a>
+    <header>
+        <div class="logo">
+            <a href="index.html"><img src="assets/logo.png" alt="Logo"></a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Photos</a></li>
+                <li><a href="stories.html">Stories</a></li>
+                <li><a href="map.html" class="active">Map</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="map-container">
+        <div id="map"></div>
+        <div class="photo-sidebar" id="photo-sidebar">
+            <div class="empty-state">
+                <i class="fas fa-map-marker-alt"></i>
+                <h3>Select a Location</h3>
+                <p>Click on a map marker to view photos from that location.</p>
+            </div>
+        </div>
     </div>
-    <nav>
-      <ul>
-        <li><a href="index.html">Photos</a></li>
-        <li><a href="stories.html">Stories</a></li>
-        <li><a href="map.html" class="active">Map</a></li>
-      </ul>
-    </nav>
-  </header>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            if (!config || !config.mapboxAccessToken) {
+                console.error('Mapbox access token missing.');
+                return;
+            }
+            mapboxgl.accessToken = config.mapboxAccessToken;
+            const map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/mapbox/outdoors-v12',
+                center: [-98, 39],
+                zoom: 3,
+                projection: 'globe',
+                attributionControl: true
+            });
+            map.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
-  <div class="map-container">
-    <div id="map"></div>
+            map.on('load', async function () {
+                const res = await fetch('data/locations.json');
+                const data = await res.json();
+                const features = data.locations.map(loc => ({
+                    type: 'Feature',
+                    geometry: { type: 'Point', coordinates: [loc.longitude, loc.latitude] },
+                    properties: {
+                        id: loc.id,
+                        name: loc.name,
+                        city: loc.city,
+                        state: loc.state,
+                        country: loc.country,
+                        photos: JSON.stringify(loc.photos)
+                    }
+                }));
+                map.loadImage('assets/camera-icon.png', (err, image) => {
+                    if (err) throw err;
+                    map.addImage('camera-icon', image);
+                    map.addSource('locations', {
+                        type: 'geojson',
+                        data: { type: 'FeatureCollection', features: features }
+                    });
+                    map.addLayer({
+                        id: 'location-markers',
+                        type: 'symbol',
+                        source: 'locations',
+                        layout: {
+                            'icon-image': 'camera-icon',
+                            'icon-size': 0.5,
+                            'icon-anchor': 'bottom'
+                        }
+                    });
+                });
 
-    <aside class="photo-sidebar" id="photo-sidebar">
-      <div class="empty-state">
-        <i class="fas fa-map-marker-alt"></i>
-        <h3>Select a Location</h3>
-        <p>Click a camera icon on the map to view photos.</p>
-      </div>
-      <div id="photo-list"></div>
-    </aside>
-  </div>
+                map.on('click', 'location-markers', (e) => {
+                    const props = e.features[0].properties;
+                    const location = {
+                        name: props.name,
+                        city: props.city,
+                        state: props.state,
+                        country: props.country,
+                        photos: JSON.parse(props.photos)
+                    };
+                    showLocationPhotos(location);
+                });
+            });
 
-  <div id="map-loading">
-    <i class="fas fa-spinner fa-spin"></i>
-  </div>
+            function showLocationPhotos(location) {
+                const sidebar = document.getElementById('photo-sidebar');
+                let html = `
+                    <div class="location-header">
+                        <h2>${location.name}</h2>
+                        <p>${location.city}${location.state ? ', ' + location.state : ''}, ${location.country}</p>
+                        <button class="close-sidebar" onclick="closePhotoSidebar()">×</button>
+                    </div>
+                    <div class="location-photos">
+                `;
+                location.photos.forEach(photo => {
+                    const altParts = photo.alt.split('|');
+                    const birdInfo = altParts[0].trim();
+                    const birdName = extractBirdName(birdInfo);
+                    const scientificName = extractScientificName(birdInfo);
+                    html += `
+                        <div class="map-photo-item">
+                            <img src="${photo.src}" alt="${photo.alt}" onclick="openPhotoModalFromMap('${photo.src}')">
+                            <div class="map-photo-caption">
+                                <h3>${birdName}</h3>
+                                <p class="scientific-name">${scientificName}</p>
+                                <p>${photo.description || ''}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+                sidebar.innerHTML = html;
+                sidebar.style.display = 'block';
+                document.querySelector('.map-container').classList.add('sidebar-open');
+            }
 
-  <div id="photo-modal" class="photo-modal" onclick="closePhotoModal()">
-    <img id="modal-img" src="" alt="" onclick="event.stopPropagation()">
-  </div>
+            window.closePhotoSidebar = function () {
+                const sidebar = document.getElementById('photo-sidebar');
+                sidebar.style.display = 'none';
+                document.querySelector('.map-container').classList.remove('sidebar-open');
+            };
 
-  <script>
-  document.addEventListener('DOMContentLoaded', async () => {
-    // 1) Token check
-    if (!config?.mapboxAccessToken) {
-      document.getElementById('map').innerHTML =
-        '<p style="padding:20px;color:red;">Missing Mapbox token</p>';
-      return;
-    }
-    mapboxgl.accessToken = config.mapboxAccessToken;
+            function extractBirdName(info) {
+                return info.split('(')[0].trim();
+            }
+            function extractScientificName(info) {
+                const match = info.match(/\((.*?)\)/);
+                return match ? match[1] : '';
+            }
 
-    // 2) Init map
-    const map = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/mapbox/outdoors-v12',
-      projection: 'globe',
-      center: [-98,39],
-      zoom: 3
-    });
-    map.addControl(new mapboxgl.NavigationControl(), 'top-right');
-
-    // 3) Remove spinner & load data when map ready
-    map.on('load', async () => {
-      document.getElementById('map-loading').style.display = 'none';
-
-      // Fetch locations.json
-      let data;
-      try {
-        const res = await fetch('data/locations.json');
-        data = await res.json();
-      } catch (e) {
-        console.error('Failed to load locations.json', e);
-        return;
-      }
-
-      // Build GeoJSON features
-      const features = data.locations
-        .filter(l => isFinite(l.latitude) && isFinite(l.longitude))
-        .map(l => ({
-          type: 'Feature',
-          geometry: { type: 'Point', coordinates: [l.longitude, l.latitude] },
-          properties: {
-            id: l.id,
-            name: l.name,
-            city: l.city,
-            state: l.state,
-            country: l.country,
-            photos: JSON.stringify(l.photos)
-          }
-        }));
-
-      // Load your camera icon – adjust path if yours is .svg or elsewhere
-      map.loadImage('assets/camera-icon.png', (err,img) => {
-        if (err) return console.error('Icon load failed',err);
-        map.addImage('camera-icon', img);
-
-        // Add source + symbol layer
-        map.addSource('locations', { type:'geojson', data:{type:'FeatureCollection',features} });
-        map.addLayer({
-          id: 'location-symbols',
-          type: 'symbol',
-          source: 'locations',
-          layout: {
-            'icon-image': 'camera-icon',
-            'icon-size': 0.6,
-            'icon-anchor': 'center',
-            'text-field': '{count}',
-            'text-font': ['Open Sans Bold','Arial Unicode MS Bold'],
-            'text-size': 12,
-            'text-offset': [0,1.2],
-            'icon-allow-overlap': true,
-            'text-allow-overlap': true
-          }
+            window.openPhotoModalFromMap = function (src) {
+                const modal = document.createElement('div');
+                modal.style = 'position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,0.9);display:flex;align-items:center;justify-content:center;z-index:1000;cursor:pointer';
+                modal.onclick = () => document.body.removeChild(modal);
+                const img = document.createElement('img');
+                img.src = src;
+                img.style = 'max-width:90%;max-height:90%;object-fit:contain;border:2px solid white;border-radius:4px;box-shadow:0 4px 20px rgba(0,0,0,0.6)';
+                img.onclick = e => e.stopPropagation();
+                const closeBtn = document.createElement('button');
+                closeBtn.innerHTML = '×';
+                closeBtn.style = 'position:absolute;top:20px;right:30px;font-size:40px;color:white;background:none;border:none;cursor:pointer';
+                closeBtn.onclick = () => document.body.removeChild(modal);
+                modal.appendChild(img);
+                modal.appendChild(closeBtn);
+                document.body.appendChild(modal);
+            };
         });
-
-        // Fit to all points
-        const bounds = features.reduce((b,f)=>b.extend(f.geometry.coordinates),
-                           new mapboxgl.LngLatBounds());
-        if (!bounds.isEmpty()) map.fitBounds(bounds,{padding:50,maxZoom:8});
-      });
-    });
-
-    // 4) Symbol click → sidebar
-    map.on('click','location-symbols', e => {
-      const props = e.features[0].properties;
-      const loc = JSON.parse(props.photos); // parse JSON string
-      const header = `${props.name}${props.city?`, ${props.city}`:''}${props.state?`, ${props.state}`:''}`;
-      openSidebar(header, loc);
-    });
-    map.on('mouseenter','location-symbols', ()=> map.getCanvas().style.cursor='pointer');
-    map.on('mouseleave','location-symbols', ()=> map.getCanvas().style.cursor='');
-
-    // 5) Sidebar builder
-    function openSidebar(title, photos) {
-      document.querySelector('.empty-state').style.display = 'none';
-      const list = document.getElementById('photo-list');
-      list.innerHTML = '';
-      // Header
-      const sidebar = document.getElementById('photo-sidebar');
-      sidebar.scrollTop = 0;
-      const h2 = document.createElement('h2');
-      h2.textContent = title;
-      list.before(h2);
-
-      photos.forEach((p,i)=>{
-        const div = document.createElement('div');
-        div.className = 'photo-item';
-        div.innerHTML = `
-          <img src="${p.src}" alt="${p.alt}">
-          <p class="caption">${p.description||''}</p>`;
-        div.querySelector('img').onclick = ()=> openPhotoModal(p.src);
-        list.append(div);
-      });
-
-      document.querySelector('.map-container').classList.add('sidebar-open');
-    }
-
-    // 6) Photo modal
-    window.openPhotoModal = src => {
-      const m = document.getElementById('photo-modal');
-      document.getElementById('modal-img').src = src;
-      m.style.display = 'flex';
-    };
-    window.closePhotoModal = () => {
-      document.getElementById('photo-modal').style.display = 'none';
-    };
-  });
-  </script>
+    </script>
 </body>
 </html>
