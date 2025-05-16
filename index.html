@@ -161,86 +161,7 @@
         
         <!-- Scroll View -->
         <section id="scroll-view" class="photo-scroll inactive">
-            <!-- Hard-coded list view items -->
-            <div class="photo-post">
-                <div class="post-header">
-                    <div class="bird-info">
-                        <h3>Summer Tanager</h3>
-                        <p class="scientific-name">Piranga rubra</p>
-                    </div>
-                    <div class="location-info">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>Kerr County, TX</span>
-                    </div>
-                </div>
-                <div class="post-image">
-                    <img src="portfolio-photos/summertanager1.jpeg" alt="Summer Tanager" onclick="openPhotoModal(0)">
-                </div>
-            </div>
-            
-            <div class="photo-post">
-                <div class="post-header">
-                    <div class="bird-info">
-                        <h3>Golden-cheeked Warbler</h3>
-                        <p class="scientific-name">Setophaga chrysoparia</p>
-                    </div>
-                    <div class="location-info">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>Kerr County, TX</span>
-                    </div>
-                </div>
-                <div class="post-image">
-                    <img src="portfolio-photos/goldencheekedwarbler.jpeg" alt="Golden-cheeked Warbler" onclick="openPhotoModal(1)">
-                </div>
-            </div>
-            
-            <div class="photo-post">
-                <div class="post-header">
-                    <div class="bird-info">
-                        <h3>Turquoise-browed Motmot</h3>
-                        <p class="scientific-name">Eumomota superciliosa</p>
-                    </div>
-                    <div class="location-info">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>Guanacaste, Costa Rica</span>
-                    </div>
-                </div>
-                <div class="post-image">
-                    <img src="portfolio-photos/motmot.jpeg" alt="Turquoise-browed Motmot" onclick="openPhotoModal(2)">
-                </div>
-            </div>
-            
-            <div class="photo-post">
-                <div class="post-header">
-                    <div class="bird-info">
-                        <h3>Northern Flicker</h3>
-                        <p class="scientific-name">Colaptes auratus</p>
-                    </div>
-                    <div class="location-info">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>Chicago, IL</span>
-                    </div>
-                </div>
-                <div class="post-image">
-                    <img src="portfolio-photos/northern-flicker.jpeg" alt="Northern Flicker" onclick="openPhotoModal(3)">
-                </div>
-            </div>
-            
-            <div class="photo-post">
-                <div class="post-header">
-                    <div class="bird-info">
-                        <h3>Vermilion Flycatcher</h3>
-                        <p class="scientific-name">Pyrocephalus rubinus</p>
-                    </div>
-                    <div class="location-info">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>Kerr County, TX</span>
-                    </div>
-                </div>
-                <div class="post-image">
-                    <img src="portfolio-photos/vermillionflycatcher1.jpeg" alt="Vermilion Flycatcher" onclick="openPhotoModal(4)">
-                </div>
-            </div>
+            <!-- photo-post items will be injected here -->
         </section>
         
         <!-- Photo Detail Modal -->
@@ -414,6 +335,9 @@
             console.log("DOM loaded");
             // Set up view toggle buttons
             setupViewToggle();
+
+            // Fill scroll view
+            fillScrollView();
             
             // Load range map mapping data
             loadRangeMapMapping();
@@ -468,6 +392,34 @@
             const cleanInfo = birdInfo.replace(/<\/?[^>]+(>|$)/g, "");
             const match = cleanInfo.match(/\((.*?)\)/);
             return match ? match[1] : '';
+        }
+
+        // Build the list-view from your `photos` array
+        function fillScrollView() {
+          const sv = document.getElementById('scroll-view');
+          sv.innerHTML = '';  // clear out the old 5 items
+          photos.forEach((photo, i) => {
+            const [info, loc] = photo.alt.split('|').map(s => s.trim());
+            const common = extractBirdName(info);
+            const sci    = extractScientificName(info);
+            sv.insertAdjacentHTML('beforeend', `
+              <div class="photo-post">
+                <div class="post-header">
+                  <div class="bird-info">
+                    <h3>${common}</h3>
+                    <p class="scientific-name">${sci}</p>
+                  </div>
+                  <div class="location-info">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>${loc}</span>
+                  </div>
+                </div>
+                <div class="post-image">
+                  <img src="${photo.src}" alt="${common}" onclick="openPhotoModal(${i})">
+                </div>
+              </div>
+            `);
+          });
         }
         
         // Open the photo modal with the specified photo index
