@@ -247,10 +247,11 @@
                 const gridItem = document.createElement('div');
                 gridItem.className = 'grid-item';
                 
-                gridItem.innerHTML = `
-                    <img src="${photo.src}" alt="${photo.alt}">
-                `;
+                const img = document.createElement('img');
+                img.src = photo.src;
+                img.alt = photo.alt;
                 
+                gridItem.appendChild(img);
                 gridItem.addEventListener('click', () => openPhotoModal(index));
                 gridContainer.appendChild(gridItem);
             });
@@ -268,21 +269,55 @@
                 const post = document.createElement('div');
                 post.className = 'photo-post';
                 
-                post.innerHTML = `
-                    <div class="post-header">
-                        <div class="bird-info">
-                            <h3>${extractBirdName(birdInfo)}</h3>
-                            <p class="scientific-name">${extractScientificName(birdInfo)}</p>
-                        </div>
-                        <div class="location-info">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>${location}</span>
-                        </div>
-                    </div>
-                    <div class="post-image">
-                        <img src="${photo.src}" alt="${photo.alt}" onclick="openPhotoModal(${index})">
-                    </div>
-                `;
+                // Create the post header
+                const postHeader = document.createElement('div');
+                postHeader.className = 'post-header';
+                
+                // Create bird info section
+                const birdInfoDiv = document.createElement('div');
+                birdInfoDiv.className = 'bird-info';
+                
+                const birdName = document.createElement('h3');
+                birdName.textContent = extractBirdName(birdInfo);
+                
+                const scientificName = document.createElement('p');
+                scientificName.className = 'scientific-name';
+                scientificName.textContent = extractScientificName(birdInfo);
+                
+                birdInfoDiv.appendChild(birdName);
+                birdInfoDiv.appendChild(scientificName);
+                
+                // Create location info section
+                const locationInfo = document.createElement('div');
+                locationInfo.className = 'location-info';
+                
+                const locationIcon = document.createElement('i');
+                locationIcon.className = 'fas fa-map-marker-alt';
+                
+                const locationSpan = document.createElement('span');
+                locationSpan.textContent = location;
+                
+                locationInfo.appendChild(locationIcon);
+                locationInfo.appendChild(locationSpan);
+                
+                // Add bird info and location to post header
+                postHeader.appendChild(birdInfoDiv);
+                postHeader.appendChild(locationInfo);
+                
+                // Create post image section
+                const postImage = document.createElement('div');
+                postImage.className = 'post-image';
+                
+                const img = document.createElement('img');
+                img.src = photo.src;
+                img.alt = photo.alt;
+                img.addEventListener('click', () => openPhotoModal(index));
+                
+                postImage.appendChild(img);
+                
+                // Assemble the post
+                post.appendChild(postHeader);
+                post.appendChild(postImage);
                 
                 scrollContainer.appendChild(post);
             });
@@ -290,13 +325,17 @@
         
         function extractBirdName(birdInfo) {
             // Extract just the bird name from the info string (remove scientific name)
-            const parts = birdInfo.split('(');
+            // Handle HTML tags in the input string
+            const cleanInfo = birdInfo.replace(/<\/?[^>]+(>|$)/g, "");
+            const parts = cleanInfo.split('(');
             return parts[0].trim();
         }
         
         function extractScientificName(birdInfo) {
             // Extract the scientific name from the info string
-            const match = birdInfo.match(/\((.*?)\)/);
+            // Handle HTML tags in the input string
+            const cleanInfo = birdInfo.replace(/<\/?[^>]+(>|$)/g, "");
+            const match = cleanInfo.match(/\((.*?)\)/);
             return match ? match[1] : '';
         }
         
@@ -328,22 +367,46 @@
             const birdInfo = altParts[0].trim();
             const location = altParts.length > 1 ? altParts[1].trim() : '';
             
-            // Update the header with bird name and location
-            modalHeader.innerHTML = `
-                <div class="modal-bird-info">
-                    <h2 class="bird-name">${extractBirdName(birdInfo)}</h2>
-                    <p class="scientific-name">${extractScientificName(birdInfo)}</p>
-                </div>
-                <div class="modal-location">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span>${location}</span>
-                </div>
-            `;
+            // Clear the header
+            modalHeader.innerHTML = '';
             
-            // Add the bird description
-            modalDescription.innerHTML = `
-                <p>${photo.description || 'No description available.'}</p>
-            `;
+            // Create bird info section
+            const birdInfoDiv = document.createElement('div');
+            birdInfoDiv.className = 'modal-bird-info';
+            
+            const birdNameH2 = document.createElement('h2');
+            birdNameH2.className = 'bird-name';
+            birdNameH2.textContent = extractBirdName(birdInfo);
+            
+            const scientificNameP = document.createElement('p');
+            scientificNameP.className = 'scientific-name';
+            scientificNameP.textContent = extractScientificName(birdInfo);
+            
+            birdInfoDiv.appendChild(birdNameH2);
+            birdInfoDiv.appendChild(scientificNameP);
+            
+            // Create location section
+            const locationDiv = document.createElement('div');
+            locationDiv.className = 'modal-location';
+            
+            const locationIcon = document.createElement('i');
+            locationIcon.className = 'fas fa-map-marker-alt';
+            
+            const locationSpan = document.createElement('span');
+            locationSpan.textContent = location;
+            
+            locationDiv.appendChild(locationIcon);
+            locationDiv.appendChild(locationSpan);
+            
+            // Add both sections to the header
+            modalHeader.appendChild(birdInfoDiv);
+            modalHeader.appendChild(locationDiv);
+            
+            // Clear and add the bird description
+            modalDescription.innerHTML = '';
+            const descriptionP = document.createElement('p');
+            descriptionP.textContent = photo.description || 'No description available.';
+            modalDescription.appendChild(descriptionP);
             
             // Set range map - use the mapping file to find the correct range map
             const scientificName = extractScientificName(birdInfo);
@@ -398,6 +461,11 @@
         async function loadRangeMapMapping() {
             try {
                 const response = await fetch('data/range-map-mapping.json');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
                 rangeMapMapping = await response.json();
                 console.log('Range map mapping loaded successfully');
             } catch (error) {
@@ -419,7 +487,9 @@
             }
             
             // Find the corresponding range map
-            const species = rangeMapMapping.species.find(s => s.scientificName === scientificName);
+            const species = rangeMapMapping.species.find(s => 
+                s.scientificName.toLowerCase() === scientificName.toLowerCase()
+            );
             
             if (species && species.rangeMapFile) {
                 rangeMapImg.src = species.rangeMapFile;
