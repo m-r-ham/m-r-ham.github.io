@@ -164,8 +164,7 @@
     {
       "scientificName": "Calocitta formosa",
       "commonName": "White-throated Magpie-Jay",
-      "rangeMapFile": "assets/range-map-placeholder.jpg",
-      "notes": "Limited range data available for this Central American species"
+      "rangeMapFile": "data/range-maps/wtmjay1-range-map-year-round-v2023-en.png"
     },
     {
       "scientificName": "Mniotilta varia",
