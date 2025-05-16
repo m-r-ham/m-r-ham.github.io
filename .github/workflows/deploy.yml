@@ -1,4 +1,8 @@
 name: Build & Deploy to GitHub Pages
+
+permissions:
+  contents: write
+
 on:
   push:
     branches:
@@ -8,16 +12,21 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          persist-credentials: true
 
       - name: Generate config.js
         run: |
-          echo "window.config = { mapboxAccessToken: '\${{ secrets.MAPBOX_TOKEN }}' };" > config.js
+          echo "window.config = { mapboxAccessToken: '${{ secrets.MAPBOX_TOKEN }}' };" > config.js
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: \${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: ./
+          user_name: github-actions[bot]
+          user_email: github-actions[bot]@users.noreply.github.com
