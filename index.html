@@ -23,8 +23,12 @@
         </nav>
     </header>
     <main>
-        <!-- Debug info (hidden by default) -->
-        <div id="debug-log" style="display: none; border: 1px solid #ccc; padding: 10px; margin-bottom: 20px; background: #f7f7f7; max-height: 200px; overflow-y: auto;"></div>
+        <!-- Test image - hidden but used to verify image loading -->
+        <div style="display: none;" id="test-image-container">
+            <img src="portfolio-photos/summertanager1.jpeg" alt="Test image" 
+                 onload="console.log('Test image loaded successfully')" 
+                 onerror="console.error('Test image failed to load')">
+        </div>
         
         <div class="view-controls">
             <button id="grid-view-btn" class="view-btn active" aria-label="Grid View">
@@ -33,17 +37,16 @@
             <button id="scroll-view-btn" class="view-btn" aria-label="Scroll View">
                 <i class="fas fa-list"></i>
             </button>
-            <button id="debug-toggle" style="margin-left: 20px; font-size: 12px; padding: 2px 5px; background: #eee; border: 1px solid #ddd; cursor: pointer;">Debug</button>
         </div>
         
         <!-- Grid View -->
         <section id="grid-view" class="photo-grid">
-            <!-- Photo tiles will be inserted here by JavaScript -->
+            <!-- Photo tiles inserted here by JavaScript -->
         </section>
         
         <!-- Scroll View -->
         <section id="scroll-view" class="photo-scroll" style="display: none;">
-            <!-- Photo posts will be inserted here by JavaScript -->
+            <!-- Photo posts inserted here by JavaScript -->
         </section>
         
         <!-- Photo Detail Modal -->
@@ -80,127 +83,127 @@
         // Array of bird photos with proper capitalization for both common and scientific names
         const photos = [
             { 
-                src: '/portfolio-photos/summertanager1.jpeg', // Added leading slash
+                src: 'portfolio-photos/summertanager1.jpeg',
                 alt: 'Summer Tanager (<i>Piranga rubra</i>) | Lost Maples State Park, TX',
                 description: 'The Summer Tanager is one of the few completely red birds in North America. This brilliant male was foraging in the canopy at Lost Maples State Park. Their diet consists primarily of bees and wasps, which they catch in flight and remove the stinger before eating. I was fortunate to capture this image when he briefly perched in the open.'
             },
             { 
-                src: '/portfolio-photos/goldencheekedwarbler.jpeg', 
+                src: 'portfolio-photos/goldencheekedwarbler.jpeg', 
                 alt: 'Golden-cheeked Warbler (<i>Setophaga chrysoparia</i>) | Lost Maples State Park, TX',
                 description: 'The Golden-cheeked Warbler is an endangered species that breeds only in the mature juniper-oak woodlands of central Texas. I spent several hours searching for this striking male at Lost Maples State Park during breeding season. Their distinctive black throat and bright yellow face make them unmistakable, though they often stay high in the canopy making photography challenging.'
             },
             { 
-                src: '/portfolio-photos/motmot.jpeg', 
+                src: 'portfolio-photos/motmot.jpeg', 
                 alt: 'Turquoise-browed Motmot (<i>Eumomota superciliosa</i>) | Guanacaste, Costa Rica',
                 description: 'The Turquoise-browed Motmot is known for its stunning colors and distinctive racket-shaped tail. I photographed this individual early in the morning at a resort in Guanacaste, where it was perched on a low branch hunting for insects. The early light highlighted its brilliant blue eyebrow stripe, giving it an almost ethereal appearance.'
             },
             { 
-                src: '/portfolio-photos/northern-flicker.jpeg', 
+                src: 'portfolio-photos/northern-flicker.jpeg', 
                 alt: 'Northern Flicker (<i>Colaptes auratus</i>) | Chicago, IL',
                 description: 'Northern Flickers are woodpeckers with distinctive spotted plumage and bright yellow shaft feathers visible in flight. This individual was foraging on the ground at a Chicago park, a common behavior as they primarily eat ants and beetles. I was able to capture this image by staying still and letting the bird become comfortable with my presence.'
             },
             { 
-                src: '/portfolio-photos/vermillionflycatcher1.jpeg', // File name kept as-is for compatibility 
+                src: 'portfolio-photos/vermillionflycatcher1.jpeg', // File name kept as-is for compatibility 
                 alt: 'Vermilion Flycatcher (<i>Pyrocephalus rubinus</i>) | Lost Maples State Park, TX',
                 description: 'The Vermilion Flycatcher is arguably one of the most striking birds in North America. This brilliantly colored male was perched prominently on a fence post, making occasional sallies to catch flying insects. The intense red plumage contrasted beautifully against the blue Texas sky, making this one of my favorite photographs from the trip.'
             },
             { 
-                src: '/portfolio-photos/blue-heron.jpeg', 
+                src: 'portfolio-photos/blue-heron.jpeg', 
                 alt: 'Great Blue Heron (<i>Ardea herodias</i>) | Atlanta, GA',
                 description: 'Great Blue Herons are among the largest wading birds in North America. This majestic individual was stalking fish in a small pond in Atlanta. I was struck by its patience - it stood completely motionless for nearly 20 minutes before striking with lightning speed at a fish. Their prehistoric appearance always reminds me of the ancient lineage of birds.'
             },
             { 
-                src: '/portfolio-photos/downy-woodpecker.jpeg', 
+                src: 'portfolio-photos/downy-woodpecker.jpeg', 
                 alt: 'Downy Woodpecker (<i>Picoides pubescens</i>) | Chicago, IL',
                 description: 'Downy Woodpeckers are the smallest woodpeckers in North America. I found this male (identified by the red patch on its head) working its way up a tree trunk in a Chicago forest preserve. These industrious birds are common in urban and suburban areas, making them one of the most accessible woodpeckers to photograph.'
             },
             { 
-                src: '/portfolio-photos/kingfisher3.jpeg', 
+                src: 'portfolio-photos/kingfisher3.jpeg', 
                 alt: 'Belted Kingfisher (<i>Megaceryle alcyon</i>) | Chicago, IL',
                 description: 'Belted Kingfishers are striking birds with their slate blue coloration and impressive crest. This female (females have the rusty band across the belly) was perched above a stream, scanning for fish below. Kingfishers are notoriously skittish, so I had to use a long lens and stay well-hidden to capture this photo without disturbing her.'
             },
             { 
-                src: '/portfolio-photos/20250203_YellowBelliedSapsucker1-topaz.jpg', 
+                src: 'portfolio-photos/20250203_YellowBelliedSapsucker1-topaz.jpg', 
                 alt: 'Yellow-bellied Sapsucker (<i>Sphyrapicus varius</i>) | Atlanta, GA',
                 description: 'Yellow-bellied Sapsuckers create distinctive rows of holes in trees to collect sap. This woodpecker was working on a pattern of fresh holes in an Atlanta park. I was particularly pleased to capture the yellow wash on its belly, which can be difficult to see in the field but shows up nicely in this photo.'
             },
             { 
-                src: '/portfolio-photos/paintedbunting1.jpeg', 
+                src: 'portfolio-photos/paintedbunting1.jpeg', 
                 alt: 'Painted Bunting (<i>Passerina ciris</i>) | Lost Maples State Park, TX',
                 description: 'The Painted Bunting is often called the most beautiful bird in North America, and it's easy to see why. This male's vibrant blue head, red underparts, and green back make it look like it was colored by a child with crayons. I spent several hours at Lost Maples waiting for this secretive bird to emerge from dense brush, and was rewarded with this clear view as it perched to sing its sweet, warbling song.'
             },
             { 
-                src: '/portfolio-photos/20250315_9739_bananaquit.jpg', 
+                src: 'portfolio-photos/20250315_9739_bananaquit.jpg', 
                 alt: 'Bananaquit (<i>Coereba flaveola</i>) | Grand Cayman, Cayman Islands',
                 description: 'The Bananaquit is a small, active nectar-feeder common throughout the Caribbean. This individual was feeding on hibiscus flowers near my hotel in Grand Cayman. Their curved bills are perfectly adapted for extracting nectar. I was amazed by how fearless this bird was, allowing me to approach within just a few feet.'
             },
             { 
-                src: '/portfolio-photos/20250308_Hermit_thrush_TrinityAudubonCenter-topaz.jpg', 
+                src: 'portfolio-photos/20250308_Hermit_thrush_TrinityAudubonCenter-topaz.jpg', 
                 alt: 'Hermit Thrush (<i>Catharus guttatus</i>) | Dallas, TX',
                 description: 'Hermit Thrushes are known for their beautiful, flute-like songs, though they're often difficult to spot as they forage in the understory. I found this individual quietly hopping through leaf litter at the Trinity Audubon Center in Dallas. The dappled sunlight through the trees created perfect lighting to highlight its spotted breast.'
             },
             { 
-                src: '/portfolio-photos/240921 Bald eagle 3-topaz.jpeg', 
+                src: 'portfolio-photos/240921 Bald eagle 3-topaz.jpeg', 
                 alt: 'Bald Eagle (<i>Haliaeetus leucocephalus</i>) | Watersmeet, MI',
                 description: 'The Bald Eagle is America's national bird and a conservation success story. I photographed this adult eagle at a lake in Michigan's Upper Peninsula where it was perched in a tall pine, surveying for fish. The intense yellow of the beak and white head feathers indicate this is a mature adult, at least 5 years old.'
             },
             { 
-                src: '/portfolio-photos/20250315_9923_parrot.jpg', 
+                src: 'portfolio-photos/20250315_9923_parrot.jpg', 
                 alt: 'Cayman Parrot (<i>Amazona leucocephala caymanensis</i>) | Grand Cayman, Cayman Islands',
                 description: 'The Cayman Parrot is a subspecies of the Cuban Amazon parrot and is the national bird of the Cayman Islands. This individual was part of a noisy group feeding in a fruit tree. Photographing parrots can be challenging as they're often hidden in dense foliage, so I was thrilled to capture this clear shot showing its distinctive coloration.'
             },
             { 
-                src: '/portfolio-photos/wood-duck.jpg', 
+                src: 'portfolio-photos/wood-duck.jpg', 
                 alt: 'Wood Duck (<i>Aix sponsa</i>) | Chicago, IL',
                 description: 'Wood Ducks are often considered the most beautiful waterfowl in North America. This male was swimming in a small pond in a Chicago park. The iridescent colors of breeding males are stunning, but they can be skittish. I spent nearly an hour slowly approaching until I was close enough for this portrait.'
             },
             { 
-                src: '/portfolio-photos/240817-american-goldfinch-topaz.jpeg', 
+                src: 'portfolio-photos/240817-american-goldfinch-topaz.jpeg', 
                 alt: 'American Goldfinch (<i>Spinus tristis</i>) | Chicago, IL',
                 description: 'American Goldfinches are bright spots of color in summer when males like this one wear their brilliant yellow breeding plumage. I found this individual feeding on thistle seeds, one of their favorite foods. The contrast of the yellow bird against the green background made for a striking composition.'
             },
             { 
-                src: '/portfolio-photos/20250308_Eastern_phoebe_TrinityAudubonCenter-topaz.jpg', 
+                src: 'portfolio-photos/20250308_Eastern_phoebe_TrinityAudubonCenter-topaz.jpg', 
                 alt: 'Eastern Phoebe (<i>Sayornis phoebe</i>) | Dallas, TX',
                 description: 'Eastern Phoebes are early spring migrants and often one of the first flycatchers to return north. This bird was actively hunting from a low perch at Trinity Audubon Center in Dallas, making frequent flights to catch insects before returning to the same branch. Their distinctive tail-wagging behavior helped me identify it.'
             },
             { 
-                src: '/portfolio-photos/rose-breasted-grosbeak.jpeg', 
+                src: 'portfolio-photos/rose-breasted-grosbeak.jpeg', 
                 alt: 'Rose-breasted Grosbeak (<i>Pheucticus ludovicianus</i>) | Chicago, IL',
                 description: 'The Rose-breasted Grosbeak is a stunning bird with its black and white plumage and distinctive rose-colored breast patch. This male visited a feeder in a Chicago backyard during spring migration. Their powerful bills are designed for cracking seeds, but they also eat insects and fruit.'
             },
             { 
-                src: '/portfolio-photos/blackcappedvireo.jpeg', 
+                src: 'portfolio-photos/blackcappedvireo.jpeg', 
                 alt: 'Black-capped Vireo (<i>Vireo atricapilla</i>) | Lost Maples State Park, TX',
                 description: 'The Black-capped Vireo is an endangered species that has very specific habitat requirements of scrubby oak and juniper. This male was singing persistently from the edge of a clearing at Lost Maples State Park. Their striking black cap and white spectacles make them one of the most distinctive vireo species, though they can be quite secretive and challenging to photograph.'
             },
             { 
-                src: '/portfolio-photos/20241102 Ruby-crowned kinglet atlanta-topaz.jpg', 
+                src: 'portfolio-photos/20241102 Ruby-crowned kinglet atlanta-topaz.jpg', 
                 alt: 'Ruby-crowned Kinglet (<i>Regulus calendula</i>) | Atlanta, GA',
                 description: 'Ruby-crowned Kinglets are tiny, restless birds that rarely sit still. I was lucky to capture this one during a brief moment of stillness in an Atlanta park. The ruby crown that gives this species its name is usually hidden, but when agitated, males will raise these feathers to create a bright red stripe on top of the head.'
             }, 
             { 
-                src: '/portfolio-photos/warbler%202.jpeg', 
+                src: 'portfolio-photos/warbler%202.jpeg', 
                 alt: 'Yellow-rumped Warbler (<i>Setophaga coronata</i>) | Los Angeles, CA',
                 description: 'Yellow-rumped Warblers are common throughout much of North America. This is the "Audubon's" form found in the western US, showing more yellow on the throat than eastern birds. I photographed this individual in a Los Angeles park as it flitted from branch to branch catching small insects. Their bright yellow rump patch is distinctive in flight.'
             },
             { 
-                src: '/portfolio-photos/rock-wren.jpg', 
+                src: 'portfolio-photos/rock-wren.jpg', 
                 alt: 'Rock Wren (<i>Salpinctes obsoletus</i>) | Palm Springs, CA',
                 description: 'Rock Wrens inhabit arid rocky slopes throughout the western US. I found this individual hopping among boulders near Palm Springs, perfectly camouflaged against the rocky background. Their habit of bobbing up and down while perched makes them somewhat easier to spot despite their cryptic coloration.'
             },
             { 
-                src: '/portfolio-photos/rufous-naped-wren.jpg', 
+                src: 'portfolio-photos/rufous-naped-wren.jpg', 
                 alt: 'Rufous-naped Wren (<i>Campylorhynchus rufinucha</i>) | Guanacaste, Costa Rica',
                 description: 'Rufous-naped Wrens are large, social wrens found in Central America. This individual was part of a noisy family group moving through trees near my hotel in Costa Rica. Unlike many wrens that can be secretive, these birds are often bold and conspicuous, making them relatively easy to photograph.'
             },
             { 
-                src: '/portfolio-photos/scottsoriole.jpeg', 
+                src: 'portfolio-photos/scottsoriole.jpeg', 
                 alt: 'Scott\'s Oriole (<i>Icterus parisorum</i>) | Lost Maples State Park, TX',
                 description: 'Scott\'s Orioles are striking birds of arid landscapes in the southwestern United States. This male was foraging in a yucca-dotted hillside at Lost Maples State Park. Their yellow and black plumage provides a beautiful contrast against the dry landscape, and their melodious whistling song echoed through the canyon as I photographed this individual.'
             },
             { 
-                src: '/portfolio-photos/java-sparrow-1.jpg', 
+                src: 'portfolio-photos/java-sparrow-1.jpg', 
                 alt: 'Java Sparrow (<i>Lonchura oryzivora</i>) | Maui, HI',
                 description: 'Java Sparrows are not native to Hawaii but were introduced and have established populations on several islands. I found this group feeding on grass seeds in a Maui park. Their distinctive pink bills and black-and-white face pattern make them one of the most recognizable finches in their adopted home.'
             },
@@ -208,81 +211,21 @@
 
         let currentIndex = 0;
 
-        // Add a basic logging function to help debug
-        function logStatus(message) {
-            console.log('[Debug]', message);
+        // Execute initialization when DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Grid View and Scroll View
+            initGridView();
+            initScrollView();
             
-            // Create log entry in page if debug div exists
-            const debugDiv = document.getElementById('debug-log');
-            if (debugDiv) {
-                const entry = document.createElement('p');
-                entry.textContent = message;
-                debugDiv.appendChild(entry);
-            }
-        }
-
-        // Execute initialization immediately
-        window.onload = function() {
-            logStatus('Window loaded');
+            // Set up view toggle buttons
+            setupViewToggle();
             
-            // Add debug toggle handler
-            const debugToggle = document.getElementById('debug-toggle');
-            const debugLog = document.getElementById('debug-log');
+            // Create placeholder range map in assets directory if it doesn't exist
+            createPlaceholderRangeMap();
             
-            debugToggle.addEventListener('click', function() {
-                if (debugLog.style.display === 'none') {
-                    debugLog.style.display = 'block';
-                    debugToggle.textContent = 'Hide Debug';
-                } else {
-                    debugLog.style.display = 'none';
-                    debugToggle.textContent = 'Debug';
-                }
-            });
-            
-            try {
-                // Initialize Grid View and Scroll View
-                logStatus('Initializing grid view...');
-                initGridView();
-                logStatus('Grid view initialized');
-                
-                logStatus('Initializing scroll view...');
-                initScrollView();
-                logStatus('Scroll view initialized');
-                
-                // Set up view toggle buttons
-                logStatus('Setting up view toggles...');
-                setupViewToggle();
-                logStatus('View toggles set up');
-                
-                // Create placeholder range map in assets directory if it doesn't exist
-                logStatus('Creating placeholder range map...');
-                createPlaceholderRangeMap();
-                logStatus('Placeholder range map created');
-                
-                // Load range map mapping data
-                logStatus('Loading range map mapping data...');
-                loadRangeMapMapping();
-                logStatus('Range map mapping load initiated');
-            } catch (error) {
-                console.error('Error during initialization:', error);
-                
-                // Show debug log automatically when there's an error
-                debugLog.style.display = 'block';
-                debugToggle.textContent = 'Hide Debug';
-                
-                // Log the error to debug panel
-                const errorEntry = document.createElement('p');
-                errorEntry.style.color = 'red';
-                errorEntry.textContent = 'ERROR: ' + error.message;
-                debugLog.appendChild(errorEntry);
-                
-                // Create visible error display on page
-                const errorDiv = document.createElement('div');
-                errorDiv.style.cssText = 'position:fixed; top:10px; left:10px; background:rgba(255,0,0,0.7); color:white; padding:10px; z-index:1000; max-width:80%;';
-                errorDiv.textContent = 'Error loading photos: ' + error.message;
-                document.body.appendChild(errorDiv);
-            }
-        };
+            // Load range map mapping data
+            loadRangeMapMapping();
+        });
         
         function setupViewToggle() {
             const gridViewBtn = document.getElementById('grid-view-btn');
@@ -306,66 +249,56 @@
         }
         
         function initGridView() {
-            logStatus('Starting grid view initialization');
-            
             const gridContainer = document.getElementById('grid-view');
-            if (!gridContainer) {
-                const error = new Error('Grid container not found!');
-                logStatus('ERROR: ' + error.message);
-                throw error;
-            }
             
-            logStatus(`Found ${photos.length} photos to display in grid`);
+            // Clear existing content
+            gridContainer.innerHTML = '';
             
-            // For debugging purposes, log the first few photo paths
-            for (let i = 0; i < Math.min(3, photos.length); i++) {
-                logStatus(`Photo ${i+1}: src=${photos[i].src}, exists=${Boolean(photos[i].src)}`);
-            }
+            // For debugging - add a counter
+            let loadedImages = 0;
+            const totalImages = photos.length;
             
             photos.forEach((photo, index) => {
-                logStatus(`Creating grid item for photo ${index+1}: ${photo.src}`);
-                
                 const gridItem = document.createElement('div');
                 gridItem.className = 'grid-item';
-                
-                // Add dataset property to help debug which photos are loading
-                gridItem.dataset.photoIndex = index;
-                gridItem.dataset.photoSrc = photo.src;
                 
                 const img = document.createElement('img');
                 img.src = photo.src;
                 img.alt = photo.alt;
                 
-                // Add load and error event handlers for debugging
+                // Add load and error handlers for debugging
                 img.onload = function() {
-                    logStatus(`✅ Photo loaded successfully: ${photo.src}`);
-                    gridItem.classList.add('loaded');
+                    console.log(`Loaded image ${index + 1}/${totalImages}: ${photo.src}`);
+                    loadedImages++;
+                    if (loadedImages === totalImages) {
+                        console.log('All images loaded successfully!');
+                    }
                 };
                 
                 img.onerror = function() {
-                    logStatus(`❌ ERROR: Failed to load photo: ${photo.src}`);
-                    gridItem.classList.add('error');
-                    
-                    // Make the error visible on the page
-                    const errorText = document.createElement('div');
-                    errorText.className = 'photo-error';
-                    errorText.textContent = 'Failed to load';
-                    errorText.style.cssText = 'position:absolute; top:0; left:0; right:0; bottom:0; display:flex; align-items:center; justify-content:center; background:rgba(255,0,0,0.3); color:white; text-shadow:0 0 3px black;';
-                    gridItem.appendChild(errorText);
+                    console.error(`ERROR: Failed to load image ${index + 1}/${totalImages}: ${photo.src}`);
                 };
                 
                 gridItem.appendChild(img);
                 gridItem.addEventListener('click', () => openPhotoModal(index));
                 gridContainer.appendChild(gridItem);
-                
-                logStatus(`Grid item for photo ${index+1} created and added to container`);
             });
             
-            logStatus('Grid view initialization completed');
+            // Fallback message if no photos are displayed
+            if (photos.length === 0) {
+                const message = document.createElement('p');
+                message.textContent = 'No photos available.';
+                message.style.textAlign = 'center';
+                message.style.padding = '2rem';
+                gridContainer.appendChild(message);
+            }
         }
         
         function initScrollView() {
             const scrollContainer = document.getElementById('scroll-view');
+            
+            // Clear existing content
+            scrollContainer.innerHTML = '';
             
             photos.forEach((photo, index) => {
                 // Parse the bird name and location from the alt text
@@ -373,61 +306,50 @@
                 const birdInfo = altParts[0].trim();
                 const location = altParts.length > 1 ? altParts[1].trim() : '';
                 
+                // Create a simpler HTML structure
                 const post = document.createElement('div');
                 post.className = 'photo-post';
                 
-                // Create the post header
-                const postHeader = document.createElement('div');
-                postHeader.className = 'post-header';
+                post.innerHTML = `
+                    <div class="post-header">
+                        <div class="bird-info">
+                            <h3>${extractBirdName(birdInfo)}</h3>
+                            <p class="scientific-name">${extractScientificName(birdInfo)}</p>
+                        </div>
+                        <div class="location-info">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>${location}</span>
+                        </div>
+                    </div>
+                    <div class="post-image">
+                        <img src="${photo.src}" alt="${photo.alt}">
+                    </div>
+                `;
                 
-                // Create bird info section
-                const birdInfoDiv = document.createElement('div');
-                birdInfoDiv.className = 'bird-info';
+                // Add click handler to the image
+                const postImage = post.querySelector('.post-image img');
+                postImage.addEventListener('click', () => openPhotoModal(index));
                 
-                const birdName = document.createElement('h3');
-                birdName.textContent = extractBirdName(birdInfo);
+                // Add debug handlers
+                postImage.onload = function() {
+                    console.log(`Loaded scroll view image ${index + 1}: ${photo.src}`);
+                };
                 
-                const scientificName = document.createElement('p');
-                scientificName.className = 'scientific-name';
-                scientificName.textContent = extractScientificName(birdInfo);
-                
-                birdInfoDiv.appendChild(birdName);
-                birdInfoDiv.appendChild(scientificName);
-                
-                // Create location info section
-                const locationInfo = document.createElement('div');
-                locationInfo.className = 'location-info';
-                
-                const locationIcon = document.createElement('i');
-                locationIcon.className = 'fas fa-map-marker-alt';
-                
-                const locationSpan = document.createElement('span');
-                locationSpan.textContent = location;
-                
-                locationInfo.appendChild(locationIcon);
-                locationInfo.appendChild(locationSpan);
-                
-                // Add bird info and location to post header
-                postHeader.appendChild(birdInfoDiv);
-                postHeader.appendChild(locationInfo);
-                
-                // Create post image section
-                const postImage = document.createElement('div');
-                postImage.className = 'post-image';
-                
-                const img = document.createElement('img');
-                img.src = photo.src;
-                img.alt = photo.alt;
-                img.addEventListener('click', () => openPhotoModal(index));
-                
-                postImage.appendChild(img);
-                
-                // Assemble the post
-                post.appendChild(postHeader);
-                post.appendChild(postImage);
+                postImage.onerror = function() {
+                    console.error(`ERROR: Failed to load scroll view image ${index + 1}: ${photo.src}`);
+                };
                 
                 scrollContainer.appendChild(post);
             });
+            
+            // Fallback message if no photos are displayed
+            if (photos.length === 0) {
+                const message = document.createElement('p');
+                message.textContent = 'No photos available.';
+                message.style.textAlign = 'center';
+                message.style.padding = '2rem';
+                scrollContainer.appendChild(message);
+            }
         }
         
         function extractBirdName(birdInfo) {
