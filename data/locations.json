@@ -6,8 +6,8 @@
       "city": "Kerr County",
       "state": "TX",
       "country": "USA",
-      "latitude": 30.0672, 
-      "longitude": -99.1333,
+      "latitude": 30.140889993114367,  
+      "longitude": -99.61405934196809,
       "photos": [
         {
           "src": "portfolio-photos/summertanager1.jpeg", 
@@ -85,14 +85,9 @@
           "description": "Scott's Orioles are striking birds of arid landscapes in the southwestern United States. Their yellow and black plumage provides a beautiful contrast against the dry landscape."
         },
         {
-          "src": "portfolio-photos/baltimore-oriole.jpeg", 
-          "alt": "Baltimore Oriole (Icterus galbula) | Kerr County, TX", 
-          "description": "The Baltimore Oriole is known for its brilliant orange and black plumage. This male was foraging in the canopy of tall trees."
-        },
-        {
-          "src": "portfolio-photos/indigo-bunting.jpeg", 
-          "alt": "Indigo Bunting (Passerina cyanea) | Kerr County, TX", 
-          "description": "Male Indigo Bunting in breeding plumage. These small birds appear almost entirely blue in good lighting."
+          "src": "portfolio-photos/240927 Ladder-backed woodpecker-topaz.jpeg", 
+          "alt": "Ladder-backed Woodpecker (Dryobates scalaris) | Kerr County, TX",
+          "description": "The Ladder-backed Woodpecker is a small woodpecker of arid regions featuring black and white barred back and wings that give it a ladder-like appearance."
         }
       ]
     },
@@ -133,8 +128,8 @@
       "city": "Chicago",
       "state": "IL",
       "country": "USA",
-      "latitude": 41.8781,
-      "longitude": -87.6298,
+      "latitude": 41.91932400771624,
+      "longitude": -87.63328864619156,
       "photos": [
         {
           "src": "portfolio-photos/northern-flicker.jpeg", 
@@ -172,19 +167,34 @@
           "description": "The American Goldfinch is a small North American bird in the finch family. This male in breeding plumage shows the brilliant yellow coloration that makes them one of our most recognizable songbirds."
         },
         {
+          "src": "portfolio-photos/american-goldfinch.jpeg", 
+          "alt": "American Goldfinch (Spinus tristis) | Chicago, IL",
+          "description": "The American Goldfinch is a small North American bird in the finch family. The male displays bright yellow plumage during the breeding season."
+        },
+        {
+          "src": "portfolio-photos/kingfisher.jpg", 
+          "alt": "Belted Kingfisher (Megaceryle alcyon) | Chicago, IL",
+          "description": "The Belted Kingfisher is a large, conspicuous water kingfisher commonly found near rivers and lakes throughout North America."
+        },
+        {
           "src": "portfolio-photos/baltimore-oriole-updated.jpeg", 
           "alt": "Baltimore Oriole (Icterus galbula) | Chicago, IL",
           "description": "The Baltimore Oriole is a striking black and orange member of the blackbird family. This adult male was photographed during spring migration in a Chicago park."
         },
         {
-          "src": "portfolio-photos/240817-blackwhite-warbler-topaz.jpeg", 
-          "alt": "Black-and-white Warbler (Mniotilta varia) | Chicago, IL",
-          "description": "The Black-and-white Warbler is a distinctive warbler with bold black and white striped plumage. Unlike most warblers that forage among leaves, this species creeps along tree trunks and branches like a nuthatch."
-        },
-        {
           "src": "portfolio-photos/red-winged-blackbird-female.jpg", 
           "alt": "Red-winged Blackbird (Agelaius phoeniceus) - Female | Chicago, IL",
           "description": "Female Red-winged Blackbirds look quite different from the familiar black males with red shoulder patches. Females like this one are heavily streaked brown and white, resembling large sparrows."
+        },
+        {
+          "src": "portfolio-photos/scarlet-tanager.jpg", 
+          "alt": "Scarlet Tanager (Piranga olivacea) | Eastern USA",
+          "description": "The Scarlet Tanager is a medium-sized American songbird with breeding males featuring brilliant red plumage and black wings and tail."
+        },
+        {
+          "src": "portfolio-photos/indigo-bunting.jpeg", 
+          "alt": "Indigo Bunting (Passerina cyanea) | Kerr County, TX", 
+          "description": "Male Indigo Bunting in breeding plumage. These small birds appear almost entirely blue in good lighting."
         }
       ]
     },
@@ -194,8 +204,8 @@
       "city": "Atlanta",
       "state": "GA",
       "country": "USA",
-      "latitude": 33.7490,
-      "longitude": -84.3880,
+      "latitude": 33.84927675002939, 
+      "longitude": -84.44021763104081,
       "photos": [
         {
           "src": "portfolio-photos/blue-heron.jpeg", 
@@ -211,6 +221,11 @@
           "src": "portfolio-photos/20241102 Ruby-crowned kinglet atlanta-topaz.jpg", 
           "alt": "Ruby-crowned Kinglet (Regulus calendula) | Atlanta, GA",
           "description": "Ruby-crowned Kinglets are tiny, restless birds that rarely sit still. I was lucky to capture this one during a brief moment of stillness in an Atlanta park."
+        },
+        {
+          "src": "portfolio-photos/blackbird1.jpg", 
+          "alt": "Red-vented Bulbul (Pycnonotus cafer) | Honolulu, HI",
+          "description": "The Red-vented Bulbul is an introduced species in Hawaii, primarily found on Oahu. These bold birds have adapted well to urban environments."
         }
       ]
     },
@@ -220,13 +235,18 @@
       "city": "Dallas",
       "state": "TX",
       "country": "USA",
-      "latitude": 32.7767,
-      "longitude": -96.7970,
+      "latitude": 32.70382913475733,
+      "longitude": -96.70524563108789,
       "photos": [
         {
           "src": "portfolio-photos/20250308_Hermit_thrush_TrinityAudubonCenter-topaz.jpg", 
           "alt": "Hermit Thrush (Catharus guttatus) | Dallas, TX",
           "description": "Hermit Thrushes are known for their beautiful, flute-like songs. I found this individual quietly hopping through leaf litter at the Trinity Audubon Center in Dallas."
+        },
+        {
+          "src": "portfolio-photos/240817-blackwhite-warbler-topaz.jpeg", 
+          "alt": "Black-and-white Warbler (Mniotilta varia) | Dallas, TX",
+          "description": "The Black-and-white Warbler is a distinctive warbler with bold black and white striped plumage. Unlike most warblers that forage among leaves, this species creeps along tree trunks and branches like a nuthatch."
         },
         {
           "src": "portfolio-photos/20250308_Eastern_phoebe_TrinityAudubonCenter-topaz.jpg", 
@@ -278,8 +298,8 @@
       "city": "Los Angeles",
       "state": "CA",
       "country": "USA",
-      "latitude": 34.0522,
-      "longitude": -118.2437,
+      "latitude": 34.06689948343458, 
+      "longitude": -118.4414361733599,
       "photos": [
         {
           "src": "portfolio-photos/warbler 2.jpeg", 
@@ -320,8 +340,8 @@
       "city": "Maui",
       "state": "HI",
       "country": "USA",
-      "latitude": 20.7984,
-      "longitude": -156.3319,
+      "latitude": 20.947006,
+      "longitude": -156.690755,
       "photos": [
         {
           "src": "portfolio-photos/java-sparrow-1.jpg", 
@@ -347,22 +367,6 @@
           "src": "portfolio-photos/white-rumped-shama.jpg", 
           "alt": "White-rumped Shama (Copsychus malabaricus) | Maui, HI",
           "description": "The White-rumped Shama is known for its beautiful song and was introduced to Hawaii from southeast Asia. This striking bird is often seen perched in the mid-canopy."
-        }
-      ]
-    },
-    {
-      "id": "oahu-hi",
-      "name": "Oahu",
-      "city": "Honolulu",
-      "state": "HI",
-      "country": "USA",
-      "latitude": 21.3099,
-      "longitude": -157.8581,
-      "photos": [
-        {
-          "src": "portfolio-photos/blackbird1.jpg", 
-          "alt": "Red-vented Bulbul (Pycnonotus cafer) | Honolulu, HI",
-          "description": "The Red-vented Bulbul is an introduced species in Hawaii, primarily found on Oahu. These bold birds have adapted well to urban environments."
         }
       ]
     },
@@ -411,32 +415,7 @@
       "country": "Various",
       "latitude": 0,
       "longitude": 0,
-      "photos": [
-        {
-          "src": "portfolio-photos/scarlet-tanager.jpg", 
-          "alt": "Scarlet Tanager (Piranga olivacea) | Eastern USA",
-          "description": "The Scarlet Tanager is a medium-sized American songbird with breeding males featuring brilliant red plumage and black wings and tail."
-        },
-        {
-          "src": "portfolio-photos/240927 Ladder-backed woodpecker-topaz.jpeg", 
-          "alt": "Ladder-backed Woodpecker (Dryobates scalaris) | Southwestern USA",
-          "description": "The Ladder-backed Woodpecker is a small woodpecker of arid regions featuring black and white barred back and wings that give it a ladder-like appearance."
-        },
-        {
-          "src": "portfolio-photos/yellow-bellied-sapsucker.jpg", 
-          "alt": "Yellow-bellied Sapsucker (Sphyrapicus varius) | Eastern USA",
-          "description": "Yellow-bellied Sapsuckers are migratory woodpeckers known for drilling neat rows of holes in trees to feed on sap and insects attracted to it."
-        },
-        {
-          "src": "portfolio-photos/american-goldfinch.jpeg", 
-          "alt": "American Goldfinch (Spinus tristis) | North America",
-          "description": "The American Goldfinch is a small North American bird in the finch family. The male displays bright yellow plumage during the breeding season."
-        },
-        {
-          "src": "portfolio-photos/kingfisher.jpg", 
-          "alt": "Belted Kingfisher (Megaceryle alcyon) | North America",
-          "description": "The Belted Kingfisher is a large, conspicuous water kingfisher commonly found near rivers and lakes throughout North America."
-        }
+      "photos": [  
       ]
     }
   ]
